@@ -6,36 +6,49 @@ function App() {
   const [imgSrc, setImgSrc] = useState(profilePic);
 
   return (
-    <div className="min-h-screen bg-slate-100 bg-gradient-to-b from-slate-100 via-slate-50 to-slate-200 text-slate-900">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-8">
+    <div className="min-h-screen bg-slate-100 text-slate-900">
+      <div
+        style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          padding: "2rem 1.5rem 3rem",
+          textAlign: "center",
+        }}
+      >
         {/* Top profile bar */}
-        <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className="relative rounded-lg overflow-hidden border border-slate-200 shadow-sm flex-shrink-0">
-              <img
-                src={imgSrc}
-                alt="Arron Tuazon"
-                className="rounded-lg w-40 h-40 md:w-40 md:h-40 object-cover flex-shrink-0 transition-transform duration-300 hover:scale-105"
-                onMouseEnter={() => setImgSrc(profileHover)}
-                onMouseLeave={() => setImgSrc(profilePic)}
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 class="text-lg md:text-2xl font-bold truncate">Arron Tuazon</h1>
-                <span className="h-3.5 w-3.5 rounded-full border-2 border-blue-100 bg-gradient-to-br from-blue-400 to-blue-700 shadow-[0_0_0_3px_rgba(59,130,246,0.35)]" />
-              </div>
-              <p className="mt-1 text-sm text-slate-500">
-                Laguna, Philippines
-              </p>
-              <p className="mt-1 text-sm text-slate-600">
-                Data Analyst / Web Developer / Content Creator
-              </p>
-            </div>
+        <header style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+          <div>
+            <img
+              src={imgSrc}
+              alt="Arron Tuazon"
+              style={{
+                width: "120px",
+                height: "120px",
+                borderRadius: "12px",
+                objectFit: "cover",
+                display: "block",
+                margin: "0 auto",
+                boxShadow: "0 10px 20px rgba(0,0,0,0.15)",
+              }}
+              onMouseEnter={() => setImgSrc(profileHover)}
+              onMouseLeave={() => setImgSrc(profilePic)}
+            />
           </div>
 
-          <div className="flex flex-col items-start lg:items-end gap-2">
-            <div className="flex flex-wrap justify-start lg:justify-end gap-2">
+          <div>
+            <h1 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.25rem" }}>
+              Arron Tuazon
+            </h1>
+            <p style={{ margin: 0, fontSize: "0.9rem", color: "#6b7280" }}>
+              Laguna, Philippines
+            </p>
+            <p style={{ marginTop: "0.25rem", fontSize: "0.9rem", color: "#4b5563" }}>
+              Data Analyst / Web Developer / Content Creator
+            </p>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", alignItems: "center", marginTop: "0.5rem" }}>
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center" }}>
               <button className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-md hover:from-blue-700 hover:to-indigo-700 transition">
                 Schedule a Call
               </button>
@@ -57,9 +70,9 @@ function App() {
         </header>
 
         {/* Main layout */}
-        <main className="grid gap-6 lg:grid-cols-[minmax(0,2.1fr)_minmax(260px,1fr)] items-start">
-          {/* Left column */}
-          <section className="space-y-4">
+        <main className="w-full space-y-6 flex flex-col items-center">
+          {/* Content column */}
+          <section className="space-y-4 w-full">
             {/* About */}
             <section className="rounded-2xl bg-white/90 backdrop-blur shadow-[0_18px_40px_rgba(15,23,42,0.08)] border border-slate-200 px-5 py-5 sm:px-6 sm:py-6">
               <h2 className="text-lg font-semibold mb-3">About</h2>
@@ -169,8 +182,8 @@ function App() {
             </section>
           </section>
 
-          {/* Right column */}
-          <aside className="space-y-4">
+          {/* Right column content centered under main */}
+          <aside className="space-y-4 w-full max-w-md">
             {/* Access card */}
             <section className="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-slate-100 shadow-[0_22px_45px_rgba(15,23,42,0.8)] p-5 sm:p-6 flex flex-col justify-between min-h-[220px]">
               <header className="flex items-center justify-between text-[0.7rem] font-medium tracking-[0.16em] uppercase text-slate-400">
