@@ -1,8 +1,9 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter);
   line-height: 1.5;
   font-weight: 400;
   text-rendering: optimizeLegibility;
@@ -22,7 +23,8 @@ h2,
 h3,
 h4,
 .font-display {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-inter);
+  letter-spacing: -0.02em;
 }
 
 #root {
@@ -31,6 +33,26 @@ h4,
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 transition-colors duration-500;
+    @apply bg-white text-black transition-colors duration-300;
   }
+  .dark body {
+    @apply bg-[#000000] text-white;
+  }
+}
+
+/* Custom Utilities for Brylim Aesthetic */
+.section-title {
+  @apply text-[1.1rem] font-bold mb-5 flex items-center gap-2;
+}
+
+.pill {
+  @apply px-3 py-1.5 rounded-md text-[0.75rem] font-medium transition-colors;
+}
+
+.pill-light {
+  @apply bg-gray-100 text-black hover:bg-gray-200;
+}
+
+.pill-dark {
+  @apply bg-gray-800 text-white hover:bg-gray-700;
 }

@@ -1,53 +1,84 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
 
 // Import screenshots
-import ss1 from "../assets/Screenshot 2026-03-10 172615.png";
-import ss2 from "../assets/Screenshot 2026-03-10 172642.png";
-import ss3 from "../assets/Screenshot 2026-03-10 172708.png";
-import ss4 from "../assets/Screenshot 2026-03-10 172758.png";
-import ss5 from "../assets/Screenshot 2026-03-10 172838.png";
+import pf1 from "../assets/printflow.png";
+import pf2 from "../assets/printflow1.png";
+import pf3 from "../assets/printflow2.png";
+import pf4 from "../assets/printflow3.png";
+import pf5 from "../assets/printflow4.png";
 
-const screenshots = [ss1, ss2, ss3, ss4, ss5];
+const screenshots = [pf1, pf2, pf3, pf4, pf5];
 
 export default function PrintFlowCarousel({ isDark }) {
-    // Duplicate images for infinite loop effect
-    const duplicatedScreenshots = [...screenshots, ...screenshots];
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % screenshots.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+    };
+
+    // Auto-loop
+    useEffect(() => {
+        const interval = setInterval(nextSlide, 5000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
-        <div className="w-full overflow-hidden py-12 relative">
-            <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-slate-50 dark:from-[#020617] to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-slate-50 dark:from-[#020617] to-transparent z-10" />
+        <div className="relative w-full group">
+            <div className="overflow-hidden rounded-xl aspect-video bg-slate-100 dark:bg-slate-800">
+                <AnimatePresence mode="wait">
+                    <motion.img
+                        key={currentIndex}
+                        src={screenshots[currentIndex]}
+                        alt={`PrintFlow Screenshot ${currentIndex + 1}`}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        className="w-full h-full object-contain"
+                    />
+                </AnimatePresence>
+            </div>
 
-            <motion.div
-                className="flex gap-6 w-max"
-                animate={{
-                    x: ["0%", "-50%"]
-                }}
-                transition={{
-                    duration: 30,
-                    ease: "linear",
-                    repeat: Infinity,
-                }}
-                whileHover={{ animationPlayState: "paused" }}
-            >
-                {duplicatedScreenshots.map((src, index) => (
-                    <motion.div
-                        key={index}
-                        className={cn(
-                            "flex-shrink-0 w-[280px] sm:w-[350px] aspect-video rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-lg transition-all duration-500",
-                            "hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 z-0 hover:z-20 relative"
-                        )}
+            {/* Navigation Arrows */}
+            {screenshots.length > 1 && (
+                <>
+                    <button
+                        onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/20 dark:bg-black/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/40 transition-all opacity-0 group-hover:opacity-100"
                     >
-                        <img
-                            src={src}
-                            alt={`PrintFlow Screenshot ${index + 1}`}
-                            className="w-full h-full object-cover"
-                        />
-                    </motion.div>
+                        <ChevronLeft size={24} />
+                    </button>
+                    <button
+                        onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/20 dark:bg-black/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/40 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                        <ChevronRight size={24} />
+                    </button>
+                </>
+            )}
+
+            {/* Dots */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {screenshots.map((_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
+                        className={cn(
+                            "w-2 h-2 rounded-full transition-all",
+                            currentIndex === idx 
+                                ? "bg-white w-6" 
+                                : "bg-white/40 hover:bg-white/60"
+                        )}
+                    />
                 ))}
-            </motion.div>
+            </div>
         </div>
     );
 }

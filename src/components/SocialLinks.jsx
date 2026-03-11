@@ -26,7 +26,7 @@ const socialLinks = [
 
 export default function SocialLinks({ isDark }) {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="flex flex-col gap-3">
             {socialLinks.map((link, index) => (
                 <motion.a
                     key={link.name}
