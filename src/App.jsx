@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import profilePic from "./assets/profile.jpg";
-import profileHover from "./assets/profile-hover.jpg";
 import PrintFlowCarousel from "./components/PrintFlowCarousel";
 import SocialLinks from "./components/SocialLinks";
 import Certifications from "./components/Certifications";
 import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
 import ChatWidget from "./components/ChatWidget";
+import ProfileAvatar from "./components/ProfileAvatar";
 import { cn } from "./lib/utils";
 import { Moon, Sun, Mail, Calendar, BookOpen, ExternalLink, MessageSquare } from "lucide-react";
 
 function App() {
-  const [imgSrc, setImgSrc] = useState(profilePic);
   const [theme, setTheme] = useState("light");
   const [isPrintFlowOpen, setIsPrintFlowOpen] = useState(false);
 
@@ -45,15 +43,7 @@ function App() {
 
         {/* Hero Section */}
         <header className="flex flex-col md:flex-row gap-10 md:gap-16 mb-20 items-start">
-          <div className="relative shrink-0">
-            <img
-              src={imgSrc}
-              alt="Arron Tuazon"
-              className="w-40 h-40 md:w-48 md:h-48 rounded-xl object-cover transition-all duration-500"
-              onMouseEnter={() => setImgSrc(profileHover)}
-              onMouseLeave={() => setImgSrc(profilePic)}
-            />
-          </div>
+          <ProfileAvatar isDark={isDark} />
 
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
