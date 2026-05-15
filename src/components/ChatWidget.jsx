@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { cn } from "../lib/utils";
@@ -9,10 +10,15 @@ import {
 } from "../lib/arronChat";
 
 export default function ChatWidget({ isDark }) {
+  const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState(getInitialMessages);
   const scrollRef = useRef(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -43,8 +49,12 @@ export default function ChatWidget({ isDark }) {
     setInput("");
   };
 
-  return (
-    <div className="fixed bottom-6 right-6 z-50">
+  if (!isMounted) {
+    return null;
+  }
+
+  return createPortal(
+    <div className="pointer-events-none fixed bottom-6 right-6 z-[2147483647]">
       <AnimatePresence>
         {isOpen && (
           <motion.section
@@ -53,7 +63,7 @@ export default function ChatWidget({ isDark }) {
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              "mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border shadow-2xl backdrop-blur-xl",
+              "pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border shadow-2xl backdrop-blur-xl",
               isDark
                 ? "border-white/10 bg-[#0c0c0c]/95 text-white"
                 : "border-black/10 bg-white/95 text-black"
@@ -169,11 +179,12 @@ export default function ChatWidget({ isDark }) {
 
       <button
         onClick={() => setIsOpen((current) => !current)}
-        className="flex items-center gap-2 rounded-2xl bg-black px-6 py-3 text-sm font-bold text-white shadow-xl transition-transform hover:scale-105 dark:bg-white dark:text-black"
+        className="pointer-events-auto flex items-center gap-2 rounded-2xl bg-black px-6 py-3 text-sm font-bold text-white shadow-xl transition-transform hover:scale-105 dark:bg-white dark:text-black"
       >
         <MessageSquare size={18} />
         {isOpen ? "Close chat" : "Chat with Arron"}
       </button>
-    </div>
+    </div>,
+    document.body
   );
 }
