@@ -19,6 +19,8 @@ export default function ProfileAvatar({ isDark }) {
 
   return (
     <motion.div
+      key={isDark ? "dark-avatar" : "light-avatar"}
+      initial={false}
       animate={{
         scale: isDark ? [1, 1.03, 1] : [1, 1.025, 1],
       }}
@@ -52,13 +54,11 @@ export default function ProfileAvatar({ isDark }) {
       </motion.div>
 
       <div className="relative h-40 w-40 overflow-hidden rounded-[1.75rem] sm:h-48 sm:w-48">
-        <motion.div
-          animate={{
-            opacity: isDark ? 0 : 1,
-            filter: isDark ? "blur(10px)" : "blur(0px)",
-          }}
-          transition={transition}
-          className="absolute inset-0"
+        <div
+          className={cn(
+            "absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
+            isDark ? "opacity-0 blur-md scale-[1.02]" : "opacity-100 blur-0 scale-100"
+          )}
         >
           <img
             src={profileLight}
@@ -66,26 +66,24 @@ export default function ProfileAvatar({ isDark }) {
             className="h-full w-full object-cover"
             draggable="false"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          animate={{
-            opacity: isDark ? 1 : 0,
-            filter: isDark ? "blur(0px)" : "blur(10px)",
-          }}
-          transition={transition}
-          className="absolute inset-0"
+        <div
+          className={cn(
+            "absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
+            isDark ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-md scale-[1.02]"
+          )}
         >
           <img
             src={profileDark}
             alt="Arron Tuazon portrait in dark theme"
             className={cn(
-              "h-full w-full object-cover",
+              "h-full w-full object-cover transition-[filter] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
               isDark ? "brightness-[1.04] contrast-[1.03]" : "brightness-100"
             )}
             draggable="false"
           />
-        </motion.div>
+        </div>
 
         <motion.div
           aria-hidden="true"
