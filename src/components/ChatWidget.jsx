@@ -3,17 +3,14 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { cn } from "../lib/utils";
-import {
-  getAssistantReply,
-  getInitialMessages,
-  getQuickReplies,
-} from "../lib/arronChat";
+import { getInitialMessages, getQuickReplies } from "../lib/arronChat";
 
 export default function ChatWidget({ isDark }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState(getInitialMessages);
+  const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -26,10 +23,10 @@ export default function ChatWidget({ isDark }) {
     }
   }, [messages, isOpen]);
 
-  const sendMessage = (text) => {
+  const sendMessage = async (text) => {
     const trimmed = text.trim();
 
-    if (!trimmed) {
+    if (!trimmed || isLoading) {
       return;
     }
 
@@ -39,14 +36,51 @@ export default function ChatWidget({ isDark }) {
       text: trimmed,
     };
 
-    const replyMessage = {
-      id: `assistant-${Date.now() + 1}`,
-      role: "assistant",
-      text: getAssistantReply(trimmed),
-    };
-
-    setMessages((current) => [...current, userMessage, replyMessage]);
+    const nextMessages = [...messages, userMessage];
+    setMessages(nextMessages);
     setInput("");
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: nextMessages.map(({ role, text: messageText }) => ({
+            role,
+            text: messageText,
+          })),
+        }),
+      });
+
+      const data = await response.json();
+
+      const replyMessage = {
+        id: `assistant-${Date.now() + 1}`,
+        role: "assistant",
+        text:
+          data?.text ||
+          data?.error ||
+          "Something went wrong while contacting the AI.",
+      };
+
+      setMessages((current) => [...current, replyMessage]);
+    } catch {
+      setMessages((current) => [
+        ...current,
+        {
+          id: `assistant-${Date.now() + 1}`,
+          role: "assistant",
+          text:
+            "I couldn't reach the AI service right now. Check the server setup, then try again.",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (!isMounted) {
@@ -85,7 +119,7 @@ export default function ChatWidget({ isDark }) {
                     </span>
                     <div>
                       <p className="text-sm font-bold">Ask the Assistant</p>
-                      <p className="text-xs opacity-70">General help, plus Arron context when needed</p>
+                      <p className="text-xs opacity-70">Real AI answers, plus Arron context when needed</p>
                     </div>
                   </div>
                   <p className="max-w-[17rem] text-xs leading-relaxed opacity-80">
@@ -128,6 +162,19 @@ export default function ChatWidget({ isDark }) {
                   </div>
                 </div>
               ))}
+
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div
+                    className={cn(
+                      "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm",
+                      isDark ? "bg-white/8 text-white" : "bg-black/[0.04] text-black"
+                    )}
+                  >
+                    Thinking...
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="px-4 pb-3">
@@ -135,7 +182,9 @@ export default function ChatWidget({ isDark }) {
                 {getQuickReplies().map((reply) => (
                   <button
                     key={reply}
-                    onClick={() => sendMessage(reply)}
+                    onClick={() => {
+                      void sendMessage(reply);
+                    }}
                     className={cn(
                       "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
                       isDark
@@ -151,7 +200,7 @@ export default function ChatWidget({ isDark }) {
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
-                  sendMessage(input);
+                  void sendMessage(input);
                 }}
                 className={cn(
                   "flex items-center gap-2 rounded-2xl border p-2",
@@ -162,10 +211,12 @@ export default function ChatWidget({ isDark }) {
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   placeholder="Ask anything..."
+                  disabled={isLoading}
                   className="flex-1 bg-transparent px-2 text-sm outline-none placeholder:opacity-50"
                 />
                 <button
                   type="submit"
+                  disabled={isLoading}
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white transition-transform hover:scale-105"
                   aria-label="Send message"
                 >
