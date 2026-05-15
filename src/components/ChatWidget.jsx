@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { cn } from "../lib/utils";
 import {
-  getArronReply,
+  getAssistantReply,
   getInitialMessages,
   getQuickReplies,
 } from "../lib/arronChat";
@@ -42,7 +42,7 @@ export default function ChatWidget({ isDark }) {
     const replyMessage = {
       id: `assistant-${Date.now() + 1}`,
       role: "assistant",
-      text: getArronReply(trimmed),
+      text: getAssistantReply(trimmed),
     };
 
     setMessages((current) => [...current, userMessage, replyMessage]);
@@ -84,12 +84,12 @@ export default function ChatWidget({ isDark }) {
                       <Sparkles size={16} />
                     </span>
                     <div>
-                      <p className="text-sm font-bold">Chat with Arron</p>
-                      <p className="text-xs opacity-70">Friendly, chill, medyo witty</p>
+                      <p className="text-sm font-bold">Ask the Assistant</p>
+                      <p className="text-xs opacity-70">General help, plus Arron context when needed</p>
                     </div>
                   </div>
                   <p className="max-w-[17rem] text-xs leading-relaxed opacity-80">
-                    Ask about his projects, school life, hobbies, or the random stuff that makes him Arron.
+                    Ask about coding, school topics, problem solving, or anything about Arron and this portfolio.
                   </p>
                 </div>
                 <button
@@ -161,7 +161,7 @@ export default function ChatWidget({ isDark }) {
                 <input
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
-                  placeholder="Ask about Arron..."
+                  placeholder="Ask anything..."
                   className="flex-1 bg-transparent px-2 text-sm outline-none placeholder:opacity-50"
                 />
                 <button
