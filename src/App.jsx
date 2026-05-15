@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import profilePic from "./assets/profile.jpg";
 import profileHover from "./assets/profile-hover.jpg";
-import gallaryImg from "./assets/gallary/gallary.webp";
-import gallaryImg1 from "./assets/gallary/gallary1.webp";
-import gallaryImg2 from "./assets/gallary/gallary2.webp";
-import gallaryImg3 from "./assets/gallary/gallary3.webp";
-import AnimatedSection from "./components/AnimatedSection";
 import PrintFlowCarousel from "./components/PrintFlowCarousel";
 import SocialLinks from "./components/SocialLinks";
 import Certifications from "./components/Certifications";
 import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
+import ChatWidget from "./components/ChatWidget";
 import { cn } from "./lib/utils";
-import { Moon, Sun, Mail, Calendar, BookOpen, ExternalLink, MessageSquare, Box, ChevronLeft } from "lucide-react";
+import { Moon, Sun, Mail, Calendar, BookOpen, ExternalLink, MessageSquare } from "lucide-react";
 
 function App() {
   const [imgSrc, setImgSrc] = useState(profilePic);
@@ -410,13 +405,7 @@ function App() {
 
       </div>
 
-      {/* Persistent Chat Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button className="bg-black text-white dark:bg-white dark:text-black px-6 py-3 rounded-lg font-bold text-sm shadow-xl flex items-center gap-2 hover:scale-105 transition-transform">
-          <MessageSquare size={18} />
-          Chat with Arron
-        </button>
-      </div>
+      <ChatWidget isDark={isDark} />
 
       {/* Project Modals */}
       <Modal 
