@@ -8,8 +8,20 @@ export default function ImageModal({ isOpen, onClose, imageSrc, isDark }) {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
     const imageRef = useRef(null);
     const containerRef = useRef(null);
+
+    // Load image dimensions when modal opens
+    useEffect(() => {
+        if (isOpen && imageSrc) {
+            const img = new Image();
+            img.onload = () => {
+                setImageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+            };
+            img.src = imageSrc;
+        }
+    }, [isOpen, imageSrc]);
 
     useEffect(() => {
         if (isOpen) {
@@ -63,9 +75,12 @@ export default function ImageModal({ isOpen, onClose, imageSrc, isDark }) {
     const handleMouseMove = (e) => {
         if (isDragging && zoom > 1) {
             e.preventDefault();
+            const deltaX = e.clientX - dragStart.x;
+            const deltaY = e.clientY - dragStart.y;
+            
             setPosition({
-                x: e.clientX - dragStart.x,
-                y: e.clientY - dragStart.y,
+                x: deltaX,
+                y: deltaY,
             });
         }
     };
@@ -159,7 +174,8 @@ export default function ImageModal({ isOpen, onClose, imageSrc, isDark }) {
                             <div
                                 className="relative"
                                 style={{
-                                    transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)`,
+                                    transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
+                                    transformOrigin: "center center",
                                     transition: isDragging ? "none" : "transform 0.2s ease-out",
                                 }}
                             >

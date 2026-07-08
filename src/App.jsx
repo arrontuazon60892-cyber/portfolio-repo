@@ -140,7 +140,7 @@ function App() {
 
             {/* Creative Design Projects Section */}
             <section>
-              <h2 className="text-[1.1rem] font-bold mb-8">🎨 Creative Design Projects</h2>
+              <h2 className="text-[1.1rem] font-bold mb-8">Creative Design Projects</h2>
               <div className="grid gap-10">
                 <PosterCard
                   imageSrc={seolinahImage}

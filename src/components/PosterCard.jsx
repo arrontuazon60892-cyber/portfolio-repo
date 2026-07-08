@@ -8,7 +8,7 @@ export default function PosterCard({ imageSrc, category, tools, onClick, isDark 
             onClick={onClick}
         >
             {/* Image Container */}
-            <div className="relative overflow-hidden rounded-xl mb-4">
+            <div className="relative overflow-hidden rounded-xl mb-4 w-1/4 max-w-[200px]">
                 <img
                     src={imageSrc}
                     alt={category}
