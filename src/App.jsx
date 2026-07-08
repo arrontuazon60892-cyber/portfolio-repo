@@ -12,6 +12,7 @@ import ImageModal from "./components/ImageModal";
 import { cn } from "./lib/utils";
 import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-react";
 import seolinahImage from "./assets/seolinah.png";
+import coloringBookImage from "./assets/Colorful Coloring Book Cover A4 Document.png";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -148,6 +149,16 @@ function App() {
                   tools={["Canva"]}
                   onClick={() => {
                     setSelectedImage(seolinahImage);
+                    setImageModalOpen(true);
+                  }}
+                  isDark={isDark}
+                />
+                <PosterCard
+                  imageSrc={coloringBookImage}
+                  category="Educational Poster Design"
+                  tools={["Canva"]}
+                  onClick={() => {
+                    setSelectedImage(coloringBookImage);
                     setImageModalOpen(true);
                   }}
                   isDark={isDark}
