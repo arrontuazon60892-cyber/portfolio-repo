@@ -7,13 +7,14 @@ import Gallery from "./components/Gallery";
 import ChatWidget from "./components/ChatWidget";
 import ProfileAvatar from "./components/ProfileAvatar";
 import { cn } from "./lib/utils";
-import { Moon, Sun, Mail, Calendar, BookOpen, ExternalLink, MessageSquare } from "lucide-react";
+import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-react";
 
 function App() {
   const [theme, setTheme] = useState("light");
   const [isPrintFlowOpen, setIsPrintFlowOpen] = useState(false);
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [isAttendexOpen, setIsAttendexOpen] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   const isDark = theme === "dark";
 
@@ -69,13 +70,6 @@ function App() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <a href="mailto:arrontuazon60892@gmail.com" className={cn(
-                "flex items-center gap-2 px-5 py-2.5 rounded-lg border font-bold text-sm transition-all",
-                isDark ? "border-gray-800 hover:bg-gray-900" : "border-gray-200 hover:bg-gray-50"
-              )}>
-                <Mail size={18} />
-                Send Email
-              </a>
               <button className={cn(
                 "flex items-center gap-2 px-5 py-2.5 rounded-lg border font-bold text-sm transition-all",
                 isDark ? "border-gray-800 hover:bg-gray-900" : "border-gray-200 hover:bg-gray-50"
@@ -108,12 +102,7 @@ function App() {
 
             {/* Tech Stack Section */}
             <section>
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-[1.1rem] font-bold">Tech Stack</h2>
-                <button className="text-[0.7rem] font-bold hover:underline transition-opacity flex items-center gap-1">
-                  View All <ChevronRight size={12} />
-                </button>
-              </div>
+              <h2 className="text-[1.1rem] font-bold mb-5">Tech Stack</h2>
               <div className="space-y-6">
                 <div>
                   <h3 className="text-[0.85rem] font-bold uppercase tracking-widest mb-3">Frontend</h3>
@@ -144,12 +133,7 @@ function App() {
 
             {/* Recent Projects Section */}
             <section>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-[1.1rem] font-bold">Recent Projects in School</h2>
-                <button className="text-[0.7rem] font-bold hover:underline transition-opacity flex items-center gap-1">
-                  View All <ChevronRight size={12} />
-                </button>
-              </div>
+              <h2 className="text-[1.1rem] font-bold mb-8">Recent Projects in School</h2>
               <div className="grid gap-10">
                 {[
                   {
@@ -214,12 +198,7 @@ function App() {
 
             {/* Certifications Section */}
             <section>
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-[1.1rem] font-bold">Recent Certifications</h2>
-                <button className="text-[0.7rem] font-bold hover:underline transition-opacity flex items-center gap-1">
-                  View All <ChevronRight size={12} />
-                </button>
-              </div>
+              <h2 className="text-[1.1rem] font-bold mb-5">Recent Certifications</h2>
               <Certifications isDark={isDark} />
             </section>
 
@@ -227,6 +206,53 @@ function App() {
             <section>
               <h2 className="text-[1.1rem] font-bold mb-6">Social Links</h2>
               <SocialLinks isDark={isDark} />
+            </section>
+
+            {/* Contact Section */}
+            <section>
+              <h2 className="text-[1.1rem] font-bold mb-6">Contact</h2>
+              <div className={cn(
+                "flex items-center justify-between p-4 rounded-lg border",
+                isDark ? "border-gray-800 bg-gray-900/50" : "border-gray-200 bg-gray-50"
+              )}>
+                <div className="flex items-center gap-3">
+                  <Mail size={20} className={isDark ? "text-blue-400" : "text-blue-600"} />
+                  <a 
+                    href="mailto:arrontuazon9@gmail.com"
+                    className={cn(
+                      "text-sm font-medium hover:underline transition-colors",
+                      isDark ? "text-white" : "text-gray-900"
+                    )}
+                  >
+                    arrontuazon9@gmail.com
+                  </a>
+                </div>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('arrontuazon9@gmail.com');
+                    setEmailCopied(true);
+                    setTimeout(() => setEmailCopied(false), 2000);
+                  }}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all",
+                    isDark 
+                      ? "bg-gray-800 hover:bg-gray-700 text-gray-300" 
+                      : "bg-white hover:bg-gray-100 text-gray-600 border border-gray-200"
+                  )}
+                >
+                  {emailCopied ? (
+                    <>
+                      <Check size={14} />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={14} />
+                      Copy
+                    </>
+                  )}
+                </button>
+              </div>
             </section>
 
             {/* Gallery Section */}
