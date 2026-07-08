@@ -7,8 +7,11 @@ import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
 import ChatWidget from "./components/ChatWidget";
 import ProfileAvatar from "./components/ProfileAvatar";
+import PosterCard from "./components/PosterCard";
+import ImageModal from "./components/ImageModal";
 import { cn } from "./lib/utils";
 import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-react";
+import seolinahImage from "./assets/seolinah.png";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -17,6 +20,8 @@ function App() {
   const [isAttendexOpen, setIsAttendexOpen] = useState(false);
   const [isPhotoboothOpen, setIsPhotoboothOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const isDark = theme === "dark";
 
@@ -130,6 +135,23 @@ function App() {
                     ))}
                   </div>
                 </div>
+              </div>
+            </section>
+
+            {/* Creative Design Projects Section */}
+            <section>
+              <h2 className="text-[1.1rem] font-bold mb-8">🎨 Creative Design Projects</h2>
+              <div className="grid gap-10">
+                <PosterCard
+                  imageSrc={seolinahImage}
+                  category="Editorial Poster Design"
+                  tools={["Canva"]}
+                  onClick={() => {
+                    setSelectedImage(seolinahImage);
+                    setImageModalOpen(true);
+                  }}
+                  isDark={isDark}
+                />
               </div>
             </section>
 
@@ -310,6 +332,17 @@ function App() {
       </div>
 
       <ChatWidget isDark={isDark} />
+
+      {/* Image Modal for Poster Projects */}
+      <ImageModal
+        isOpen={imageModalOpen}
+        onClose={() => {
+          setImageModalOpen(false);
+          setSelectedImage(null);
+        }}
+        imageSrc={selectedImage}
+        isDark={isDark}
+      />
 
       {/* Project Modals */}
       <Modal 
