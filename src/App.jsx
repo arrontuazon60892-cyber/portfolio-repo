@@ -63,22 +63,17 @@ function App() {
               <span>\</span>
               <span>Web Developer</span>
               <span>\</span>
-              <span>Content Creator</span>
-              
-              <div className="ml-2 py-1 px-3 rounded bg-blue-600 text-white text-[0.65rem] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                Hackathon Champion
-                <ChevronRight size={10} />
-              </div>
+              <span>Video Editing</span>
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button className={cn(
+              <a href="mailto:arrontuazon60892@gmail.com" className={cn(
                 "flex items-center gap-2 px-5 py-2.5 rounded-lg border font-bold text-sm transition-all",
                 isDark ? "border-gray-800 hover:bg-gray-900" : "border-gray-200 hover:bg-gray-50"
               )}>
                 <Mail size={18} />
                 Send Email
-              </button>
+              </a>
               <button className={cn(
                 "flex items-center gap-2 px-5 py-2.5 rounded-lg border font-bold text-sm transition-all",
                 isDark ? "border-gray-800 hover:bg-gray-900" : "border-gray-200 hover:bg-gray-50"
@@ -244,10 +239,9 @@ function App() {
               <h2 className="text-[1.1rem] font-bold mb-8">Experience</h2>
               <div className="space-y-8 relative before:absolute before:inset-0 before:left-[4px] before:w-[1px] before:bg-gray-200 dark:before:bg-gray-800">
                 {[
-                  { title: "Junior Web Developer", org: "WebDevs", year: "2027" },
-                  { title: "Aspiring Full-Stack Developer", org: "Self-taught", year: "Ongoing" },
+                  { title: "Junior Web Developer, Aspiring Full-Stack Developer", org: "WebDevs", year: "2027" },
                   { title: "BS Information Technology in Business Analytics", org: "Laguna University (Expected Graduating)", year: "2027" },
-                  { title: "Data Analyst Intern", org: "GCM", year: "Ongoing" },
+                  { title: "Data Analyst Intern", org: "", year: "Ongoing" },
                   { title: "Hello World!", org: "Wrote my first line of code", year: "2024" }
                 ].map((item, i) => (
                   <div key={i} className="relative pl-8">
