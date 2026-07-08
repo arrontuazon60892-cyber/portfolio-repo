@@ -157,9 +157,9 @@ function App() {
                     link: "none link"
                   },
                   {
-                    title: "Photobooth Management System",
-                    description: "A comprehensive photobooth management system designed to streamline photo booth operations, including session management, photo processing, and customer tracking.(Web Application)",
-                    tags: ["Php", "MySQL", "Bootstrap", "JavaScript"],
+                    title: "Photobooth AC",
+                    description: "A modern photobooth management system that streamlines photo booth operations with real-time session tracking, automated photo processing, and comprehensive customer management for efficient event services.(Web Application)",
+                    tags: ["React", "Vite", "Tailwind CSS", "Supabase"],
                     link: "none link"
                   }
                 ].map((project, idx) => (
@@ -173,7 +173,7 @@ function App() {
                             setIsAttendanceOpen(true);
                         } else if (project.title === "Attendex: Attendance and Examination Management System") {
                             setIsAttendexOpen(true);
-                        } else if (project.title === "Photobooth Management System") {
+                        } else if (project.title === "Photobooth AC") {
                             setIsPhotoboothOpen(true);
                         }
                     }}
@@ -417,16 +417,16 @@ function App() {
       >
         <div className="flex flex-col gap-6">
             <header>
-                <h3 className="text-2xl font-bold tracking-tight">Photobooth Management System</h3>
+                <h3 className="text-2xl font-bold tracking-tight">Photobooth AC</h3>
                 <p className="text-sm mt-2 leading-relaxed">
-                    A comprehensive photobooth management system designed to streamline photo booth operations, including session management, photo processing, and customer tracking.
+                    A modern photobooth management system that streamlines photo booth operations with real-time session tracking, automated photo processing, and comprehensive customer management for efficient event services.
                 </p>
             </header>
             
             <PhotoboothCarousel isDark={isDark} />
             
             <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
-                {["Php", "MySQL", "Bootstrap", "JavaScript"].map(tag => (
+                {["React", "Vite", "Tailwind CSS", "Supabase"].map(tag => (
                     <span key={tag} className={cn(
                         "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest",
                         isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-black"
