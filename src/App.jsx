@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PrintFlowCarousel from "./components/PrintFlowCarousel";
+import PhotoboothCarousel from "./components/PhotoboothCarousel";
 import SocialLinks from "./components/SocialLinks";
 import Certifications from "./components/Certifications";
 import Modal from "./components/Modal";
@@ -14,6 +15,7 @@ function App() {
   const [isPrintFlowOpen, setIsPrintFlowOpen] = useState(false);
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [isAttendexOpen, setIsAttendexOpen] = useState(false);
+  const [isPhotoboothOpen, setIsPhotoboothOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
   const isDark = theme === "dark";
@@ -153,6 +155,12 @@ function App() {
                     description: "An academic management system for tracking student attendance and managing examination records..",
                     tags: ["Css", "Php", "MySQL"],
                     link: "none link"
+                  },
+                  {
+                    title: "Photobooth Management System",
+                    description: "A comprehensive photobooth management system designed to streamline photo booth operations, including session management, photo processing, and customer tracking.(Web Application)",
+                    tags: ["Php", "MySQL", "Bootstrap", "JavaScript"],
+                    link: "none link"
                   }
                 ].map((project, idx) => (
                   <div 
@@ -165,6 +173,8 @@ function App() {
                             setIsAttendanceOpen(true);
                         } else if (project.title === "Attendex: Attendance and Examination Management System") {
                             setIsAttendexOpen(true);
+                        } else if (project.title === "Photobooth Management System") {
+                            setIsPhotoboothOpen(true);
                         }
                     }}
                   >
@@ -389,6 +399,34 @@ function App() {
             
             <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                 {["Css", "Php", "MySQL"].map(tag => (
+                    <span key={tag} className={cn(
+                        "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest",
+                        isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-black"
+                    )}>
+                        {tag}
+                    </span>
+                ))}
+            </div>
+        </div>
+      </Modal>
+
+      <Modal 
+        isOpen={isPhotoboothOpen} 
+        onClose={() => setIsPhotoboothOpen(false)}
+        isDark={isDark}
+      >
+        <div className="flex flex-col gap-6">
+            <header>
+                <h3 className="text-2xl font-bold tracking-tight">Photobooth Management System</h3>
+                <p className="text-sm mt-2 leading-relaxed">
+                    A comprehensive photobooth management system designed to streamline photo booth operations, including session management, photo processing, and customer tracking.
+                </p>
+            </header>
+            
+            <PhotoboothCarousel isDark={isDark} />
+            
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                {["Php", "MySQL", "Bootstrap", "JavaScript"].map(tag => (
                     <span key={tag} className={cn(
                         "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest",
                         isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-black"
