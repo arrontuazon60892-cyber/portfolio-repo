@@ -73,14 +73,6 @@ function App() {
 
             <div className="flex flex-wrap gap-3">
               <button className={cn(
-                "flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all",
-                isDark ? "bg-white text-black" : "bg-black text-white"
-              )}>
-                <Calendar size={18} />
-                Schedule a Call
-                <ChevronRight size={14} />
-              </button>
-              <button className={cn(
                 "flex items-center gap-2 px-5 py-2.5 rounded-lg border font-bold text-sm transition-all",
                 isDark ? "border-gray-800 hover:bg-gray-900" : "border-gray-200 hover:bg-gray-50"
               )}>
@@ -137,7 +129,7 @@ function App() {
                 <div>
                   <h3 className="text-[0.85rem] font-bold uppercase tracking-widest mb-3">Backend</h3>
                   <div className="flex flex-wrap gap-2">
-                    {["Java (Spring Boot)", "RESTful APIs", "MySQL / PostgreSQL", "Auth & Security", "Python", "Php"].map(tech => (
+                    {["Java (Spring Boot)", "RESTful APIs", "MySQL and Supabase", "Auth & Security", "Python", "Php"].map(tech => (
                       <span key={tech} className={cn("pill", isDark ? "pill-dark" : "pill-light")}>{tech}</span>
                     ))}
                   </div>
@@ -230,30 +222,11 @@ function App() {
               <Certifications isDark={isDark} />
             </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-               {/* Member of */}
-              <section>
-                <h2 className="text-[1.1rem] font-bold mb-6">A member of</h2>
-                <div className="space-y-6">
-                  {[
-                    { org: "Analytics & AI Association of the Phil.", role: "Member" },
-                    { org: "Philippine Software Industry Association", role: "Contributor" },
-                    { org: "Stack Overflow", role: "Top 5% Contributor" }
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex flex-col">
-                      <span className="text-sm font-bold leading-tight">{item.org}</span>
-                      <span className="text-[10px] uppercase tracking-widest font-bold mt-1">{item.role}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Social Links */}
-              <section>
-                <h2 className="text-[1.1rem] font-bold mb-6">Social Links</h2>
-                <SocialLinks isDark={isDark} />
-              </section>
-            </div>
+            {/* Social Links */}
+            <section>
+              <h2 className="text-[1.1rem] font-bold mb-6">Social Links</h2>
+              <SocialLinks isDark={isDark} />
+            </section>
 
             {/* Gallery Section */}
             <section>
@@ -265,31 +238,6 @@ function App() {
 
           {/* Right Column (40%) */}
           <div className="md:col-span-5 space-y-16">
-            
-            {/* Devs One Hundred Card */}
-            <div className={cn(
-              "p-8 rounded-xl flex flex-col justify-between min-h-[340px] relative overflow-hidden group",
-              isDark ? "bg-gray-900 text-white" : "bg-gray-900 text-white"
-            )}>
-              <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-40 transition-opacity">
-                <code className="text-5xl font-bold tracking-tighter">&gt;_</code>
-              </div>
-              <header className="text-[0.7rem] font-bold tracking-[0.2em] uppercase">
-                Access Card
-              </header>
-              <div>
-                <p className="text-[0.6rem] font-bold tracking-[0.3em] uppercase text-white mb-2">
-                  Founding Member
-                </p>
-                <p className="text-3xl font-bold tracking-tight">Arron</p>
-              </div>
-              <footer className="flex items-center justify-between text-[0.6rem] font-bold tracking-widest">
-                <span className="uppercase">Developer</span>
-                <div className="w-12 h-12 border border-dashed border-white/40 rounded-lg flex items-center justify-center">
-                  QR
-                </div>
-              </footer>
-            </div>
 
             {/* Experience Section */}
             <section>
@@ -297,8 +245,9 @@ function App() {
               <div className="space-y-8 relative before:absolute before:inset-0 before:left-[4px] before:w-[1px] before:bg-gray-200 dark:before:bg-gray-800">
                 {[
                   { title: "Junior Web Developer", org: "WebDevs", year: "2027" },
-                  { title: "BS Information Technology in Business Analytics", org: "Laguna University", year: "2027" },
-                  { title: "Data Analyst Intern", org: "GCM", year: "2026" },
+                  { title: "Aspiring Full-Stack Developer", org: "Self-taught", year: "Ongoing" },
+                  { title: "BS Information Technology in Business Analytics", org: "Laguna University (Expected Graduating)", year: "2027" },
+                  { title: "Data Analyst Intern", org: "GCM", year: "Ongoing" },
                   { title: "Hello World!", org: "Wrote my first line of code", year: "2024" }
                 ].map((item, i) => (
                   <div key={i} className="relative pl-8">
@@ -318,67 +267,6 @@ function App() {
               </div>
             </section>
 
-            {/* Recommendations Section */}
-            <section>
-              <h2 className="text-[1.1rem] font-bold mb-8">Recommendations</h2>
-              <div className="space-y-10">
-                {[
-                  {
-                    name: "xinsoo",
-                    role: "Senior Developer ",
-                    text: "Arron is a dedicated developer with a strong focus on clean code and efficient problem solving."
-                  },
-                  {
-                    name: "Eunsoyaa",
-                    role: "boss",
-                    text: "Highly skilled and professional. Delivered exceptional results on our recent project."
-                  }
-                ].map((rec, idx) => (
-                  <div key={idx} className="border-l border-gray-100 dark:border-gray-900 pl-6">
-                    <p className="text-sm italic leading-relaxed mb-4">
-                      "{rec.text}"
-                    </p>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold">{rec.name}</span>
-                      <span className="text-[10px] uppercase tracking-widest font-bold mt-1">{rec.role}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Speaking Section */}
-            <section>
-              <h2 className="text-[1.1rem] font-bold mb-6">Speaking</h2>
-              <div className="space-y-6">
-                <p className="text-sm leading-relaxed">
-                  Available for speaking at events about software development and emerging technologies.
-                </p>
-                <div className="flex items-center gap-2 text-sm font-bold cursor-pointer hover:underline">
-                  Get in touch <ChevronRight size={14} />
-                </div>
-              </div>
-            </section>
-
-            {/* Footer-Contact Section */}
-            <section className="space-y-4 pt-10 border-t border-gray-100 dark:border-gray-900">
-               {[
-                 { label: "Email", value: "arron60892@gmail.com", icon: <Mail size={16} /> },
-                 { label: "Let's Talk", value: "Schedule a Call", icon: <MessageSquare size={16} />, suffix: <ChevronRight size={12} /> },
-                 { label: "Blog", value: "Read my blog", icon: <BookOpen size={16} />, suffix: <ChevronRight size={12} /> }
-               ].map(item => (
-                 <div key={item.label} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors cursor-pointer group">
-                   <div className="flex items-center gap-3">
-                     <span>{item.icon}</span>
-                     <div>
-                       <p className="text-[0.6rem] font-bold uppercase leading-none mb-1">{item.label}</p>
-                       <p className="text-sm font-bold">{item.value}</p>
-                     </div>
-                   </div>
-                   <div>{item.suffix}</div>
-                 </div>
-               ))}
-            </section>
 
           </div>
         </main>
