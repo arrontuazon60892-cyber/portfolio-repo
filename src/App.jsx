@@ -13,6 +13,7 @@ import { cn } from "./lib/utils";
 import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-react";
 import seolinahImage from "./assets/seolinah.png";
 import coloringBookImage from "./assets/Colorful Coloring Book Cover A4 Document.png";
+import coffeeImage from "./assets/COFFEE.png";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -75,6 +76,8 @@ function App() {
               <span>Web Developer</span>
               <span>\</span>
               <span>Video Editing</span>
+              <span>\</span>
+              <span>Graphic Designer</span>
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -159,6 +162,16 @@ function App() {
                   tools={["Canva"]}
                   onClick={() => {
                     setSelectedImage(coloringBookImage);
+                    setImageModalOpen(true);
+                  }}
+                  isDark={isDark}
+                />
+                <PosterCard
+                  imageSrc={coffeeImage}
+                  category="Promotional Poster Design"
+                  tools={["Canva"]}
+                  onClick={() => {
+                    setSelectedImage(coffeeImage);
                     setImageModalOpen(true);
                   }}
                   isDark={isDark}
