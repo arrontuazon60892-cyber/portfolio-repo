@@ -141,26 +141,22 @@ function App() {
                   {
                     title: "PrintFlow",
                     description: "PrintFlow is a sales, inventory, and ordering management system designed to help Mr. and Mrs. Prints efficiently track orders, manage stock, and monitor business transactions.(Web Application)",
-                    tags: ["Tailwind", "Php", "MySQL"],
-                    link: "none link"
+                    tags: ["Tailwind", "Php", "MySQL"]
                   },
                   {
                     title: "Attedance Management System",
                     description: "A digital attendance tracking system designed to simplify monitoring and managing attendance records.(Mobile Application)",
-                    tags: ["kotlin", "java", "Firebase"],
-                    link: "none link"
+                    tags: ["kotlin", "java", "Firebase"]
                   },
                   {
                     title: "Attendex: Attendance and Examination Management System",
                     description: "An academic management system for tracking student attendance and managing examination records..",
-                    tags: ["Css", "Php", "MySQL"],
-                    link: "none link"
+                    tags: ["Css", "Php", "MySQL"]
                   },
                   {
                     title: "Photobooth AC",
                     description: "A modern photobooth management system that streamlines photo booth operations with real-time session tracking, automated photo processing, and comprehensive customer management for efficient event services.(Web Application)",
-                    tags: ["React", "Vite", "Tailwind CSS", "Supabase"],
-                    link: "none link"
+                    tags: ["React", "Vite", "Tailwind CSS", "Supabase"]
                   }
                 ].map((project, idx) => (
                   <div 
@@ -186,12 +182,6 @@ function App() {
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-2 items-center">
-                      <span className={cn(
-                        "px-2 py-0.5 rounded text-[10px] font-mono border",
-                        isDark ? "border-gray-800 text-white" : "border-gray-100 text-black"
-                      )}>
-                        {project.link}
-                      </span>
                       {project.tags.map(tag => (
                         <span key={tag} className={cn(
                           "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider",
