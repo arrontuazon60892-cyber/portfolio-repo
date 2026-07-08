@@ -12,6 +12,8 @@ import { Moon, Sun, Mail, Calendar, BookOpen, ExternalLink, MessageSquare } from
 function App() {
   const [theme, setTheme] = useState("light");
   const [isPrintFlowOpen, setIsPrintFlowOpen] = useState(false);
+  const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
+  const [isAttendexOpen, setIsAttendexOpen] = useState(false);
 
   const isDark = theme === "dark";
 
@@ -175,6 +177,10 @@ function App() {
                     onClick={() => {
                         if (project.title === "PrintFlow") {
                             setIsPrintFlowOpen(true);
+                        } else if (project.title === "Attedance Management System") {
+                            setIsAttendanceOpen(true);
+                        } else if (project.title === "Attendex: Attendance and Examination Management System") {
+                            setIsAttendexOpen(true);
                         }
                     }}
                   >
@@ -241,7 +247,7 @@ function App() {
                 {[
                   { title: "Junior Web Developer, Aspiring Full-Stack Developer", org: "WebDevs", year: "2027" },
                   { title: "BS Information Technology in Business Analytics", org: "Laguna University (Expected Graduating)", year: "2027" },
-                  { title: "Data Analyst Intern", org: "", year: "Ongoing" },
+                  { title: "Data Analyst Intern", org: "", year: "Ongoing(2026)" },
                   { title: "Hello World!", org: "Wrote my first line of code", year: "2024" }
                 ].map((item, i) => (
                   <div key={i} className="relative pl-8">
@@ -297,6 +303,66 @@ function App() {
             
             <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                 {["Tailwind", "Php", "MySQL"].map(tag => (
+                    <span key={tag} className={cn(
+                        "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest",
+                        isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-black"
+                    )}>
+                        {tag}
+                    </span>
+                ))}
+            </div>
+        </div>
+      </Modal>
+
+      <Modal 
+        isOpen={isAttendanceOpen} 
+        onClose={() => setIsAttendanceOpen(false)}
+        isDark={isDark}
+      >
+        <div className="flex flex-col gap-6">
+            <header>
+                <h3 className="text-2xl font-bold tracking-tight">Attedance Management System</h3>
+                <p className="text-sm mt-2 leading-relaxed">
+                    A digital attendance tracking system designed to simplify monitoring and managing attendance records.(Mobile Application)
+                </p>
+            </header>
+            
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 flex items-center justify-center min-h-[200px]">
+                <p className="text-sm text-gray-500 dark:text-gray-400">Project images coming soon</p>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                {["kotlin", "java", "Firebase"].map(tag => (
+                    <span key={tag} className={cn(
+                        "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest",
+                        isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-black"
+                    )}>
+                        {tag}
+                    </span>
+                ))}
+            </div>
+        </div>
+      </Modal>
+
+      <Modal 
+        isOpen={isAttendexOpen} 
+        onClose={() => setIsAttendexOpen(false)}
+        isDark={isDark}
+      >
+        <div className="flex flex-col gap-6">
+            <header>
+                <h3 className="text-2xl font-bold tracking-tight">Attendex: Attendance and Examination Management System</h3>
+                <p className="text-sm mt-2 leading-relaxed">
+                    An academic management system for tracking student attendance and managing examination records.
+                </p>
+            </header>
+            
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 flex items-center justify-center min-h-[200px]">
+                <p className="text-sm text-gray-500 dark:text-gray-400">Project images coming soon</p>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                {["Css", "Php", "MySQL"].map(tag => (
                     <span key={tag} className={cn(
                         "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest",
                         isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-black"
