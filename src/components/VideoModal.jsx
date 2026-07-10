@@ -14,6 +14,12 @@ export default function VideoModal({ isOpen, onClose, videoSrc, isDark }) {
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = "hidden";
+            // Reset video state when modal opens
+            if (videoRef.current) {
+                videoRef.current.pause();
+                videoRef.current.currentTime = 0;
+                setIsPlaying(false);
+            }
         } else {
             document.body.style.overflow = "unset";
             if (videoRef.current) {

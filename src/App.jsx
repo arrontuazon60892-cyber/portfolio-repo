@@ -190,6 +190,7 @@ function App() {
                     setVideoModalOpen(true);
                   }}
                   isDark={isDark}
+                  isModalOpen={videoModalOpen}
                 />
               </div>
             </section>
