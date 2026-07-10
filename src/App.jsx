@@ -9,11 +9,14 @@ import ChatWidget from "./components/ChatWidget";
 import ProfileAvatar from "./components/ProfileAvatar";
 import PosterCard from "./components/PosterCard";
 import ImageModal from "./components/ImageModal";
+import VideoCard from "./components/VideoCard";
+import VideoModal from "./components/VideoModal";
 import { cn } from "./lib/utils";
 import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-react";
 import seolinahImage from "./assets/seolinah.png";
 import coloringBookImage from "./assets/Colorful Coloring Book Cover A4 Document.png";
 import coffeeImage from "./assets/COFFEE.png";
+import freshVideo from "./assets/gallary/FRESH (2).mp4";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -24,6 +27,8 @@ function App() {
   const [emailCopied, setEmailCopied] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   const isDark = theme === "dark";
 
@@ -173,6 +178,16 @@ function App() {
                   onClick={() => {
                     setSelectedImage(coffeeImage);
                     setImageModalOpen(true);
+                  }}
+                  isDark={isDark}
+                />
+                <VideoCard
+                  videoSrc={freshVideo}
+                  category="Promotional Video Design"
+                  tools={["Canva"]}
+                  onClick={() => {
+                    setSelectedVideo(freshVideo);
+                    setVideoModalOpen(true);
                   }}
                   isDark={isDark}
                 />
@@ -365,6 +380,17 @@ function App() {
           setSelectedImage(null);
         }}
         imageSrc={selectedImage}
+        isDark={isDark}
+      />
+
+      {/* Video Modal for Video Projects */}
+      <VideoModal
+        isOpen={videoModalOpen}
+        onClose={() => {
+          setVideoModalOpen(false);
+          setSelectedVideo(null);
+        }}
+        videoSrc={selectedVideo}
         isDark={isDark}
       />
 
