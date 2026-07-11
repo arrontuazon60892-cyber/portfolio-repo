@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { cn } from "../lib/utils";
 
-export default function VideoCard({ videoSrc, category, tools, onClick, isDark, isModalOpen }) {
+export default function VideoCard({ videoSrc, tools, onClick, isDark, isModalOpen }) {
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export default function VideoCard({ videoSrc, category, tools, onClick, isDark, 
             onClick={onClick}
         >
             {/* Video Container */}
-            <div className="relative overflow-hidden rounded-xl mb-4 w-1/4 max-w-[200px]">
+            <div className="relative overflow-hidden rounded-xl mb-4 w-full">
                 <video
                     ref={videoRef}
                     src={videoSrc}
@@ -66,16 +66,6 @@ export default function VideoCard({ videoSrc, category, tools, onClick, isDark, 
                         msUserSelect: "none",
                     }}
                 />
-            </div>
-
-            {/* Category */}
-            <div className="mb-2">
-                <span className={cn(
-                    "text-xs font-bold uppercase tracking-wider",
-                    isDark ? "text-gray-400" : "text-gray-500"
-                )}>
-                    {category}
-                </span>
             </div>
 
             {/* Tools */}
