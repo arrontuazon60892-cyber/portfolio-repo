@@ -18,6 +18,7 @@ import seolinahImage from "./assets/seolinah.png";
 import coloringBookImage from "./assets/Colorful Coloring Book Cover A4 Document.png";
 import coffeeImage from "./assets/COFFEE.png";
 import burgerImage from "./assets/gallary/burger.png";
+import realityNotFoundImage from "./assets/gallary/404 REALITY NOT FOUND.png";
 import freshVideo from "./assets/gallary/FRESH (2).mp4";
 
 function App() {
@@ -162,6 +163,15 @@ function App() {
                     tools={["Canva"]}
                     onClick={() => {
                       setSelectedImage(seolinahImage);
+                      setImageModalOpen(true);
+                    }}
+                    isDark={isDark}
+                  />
+                  <PosterCard
+                    imageSrc={realityNotFoundImage}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedImage(realityNotFoundImage);
                       setImageModalOpen(true);
                     }}
                     isDark={isDark}
