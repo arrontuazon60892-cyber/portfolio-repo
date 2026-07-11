@@ -16,6 +16,7 @@ import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-rea
 import seolinahImage from "./assets/seolinah.png";
 import coloringBookImage from "./assets/Colorful Coloring Book Cover A4 Document.png";
 import coffeeImage from "./assets/COFFEE.png";
+import burgerImage from "./assets/gallary/burger.png";
 import freshVideo from "./assets/gallary/FRESH (2).mp4";
 
 function App() {
@@ -150,7 +151,7 @@ function App() {
             {/* Creative Design Projects Section */}
             <section>
               <h2 className="text-[1.1rem] font-bold mb-8">Creative Design Projects</h2>
-              <div className="grid gap-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
                 <PosterCard
                   imageSrc={seolinahImage}
                   category="Editorial Poster Design"
@@ -177,6 +178,16 @@ function App() {
                   tools={["Canva"]}
                   onClick={() => {
                     setSelectedImage(coffeeImage);
+                    setImageModalOpen(true);
+                  }}
+                  isDark={isDark}
+                />
+                <PosterCard
+                  imageSrc={burgerImage}
+                  category="Promotional Poster Design"
+                  tools={["Canva"]}
+                  onClick={() => {
+                    setSelectedImage(burgerImage);
                     setImageModalOpen(true);
                   }}
                   isDark={isDark}
