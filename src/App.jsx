@@ -20,6 +20,7 @@ import coffeeImage from "./assets/COFFEE.png";
 import burgerImage from "./assets/gallary/burger.png";
 import realityNotFoundImage from "./assets/gallary/404 REALITY NOT FOUND.png";
 import freshVideo from "./assets/gallary/FRESH (2).mp4";
+import lemonSlideVideo from "./assets/gallary/lemon slideeeeeeee.mp4";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -224,18 +225,26 @@ function App() {
               <div>
                 <h3 className="text-[0.9rem] font-bold uppercase tracking-widest mb-6">Promotional Video Design</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-                  <div className="md:col-span-2 lg:col-span-2">
-                    <FeaturedVideoCard
-                      videoSrc={freshVideo}
-                      tools={["Canva"]}
-                      onClick={() => {
-                        setSelectedVideo(freshVideo);
-                        setVideoModalOpen(true);
-                      }}
-                      isDark={isDark}
-                      isModalOpen={videoModalOpen}
-                    />
-                  </div>
+                  <VideoCard
+                    videoSrc={freshVideo}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedVideo(freshVideo);
+                      setVideoModalOpen(true);
+                    }}
+                    isDark={isDark}
+                    isModalOpen={videoModalOpen}
+                  />
+                  <VideoCard
+                    videoSrc={lemonSlideVideo}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedVideo(lemonSlideVideo);
+                      setVideoModalOpen(true);
+                    }}
+                    isDark={isDark}
+                    isModalOpen={videoModalOpen}
+                  />
                 </div>
               </div>
             </section>
