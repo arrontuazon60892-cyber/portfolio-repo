@@ -11,6 +11,7 @@ import PosterCard from "./components/PosterCard";
 import ImageModal from "./components/ImageModal";
 import VideoCard from "./components/VideoCard";
 import VideoModal from "./components/VideoModal";
+import FeaturedVideoCard from "./components/FeaturedVideoCard";
 import { cn } from "./lib/utils";
 import { Moon, Sun, Mail, BookOpen, ExternalLink, Copy, Check } from "lucide-react";
 import seolinahImage from "./assets/seolinah.png";
@@ -151,58 +152,81 @@ function App() {
             {/* Creative Design Projects Section */}
             <section>
               <h2 className="text-[1.1rem] font-bold mb-8">Creative Design Projects</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-                <PosterCard
-                  imageSrc={seolinahImage}
-                  category="Editorial Poster Design"
-                  tools={["Canva"]}
-                  onClick={() => {
-                    setSelectedImage(seolinahImage);
-                    setImageModalOpen(true);
-                  }}
-                  isDark={isDark}
-                />
-                <PosterCard
-                  imageSrc={coloringBookImage}
-                  category="Educational Poster Design"
-                  tools={["Canva"]}
-                  onClick={() => {
-                    setSelectedImage(coloringBookImage);
-                    setImageModalOpen(true);
-                  }}
-                  isDark={isDark}
-                />
-                <PosterCard
-                  imageSrc={coffeeImage}
-                  category="Promotional Poster Design"
-                  tools={["Canva"]}
-                  onClick={() => {
-                    setSelectedImage(coffeeImage);
-                    setImageModalOpen(true);
-                  }}
-                  isDark={isDark}
-                />
-                <PosterCard
-                  imageSrc={burgerImage}
-                  category="Promotional Poster Design"
-                  tools={["Canva"]}
-                  onClick={() => {
-                    setSelectedImage(burgerImage);
-                    setImageModalOpen(true);
-                  }}
-                  isDark={isDark}
-                />
-                <VideoCard
-                  videoSrc={freshVideo}
-                  category="Promotional Video Design"
-                  tools={["Canva"]}
-                  onClick={() => {
-                    setSelectedVideo(freshVideo);
-                    setVideoModalOpen(true);
-                  }}
-                  isDark={isDark}
-                  isModalOpen={videoModalOpen}
-                />
+              
+              {/* Editorial Poster Design */}
+              <div className="mb-12">
+                <h3 className="text-[0.9rem] font-bold uppercase tracking-widest mb-6">Editorial Poster Design</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                  <PosterCard
+                    imageSrc={seolinahImage}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedImage(seolinahImage);
+                      setImageModalOpen(true);
+                    }}
+                    isDark={isDark}
+                  />
+                </div>
+              </div>
+
+              {/* Educational Poster Design */}
+              <div className="mb-12">
+                <h3 className="text-[0.9rem] font-bold uppercase tracking-widest mb-6">Educational Poster Design</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                  <PosterCard
+                    imageSrc={coloringBookImage}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedImage(coloringBookImage);
+                      setImageModalOpen(true);
+                    }}
+                    isDark={isDark}
+                  />
+                </div>
+              </div>
+
+              {/* Promotional Poster Design */}
+              <div className="mb-12">
+                <h3 className="text-[0.9rem] font-bold uppercase tracking-widest mb-6">Promotional Poster Design</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                  <PosterCard
+                    imageSrc={coffeeImage}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedImage(coffeeImage);
+                      setImageModalOpen(true);
+                    }}
+                    isDark={isDark}
+                  />
+                  <PosterCard
+                    imageSrc={burgerImage}
+                    tools={["Canva"]}
+                    onClick={() => {
+                      setSelectedImage(burgerImage);
+                      setImageModalOpen(true);
+                    }}
+                    isDark={isDark}
+                  />
+                </div>
+              </div>
+
+              {/* Promotional Video Design */}
+              <div>
+                <h3 className="text-[0.9rem] font-bold uppercase tracking-widest mb-6">Promotional Video Design</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                  <div className="md:col-span-2 lg:col-span-2">
+                    <FeaturedVideoCard
+                      videoSrc={freshVideo}
+                      tools={["Canva"]}
+                      onClick={() => {
+                        setSelectedVideo(freshVideo);
+                        setVideoModalOpen(true);
+                      }}
+                      isDark={isDark}
+                      isModalOpen={videoModalOpen}
+                    />
+                  </div>
+                </div>
               </div>
             </section>
 
