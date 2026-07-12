@@ -97,24 +97,24 @@ export default function ChatWidget({ isDark }) {
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              "pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border shadow-2xl backdrop-blur-xl",
+              "pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-xl",
               isDark
-                ? "border-white/10 bg-[#0c0c0c]/95 text-white"
-                : "border-black/10 bg-white/95 text-black"
+                ? "border-cyan-400/14 bg-[#08111f]/92 text-white"
+                : "border-slate-200 bg-white/95 text-black"
             )}
           >
             <div
               className={cn(
                 "relative overflow-hidden px-5 py-4",
                 isDark
-                  ? "bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.2),_transparent_45%),linear-gradient(135deg,_rgba(255,255,255,0.05),_rgba(255,255,255,0))]"
+                  ? "bg-[radial-gradient(circle_at_top_left,_rgba(77,201,255,0.18),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(123,97,255,0.14),_transparent_42%),linear-gradient(135deg,_rgba(255,255,255,0.05),_rgba(255,255,255,0))]"
                   : "bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.18),_transparent_42%),linear-gradient(135deg,_rgba(0,0,0,0.04),_rgba(0,0,0,0))]"
               )}
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="mb-1 flex items-center gap-2">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(135deg,rgba(123,97,255,0.8),rgba(77,201,255,0.92))] text-white shadow-[0_0_24px_rgba(77,201,255,0.24)]">
                       <Sparkles size={16} />
                     </span>
                     <div>
@@ -152,9 +152,9 @@ export default function ChatWidget({ isDark }) {
                     className={cn(
                       "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm",
                       message.role === "user"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-[linear-gradient(135deg,rgba(104,114,255,0.96),rgba(77,201,255,0.92))] text-white"
                         : isDark
-                          ? "bg-white/8 text-white"
+                          ? "bg-white/6 text-white"
                           : "bg-black/[0.04] text-black"
                     )}
                   >
@@ -188,7 +188,7 @@ export default function ChatWidget({ isDark }) {
                     className={cn(
                       "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
                       isDark
-                        ? "border-white/10 bg-white/5 hover:bg-white/10"
+                        ? "border-white/10 bg-white/5 hover:border-cyan-400/24 hover:bg-white/9"
                         : "border-black/10 bg-black/[0.03] hover:bg-black/[0.06]"
                     )}
                   >
@@ -217,7 +217,7 @@ export default function ChatWidget({ isDark }) {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white transition-transform hover:scale-105"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[linear-gradient(135deg,rgba(104,114,255,0.96),rgba(77,201,255,0.92))] text-white transition-transform hover:scale-105"
                   aria-label="Send message"
                 >
                   <Send size={16} />
@@ -230,7 +230,7 @@ export default function ChatWidget({ isDark }) {
 
       <button
         onClick={() => setIsOpen((current) => !current)}
-        className="pointer-events-auto flex items-center gap-2 rounded-2xl bg-black px-6 py-3 text-sm font-bold text-white shadow-xl transition-transform hover:scale-105 dark:bg-white dark:text-black"
+        className="pointer-events-auto flex items-center gap-2 rounded-2xl border border-cyan-400/18 bg-[linear-gradient(135deg,rgba(10,18,34,0.94),rgba(13,24,46,0.94))] px-6 py-3 text-sm font-bold text-white shadow-[0_24px_60px_rgba(0,0,0,0.36)] transition-transform hover:scale-105"
       >
         <MessageSquare size={18} />
         {isOpen ? "Close chat" : "Chat with Arron"}
