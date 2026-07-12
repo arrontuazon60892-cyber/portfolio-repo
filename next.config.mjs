@@ -7,6 +7,7 @@ const nextConfig = {
   images: {
     disableStaticImages: true,
   },
+  turbopack: {},
   webpack(config) {
     config.module.rules.push({
       test: /\.(png|jpe?g|gif|webp|avif|svg|mp4|webm)$/i,
