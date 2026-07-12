@@ -4,13 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "build": "next build --webpack",
     "lint": "eslint .",
-    "start": "next start",
-    "preview": "next start",
-    "dev:vite": "vite",
-    "build:vite": "vite build"
+    "start": "next start"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
