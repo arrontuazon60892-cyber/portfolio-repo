@@ -13,7 +13,6 @@ import {
   motion,
   useMotionValue,
   useSpring,
-  useTransform,
 } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -30,17 +29,14 @@ import {
   Copy,
   Cpu,
   Database,
-  ExternalLink,
   GraduationCap,
   Images,
-  Layers3,
   Mail,
   MapPin,
   Menu,
   MonitorSmartphone,
   Moon,
   Orbit,
-  Palette,
   Rocket,
   ScanLine,
   ShieldCheck,
@@ -51,28 +47,35 @@ import {
   Wrench,
   X,
 } from "lucide-react";
+import {
+  SiGit,
+  SiGithub,
+  SiMysql,
+  SiNextdotjs,
+  SiOpenjdk,
+  SiPhp,
+  SiPython,
+  SiReact,
+  SiSpringboot,
+  SiSupabase,
+  SiTailwindcss,
+  SiTypescript,
+  SiVercel,
+  SiVite,
+} from "react-icons/si";
 import PrintFlowCarousel from "./components/PrintFlowCarousel";
 import PhotoboothCarousel from "./components/PhotoboothCarousel";
 import SocialLinks from "./components/SocialLinks";
 import Certifications from "./components/Certifications";
 import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
+import PhotoGallery from "./components/PhotoGallery";
 import ChatWidget from "./components/ChatWidget";
 import ProfileAvatar from "./components/ProfileAvatar";
-import PosterCard from "./components/PosterCard";
 import ImageModal from "./components/ImageModal";
-import VideoCard from "./components/VideoCard";
 import VideoModal from "./components/VideoModal";
+import { schoolProjects } from "./data/projects";
 import { cn } from "./lib/utils";
-import seolinahImage from "./assets/seolinah.png";
-import coloringBookImage from "./assets/Colorful Coloring Book Cover A4 Document.png";
-import coffeeImage from "./assets/COFFEE.png";
-import burgerImage from "./assets/gallary/burger.png";
-import realityNotFoundImage from "./assets/gallary/404 REALITY NOT FOUND.png";
-import freshVideo from "./assets/gallary/FRESH (2).mp4";
-import lemonSlideVideo from "./assets/gallary/lemon slideeeeeeee.mp4";
-import printflowPreview from "./assets/printflow.png";
-import photoboothPreview from "./assets/photobooth1.png";
 
 const HeroScene = lazy(() => import("./components/three/HeroScene"));
 const BrainScene = lazy(() => import("./components/three/BrainScene"));
@@ -114,92 +117,36 @@ const techStackPanels = [
   {
     title: "Frontend",
     icon: Code2,
-    items: ["React + Next.js", "Vite", "TypeScript", "Tailwind CSS", "Responsive UI"],
+    items: [
+      { name: "React", icon: SiReact, color: "#61DAFB" },
+      { name: "Next.js", icon: SiNextdotjs, color: "#FFFFFF" },
+      { name: "Vite", icon: SiVite, color: "#A78BFA" },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "Responsive UI", icon: MonitorSmartphone, color: "#7DD3FC" },
+    ],
   },
   {
     title: "Backend",
     icon: Database,
     items: [
-      "Java (Spring Boot)",
-      "RESTful APIs",
-      "MySQL and Supabase",
-      "Auth & Security",
-      "Python",
-      "Php",
+      { name: "Java", icon: SiOpenjdk, color: "#F89820" },
+      { name: "Spring Boot", icon: SiSpringboot, color: "#6DB33F" },
+      { name: "RESTful APIs", icon: Workflow, color: "#60A5FA" },
+      { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+      { name: "Supabase", icon: SiSupabase, color: "#3ECF8E" },
+      { name: "Auth & Security", icon: ShieldCheck, color: "#A78BFA" },
+      { name: "Python", icon: SiPython, color: "#FFD43B" },
+      { name: "PHP", icon: SiPhp, color: "#777BB4" },
     ],
   },
   {
     title: "DevOps & Cloud",
     icon: Rocket,
-    items: ["Git & GitHub", "Vercel (for frontend deployment)"],
-  },
-];
-
-const schoolProjects = [
-  {
-    key: "printflow",
-    title: "PrintFlow",
-    description:
-      "PrintFlow is a sales, inventory, and ordering management system designed to help Mr. and Mrs. Prints efficiently track orders, manage stock, and monitor business transactions.(Web Application)",
-    tags: ["Tailwind", "Php", "MySQL"],
-    category: "Web Application",
-    previewImage: printflowPreview,
-    icon: Layers3,
-  },
-  {
-    key: "attendance",
-    title: "Attedance Management System",
-    description:
-      "A digital attendance tracking system designed to simplify monitoring and managing attendance records.(Mobile Application)",
-    tags: ["kotlin", "java", "Firebase"],
-    category: "Mobile Application",
-    icon: MonitorSmartphone,
-  },
-  {
-    key: "attendex",
-    title: "Attendex: Attendance and Examination Management System",
-    description:
-      "An academic management system for tracking student attendance and managing examination records..",
-    tags: ["Css", "Php", "MySQL"],
-    category: "Academic Management",
-    icon: Workflow,
-  },
-  {
-    key: "photobooth",
-    title: "Photobooth AC",
-    description:
-      "A modern photobooth management system that streamlines photo booth operations with real-time session tracking, automated photo processing, and comprehensive customer management for efficient event services.(Web Application)",
-    tags: ["React", "Vite", "Tailwind CSS", "Supabase"],
-    category: "Web Application",
-    previewImage: photoboothPreview,
-    icon: Sparkles,
-  },
-];
-
-const creativeCollections = [
-  {
-    title: "Editorial Poster Design",
     items: [
-      { type: "image", src: seolinahImage, tools: ["Canva"] },
-      { type: "image", src: realityNotFoundImage, tools: ["Canva"] },
-    ],
-  },
-  {
-    title: "Educational Poster Design",
-    items: [{ type: "image", src: coloringBookImage, tools: ["Canva"] }],
-  },
-  {
-    title: "Promotional Poster Design",
-    items: [
-      { type: "image", src: coffeeImage, tools: ["Canva"] },
-      { type: "image", src: burgerImage, tools: ["Canva"] },
-    ],
-  },
-  {
-    title: "Promotional Video Design",
-    items: [
-      { type: "video", src: freshVideo, tools: ["Canva"] },
-      { type: "video", src: lemonSlideVideo, tools: ["Canva"] },
+      { name: "Git", icon: SiGit, color: "#F05032" },
+      { name: "GitHub", icon: SiGithub, color: "#FFFFFF" },
+      { name: "Vercel", icon: SiVercel, color: "#FFFFFF" },
     ],
   },
 ];
@@ -841,11 +788,22 @@ function App() {
                       </div>
                       <h3 className="text-base font-semibold text-white">{panel.title}</h3>
                     </div>
-                    <div className="mt-5 flex flex-wrap gap-2">
+                    <div className="tech-logo-grid">
                       {panel.items.map((item) => (
-                        <span key={item} className="chip">
-                          {item}
-                        </span>
+                        <div
+                          key={item.name}
+                          className="tech-logo-item"
+                          aria-label={`${item.name} technology`}
+                          role="img"
+                        >
+                          <item.icon
+                            className="tech-logo-icon"
+                            style={{ color: item.color }}
+                            aria-hidden="true"
+                            title={item.name}
+                          />
+                          <span>{item.name}</span>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -898,85 +856,15 @@ function App() {
           className="glass-panel p-6 sm:p-8"
         >
           <SectionHeader
-            eyebrow="Projects"
-            title="Recent Projects in School"
-            description="All four original school projects remain, now framed like premium product cards."
+            eyebrow="Projects & Gallery"
+            title="Selected Work"
+            description="Explore web development, graphic design, and video-editing projects in one complete gallery."
           />
-
-          <div className="mt-8 grid gap-5 lg:grid-cols-2">
-            {schoolProjects.map((project) => (
-              <ProjectCard
-                key={project.key}
-                project={project}
-                onOpen={() => setActiveProjectKey(project.key)}
-              />
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="glass-panel p-6 sm:p-8"
-        >
-          <SectionHeader
-            eyebrow="Creative Design Projects"
-            title="Creative Design Projects"
-            description="Poster work, promotional assets, and video design preserved as part of the same futuristic portfolio universe."
+          <Gallery
+            onOpenProject={(project) => setActiveProjectKey(project.key)}
+            onOpenImage={setSelectedImage}
+            onOpenVideo={setSelectedVideo}
           />
-
-          <div className="mt-8 grid gap-5">
-            {creativeCollections.map((collection) => (
-              <div key={collection.title} className="creative-collection">
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="icon-pill">
-                    {collection.title.includes("Video") ? (
-                      <MonitorSmartphone size={18} />
-                    ) : (
-                      <Palette size={18} />
-                    )}
-                  </div>
-                  <div>
-                    <h3 className="text-base font-semibold text-white">{collection.title}</h3>
-                    <p className="text-xs uppercase tracking-[0.24em] text-white/42">
-                      Preserved original assets
-                    </p>
-                  </div>
-                </div>
-                <div
-                  className={cn(
-                    "grid gap-4",
-                    collection.items.length === 1
-                      ? "md:grid-cols-1"
-                      : "md:grid-cols-2 xl:grid-cols-2"
-                  )}
-                >
-                  {collection.items.map((item, index) => (
-                    <div key={`${collection.title}-${index}`} className="creative-card-shell">
-                      {item.type === "image" ? (
-                        <PosterCard
-                          imageSrc={item.src}
-                          tools={item.tools}
-                          onClick={() => setSelectedImage(item.src)}
-                          isDark={isDark}
-                        />
-                      ) : (
-                        <VideoCard
-                          videoSrc={item.src}
-                          tools={item.tools}
-                          onClick={() => setSelectedVideo(item.src)}
-                          isDark={isDark}
-                          isModalOpen={Boolean(selectedVideo)}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </motion.section>
 
         <div className="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
@@ -1068,7 +956,7 @@ function App() {
               description="The original gallery now sits inside the same holographic visual language as the rest of the portfolio."
             />
             <div className="mt-8">
-              <Gallery isDark={isDark} />
+              <PhotoGallery onOpenImage={setSelectedImage} />
             </div>
           </motion.section>
         </div>
@@ -1230,14 +1118,17 @@ function App() {
       <ImageModal
         isOpen={Boolean(selectedImage)}
         onClose={() => setSelectedImage(null)}
-        imageSrc={selectedImage}
+        imageSrc={selectedImage?.src}
+        imageAlt={selectedImage ? `${selectedImage.title} full-size preview` : "Design project"}
         isDark={isDark}
       />
 
       <VideoModal
         isOpen={Boolean(selectedVideo)}
         onClose={() => setSelectedVideo(null)}
-        videoSrc={selectedVideo}
+        videoSrc={selectedVideo?.src}
+        poster={selectedVideo?.poster}
+        title={selectedVideo?.title}
         isDark={isDark}
       />
 
@@ -1464,96 +1355,6 @@ function MetricRow({ metric }) {
       </div>
       <div className="metric-track">
         <span className="metric-fill" style={{ width: `${metric.value}%` }} />
-      </div>
-    </div>
-  );
-}
-
-function ProjectCard({ project, onOpen }) {
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const smoothX = useSpring(pointerX, { stiffness: 260, damping: 28, mass: 0.45 });
-  const smoothY = useSpring(pointerY, { stiffness: 260, damping: 28, mass: 0.45 });
-  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-4.5, 4.5]);
-  const rotateX = useTransform(smoothY, [-0.5, 0.5], [4.5, -4.5]);
-
-  const handlePointerMove = (event) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    pointerX.set((event.clientX - bounds.left) / bounds.width - 0.5);
-    pointerY.set((event.clientY - bounds.top) / bounds.height - 0.5);
-  };
-
-  const resetTilt = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
-
-  return (
-    <motion.button
-      type="button"
-      onClick={onOpen}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetTilt}
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ duration: 0.25 }}
-      className="project-card text-left"
-      style={{ rotateX, rotateY, transformPerspective: 1200 }}
-      data-cursor="hover"
-    >
-      <div className="flex items-center justify-between gap-3">
-        <span className="project-badge">{project.category}</span>
-        <ExternalLink size={16} className="text-white/52" />
-      </div>
-
-      <div className="mt-5">
-        <ProjectPreview project={project} />
-      </div>
-
-      <div className="mt-5">
-        <div className="flex items-center gap-3">
-          <div className="icon-pill">
-            <project.icon size={16} />
-          </div>
-          <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-        </div>
-        <p className="mt-4 text-sm leading-7 text-white/62">{project.description}</p>
-      </div>
-
-      <div className="mt-5 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span key={tag} className="chip">
-            {tag}
-          </span>
-        ))}
-      </div>
-    </motion.button>
-  );
-}
-
-function ProjectPreview({ project }) {
-  if (project.previewImage) {
-    return (
-      <div className="preview-image-shell">
-        <img
-          src={project.previewImage}
-          alt={`${project.title} preview`}
-          className="h-52 w-full object-cover opacity-82"
-        />
-        <div className="preview-overlay" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="preview-schematic">
-      <div className="preview-schematic__grid" />
-      <div className="preview-schematic__lines">
-        {[62, 78, 54, 82].map((width, index) => (
-          <span key={`${project.key}-${width}-${index}`} style={{ width: `${width}%` }} />
-        ))}
-      </div>
-      <div className="preview-schematic__icon">
-        <project.icon size={34} />
       </div>
     </div>
   );

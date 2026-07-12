@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
 
-export default function VideoModal({ isOpen, onClose, videoSrc, isDark }) {
+export default function VideoModal({ isOpen, onClose, videoSrc, poster, title = "Video project" }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -142,11 +142,11 @@ export default function VideoModal({ isOpen, onClose, videoSrc, isDark }) {
                             <video
                                 ref={videoRef}
                                 src={videoSrc}
+                                poster={poster}
                                 className="w-full h-full object-contain"
-                                controls={false}
-                                disablePictureInPicture
-                                disableRemotePlayback
-                                onContextMenu={(e) => e.preventDefault()}
+                                controls
+                                preload="metadata"
+                                aria-label={`${title} video player`}
                                 onTimeUpdate={handleTimeUpdate}
                                 onClick={togglePlay}
                                 onPlay={() => setIsPlaying(true)}

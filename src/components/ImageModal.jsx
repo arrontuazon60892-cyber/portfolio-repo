@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, ZoomOut } from "lucide-react";
 
-export default function ImageModal({ isOpen, onClose, imageSrc, isDark }) {
+export default function ImageModal({ isOpen, onClose, imageSrc, imageAlt = "Design project" }) {
     const [zoom, setZoom] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
@@ -169,7 +169,7 @@ export default function ImageModal({ isOpen, onClose, imageSrc, isDark }) {
                                 <img
                                     ref={imageRef}
                                     src={imageSrc}
-                                    alt="Design project"
+                                    alt={imageAlt}
                                     className="max-w-full max-h-[85vh] object-contain select-none pointer-events-none"
                                     draggable={false}
                                     onContextMenu={(e) => e.preventDefault()}
