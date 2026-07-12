@@ -14,6 +14,10 @@
   --accent-soft: rgba(77, 201, 255, 0.14);
   --success: #53f1c0;
   color: var(--text-main);
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  overflow-x: clip;
   background:
     radial-gradient(circle at top left, rgba(77, 201, 255, 0.14), transparent 30%),
     radial-gradient(circle at 78% 12%, rgba(123, 97, 255, 0.18), transparent 24%),
@@ -1167,5 +1171,524 @@
   }
   to {
     transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+/* Real-time WebGL experience */
+.ambient-webgl-canvas {
+  position: absolute !important;
+  inset: 0;
+  height: 100% !important;
+  width: 100% !important;
+  opacity: 0.72;
+  mix-blend-mode: screen;
+}
+
+.hero-shell {
+  min-height: calc(100svh - 7.5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-shell > .grid {
+  flex: 1;
+}
+
+.hero-visual-column {
+  position: relative;
+  min-width: 0;
+  min-height: clamp(40rem, 72vh, 48rem);
+}
+
+.hero-stage {
+  position: absolute;
+  inset: -1.5rem -1.5rem -2rem;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 2rem;
+  isolation: isolate;
+}
+
+.hero-stage::before,
+.hero-stage::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 999px;
+  transform: translateX(-50%);
+}
+
+.hero-stage::before {
+  bottom: 6%;
+  width: min(92%, 44rem);
+  aspect-ratio: 2.8 / 1;
+  border: 1px solid rgba(76, 215, 255, 0.23);
+  box-shadow:
+    0 0 28px rgba(58, 203, 255, 0.16),
+    inset 0 0 28px rgba(83, 91, 255, 0.12);
+}
+
+.hero-stage::after {
+  bottom: 10%;
+  width: min(68%, 31rem);
+  aspect-ratio: 2.8 / 1;
+  border: 1px dashed rgba(126, 93, 255, 0.25);
+  animation: stageRingOrbit 15s linear infinite;
+}
+
+.hero-stage__aura {
+  position: absolute;
+  z-index: 0;
+  inset: 13% 8% 8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(85, 213, 255, 0.18), transparent 38%),
+    radial-gradient(circle at 58% 68%, rgba(112, 82, 255, 0.16), transparent 48%);
+  filter: blur(28px);
+  animation: heroAura 6s ease-in-out infinite;
+}
+
+.hero-webgl {
+  position: absolute;
+  inset: -4% -8% -2%;
+  z-index: 1;
+}
+
+.hero-webgl canvas,
+.brain-canvas canvas {
+  display: block;
+  height: 100% !important;
+  width: 100% !important;
+  touch-action: pan-y;
+}
+
+.webgl-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.13;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 5px,
+    rgba(115, 225, 255, 0.12) 6px
+  );
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+}
+
+.webgl-status {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.72rem;
+  border: 1px solid rgba(98, 210, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(4, 10, 20, 0.58);
+  color: rgba(191, 239, 255, 0.66);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  backdrop-filter: blur(14px);
+}
+
+.webgl-status__dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: #4ff0c1;
+  box-shadow: 0 0 14px rgba(79, 240, 193, 0.78);
+  animation: statusBlink 1.8s ease-in-out infinite;
+}
+
+.scene-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: rgba(186, 228, 255, 0.46);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.scene-loader--compact {
+  min-height: 8rem;
+}
+
+.scene-loader__ring {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  border: 1px solid rgba(91, 216, 255, 0.2);
+  border-top-color: rgba(91, 216, 255, 0.95);
+  animation: loaderSpin 1.2s linear infinite;
+}
+
+.brain-canvas {
+  position: relative;
+  width: 100%;
+  height: 19rem;
+  min-height: 8rem;
+  overflow: hidden;
+}
+
+.brain-canvas--compact {
+  height: 10.5rem;
+}
+
+.stack-brain-scene {
+  position: relative;
+  overflow: hidden;
+  min-height: 19rem;
+  border: 1px solid rgba(103, 203, 255, 0.12);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(71, 192, 255, 0.14), transparent 46%),
+    rgba(4, 9, 19, 0.36);
+}
+
+.floating-window {
+  z-index: 5;
+  width: clamp(13rem, 16vw, 18rem);
+  overflow: hidden;
+  border-radius: 1.15rem;
+  border-color: rgba(101, 184, 255, 0.24);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), transparent 46%),
+    rgba(5, 12, 25, 0.73);
+  box-shadow:
+    0 24px 68px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 34px rgba(68, 187, 255, 0.08);
+  backdrop-filter: blur(22px) saturate(140%);
+  transform-style: preserve-3d;
+}
+
+.floating-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(112deg, transparent 28%, rgba(255, 255, 255, 0.08) 46%, transparent 64%);
+  transform: translateX(-140%);
+  animation: hologramSweep 7.5s ease-in-out infinite;
+}
+
+.hero-window--code {
+  top: 11%;
+  left: 1.5%;
+}
+
+.hero-window--brain {
+  left: 4%;
+  bottom: 7%;
+  width: clamp(12rem, 14vw, 15.5rem);
+}
+
+.hero-window--system {
+  top: 8%;
+  right: 1%;
+  bottom: auto;
+}
+
+.code-window {
+  position: relative;
+  min-height: 12.5rem;
+  padding: 0.95rem 1rem 0.8rem;
+  background:
+    linear-gradient(rgba(80, 186, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80, 186, 255, 0.03) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.code-window pre {
+  min-height: 8.9rem;
+  margin: 0;
+  overflow: hidden;
+  white-space: pre-wrap;
+  color: rgba(190, 221, 255, 0.74);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.59rem;
+  line-height: 1.7;
+}
+
+.code-token--keyword {
+  color: #77cfff;
+}
+
+.code-token--string {
+  color: #a991ff;
+}
+
+.code-token--number {
+  color: #68f0c3;
+}
+
+.code-token--comment {
+  color: rgba(178, 200, 224, 0.42);
+}
+
+.code-caret {
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.75rem;
+  margin-left: 0.12rem;
+  vertical-align: -0.08rem;
+  background: #66dfff;
+  box-shadow: 0 0 9px rgba(89, 217, 255, 0.7);
+  animation: caretBlink 0.8s steps(1) infinite;
+}
+
+.code-compiler {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-top: 0.58rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  color: rgba(97, 240, 198, 0.74);
+  font-size: 0.52rem;
+  letter-spacing: 0.13em;
+}
+
+.code-compiler__pulse {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: #56edbe;
+  box-shadow: 0 0 10px rgba(86, 237, 190, 0.7);
+  animation: statusBlink 1.4s ease-in-out infinite;
+}
+
+.custom-cursor--trail {
+  z-index: 9997;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: -0.25rem 0 0 -0.25rem;
+  border-radius: 50%;
+  background: #57d9ff;
+  box-shadow: 0 0 14px rgba(82, 210, 255, 0.58);
+}
+
+.glass-panel {
+  --panel-mouse-x: 50%;
+  --panel-mouse-y: 0%;
+}
+
+.glass-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 0%, rgba(89, 205, 255, 0.055), transparent 40%);
+}
+
+.stack-card,
+.mini-signal-card,
+.info-panel,
+.stat-card,
+.contact-card,
+.project-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.stack-card,
+.mini-signal-card,
+.info-panel,
+.stat-card,
+.contact-card {
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+}
+
+.stack-card:hover,
+.mini-signal-card:hover,
+.info-panel:hover,
+.stat-card:hover,
+.contact-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(118, 202, 255, 0.24);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.22), 0 0 30px rgba(75, 177, 255, 0.055);
+}
+
+.metric-fill {
+  transform-origin: left center;
+  animation: metricActivate 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes stageRingOrbit {
+  from { transform: translateX(-50%) rotate(0deg); }
+  to { transform: translateX(-50%) rotate(360deg); }
+}
+
+@keyframes heroAura {
+  0%, 100% { opacity: 0.62; transform: scale(0.96); }
+  50% { opacity: 0.92; transform: scale(1.04); }
+}
+
+@keyframes hologramSweep {
+  0%, 58% { transform: translateX(-140%); }
+  82%, 100% { transform: translateX(140%); }
+}
+
+@keyframes statusBlink {
+  0%, 100% { opacity: 0.45; transform: scale(0.86); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+@keyframes caretBlink {
+  0%, 48% { opacity: 1; }
+  49%, 100% { opacity: 0; }
+}
+
+@keyframes metricActivate {
+  from { transform: scaleX(0); filter: brightness(1.8); }
+  to { transform: scaleX(1); filter: brightness(1); }
+}
+
+@keyframes loaderSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 1280px) {
+  .hero-visual-column {
+    min-height: 42rem;
+  }
+
+  .floating-window {
+    width: 14rem;
+  }
+
+  .hero-window--brain {
+    width: 12.5rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-shell {
+    min-height: auto;
+  }
+
+  .hero-visual-column {
+    min-height: 43rem;
+  }
+
+  .hero-stage {
+    inset: -1rem 0 -1rem;
+  }
+
+  .hero-webgl {
+    inset: -4% -3% 0;
+  }
+
+  .hero-window--code {
+    left: 2%;
+  }
+
+  .hero-window--system {
+    right: 2%;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-visual-column {
+    min-height: 36rem;
+  }
+
+  .hero-stage {
+    inset: 0 -0.75rem;
+  }
+
+  .hero-webgl {
+    inset: -2% -14% 0;
+  }
+
+  .floating-window {
+    width: min(12rem, 44vw);
+  }
+
+  .hero-window--code {
+    top: 5%;
+    left: 1%;
+  }
+
+  .hero-window--system {
+    top: 6%;
+    right: 1%;
+  }
+
+  .hero-window--brain {
+    left: 2%;
+    bottom: 3%;
+    width: min(11rem, 41vw);
+  }
+
+  .code-window {
+    min-height: 9.8rem;
+    padding: 0.72rem;
+  }
+
+  .code-window pre {
+    min-height: 6.8rem;
+    font-size: 0.48rem;
+  }
+
+  .brain-canvas--compact {
+    height: 8rem;
+  }
+
+  .webgl-status {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .hero-visual-column {
+    min-height: 31rem;
+  }
+
+  .hero-webgl {
+    inset: -1% -22% -2%;
+  }
+
+  .hero-window--system {
+    display: none;
+  }
+
+  .hero-window--code {
+    top: 2%;
+    right: 0;
+    left: auto;
+    width: min(12rem, 53vw);
+  }
+
+  .hero-window--brain {
+    left: 0;
+    bottom: 2%;
+    width: min(10rem, 44vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stage::after,
+  .hero-stage__aura,
+  .floating-window::after,
+  .webgl-status__dot,
+  .code-caret,
+  .code-compiler__pulse,
+  .metric-fill {
+    animation: none !important;
   }
 }

@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, {
+  Suspense,
+  lazy,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
   useTransform,
 } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 import {
   ArrowRight,
   BadgeCheck,
@@ -23,6 +36,7 @@ import {
   Layers3,
   Mail,
   MapPin,
+  Menu,
   MonitorSmartphone,
   Moon,
   Orbit,
@@ -35,6 +49,7 @@ import {
   TerminalSquare,
   Workflow,
   Wrench,
+  X,
 } from "lucide-react";
 import PrintFlowCarousel from "./components/PrintFlowCarousel";
 import PhotoboothCarousel from "./components/PhotoboothCarousel";
@@ -58,6 +73,12 @@ import freshVideo from "./assets/gallary/FRESH (2).mp4";
 import lemonSlideVideo from "./assets/gallary/lemon slideeeeeeee.mp4";
 import printflowPreview from "./assets/printflow.png";
 import photoboothPreview from "./assets/photobooth1.png";
+
+const HeroScene = lazy(() => import("./components/three/HeroScene"));
+const BrainScene = lazy(() => import("./components/three/BrainScene"));
+const AtmosphereScene = lazy(() => import("./components/three/AtmosphereScene"));
+
+const subscribeToClient = () => () => {};
 
 const navItems = [
   { label: "Home", id: "home" },
@@ -93,7 +114,7 @@ const techStackPanels = [
   {
     title: "Frontend",
     icon: Code2,
-    items: ["React + Vite", "TypeScript", "Tailwind CSS", "Responsive UI"],
+    items: ["React + Next.js", "Vite", "TypeScript", "Tailwind CSS", "Responsive UI"],
   },
   {
     title: "Backend",
@@ -223,10 +244,21 @@ const floatingNodes = [
   { top: "72%", left: "90%", size: 6, delay: 0.7 },
 ];
 
-const codeLineWidths = [84, 58, 92, 44, 0, 77, 62, 41];
+const liveCodeProgram = [
+  "const arron = new Developer({",
+  "  focus: ['web', 'data', 'AI'],",
+  "  stack: ['React', 'Java', 'MySQL'],",
+  "  mindset: 'build with purpose'",
+  "});",
+  "",
+  "await arron.learn();",
+  "await arron.ship({ quality: 100 });",
+];
 
 function App() {
+  const appRef = useRef(null);
   const [theme, setTheme] = useState("dark");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeProjectKey, setActiveProjectKey] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -239,6 +271,7 @@ function App() {
   const [contactSent, setContactSent] = useState(false);
   const [cursorHover, setCursorHover] = useState(false);
   const [cursorEnabled, setCursorEnabled] = useState(false);
+  const isClient = useSyncExternalStore(subscribeToClient, () => true, () => false);
 
   const isDark = true;
   const activeProject = schoolProjects.find(
@@ -251,16 +284,51 @@ function App() {
   const ringY = useSpring(cursorY, { stiffness: 650, damping: 42, mass: 0.2 });
   const dotX = useSpring(cursorX, { stiffness: 900, damping: 48, mass: 0.08 });
   const dotY = useSpring(cursorY, { stiffness: 900, damping: 48, mass: 0.08 });
-  const heroX = useMotionValue(0);
-  const heroY = useMotionValue(0);
-  const heroXSpring = useSpring(heroX, { stiffness: 110, damping: 18, mass: 0.5 });
-  const heroYSpring = useSpring(heroY, { stiffness: 110, damping: 18, mass: 0.5 });
-  const robotRotateY = useTransform(heroXSpring, [-1, 1], [-10, 10]);
-  const robotRotateX = useTransform(heroYSpring, [-1, 1], [8, -8]);
-  const robotShiftX = useTransform(heroXSpring, [-1, 1], [-18, 18]);
-  const robotShiftY = useTransform(heroYSpring, [-1, 1], [-10, 10]);
-  const panelShiftX = useTransform(heroXSpring, [-1, 1], [-12, 12]);
-  const panelShiftY = useTransform(heroYSpring, [-1, 1], [-8, 8]);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({
+      duration: 1.05,
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.1,
+    });
+    const updateScroll = () => ScrollTrigger.update();
+    const tick = (time) => lenis.raf(time * 1000);
+
+    lenis.on("scroll", updateScroll);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+
+    const context = gsap.context(() => {
+      gsap.to(".scene-aurora--left", {
+        yPercent: -24,
+        xPercent: 7,
+        ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: 1.4 },
+      });
+      gsap.to(".scene-aurora--right", {
+        yPercent: 28,
+        xPercent: -8,
+        ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: 1.8 },
+      });
+      gsap.to(".scene-rings", {
+        rotation: 36,
+        yPercent: -42,
+        ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: 2 },
+      });
+    }, appRef);
+
+    return () => {
+      context.revert();
+      lenis.off("scroll", updateScroll);
+      lenis.destroy();
+      gsap.ticker.remove(tick);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -290,8 +358,6 @@ function App() {
 
       cursorX.set(x);
       cursorY.set(y);
-      heroX.set((x / window.innerWidth - 0.5) * 2);
-      heroY.set((y / window.innerHeight - 0.5) * 2);
       setHoverState(event.target);
     };
 
@@ -318,9 +384,10 @@ function App() {
       window.removeEventListener("blur", handleLeave);
       document.body.classList.remove("has-custom-cursor");
     };
-  }, [cursorX, cursorY, heroX, heroY]);
+  }, [cursorX, cursorY]);
 
   const scrollToSection = (id) => {
+    setMobileNavOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -360,6 +427,7 @@ function App() {
 
   return (
     <div
+      ref={appRef}
       className={cn(
         "app-shell min-h-screen",
         theme === "dark-alt" ? "theme-dark-alt" : "theme-dark"
@@ -367,6 +435,9 @@ function App() {
     >
       {cursorEnabled && (
         <>
+          {[0, 1, 2, 3, 4].map((index) => (
+            <CursorTrailParticle key={index} x={cursorX} y={cursorY} index={index} />
+          ))}
           <motion.div
             aria-hidden="true"
             className={cn("custom-cursor custom-cursor--ring", cursorHover && "is-hovering")}
@@ -381,6 +452,11 @@ function App() {
       )}
 
       <div className="scene-root" aria-hidden="true">
+        {isClient && (
+          <Suspense fallback={null}>
+            <AtmosphereScene />
+          </Suspense>
+        )}
         <div className="scene-aurora scene-aurora--left" />
         <div className="scene-aurora scene-aurora--right" />
         <div className="scene-grid" />
@@ -415,7 +491,7 @@ function App() {
       </div>
 
       <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-[rgba(6,12,24,0.72)] px-4 py-3 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between rounded-full border border-white/10 bg-[rgba(6,12,24,0.72)] px-4 py-3 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
           <button
             type="button"
             onClick={() => scrollToSection("home")}
@@ -465,11 +541,43 @@ function App() {
             >
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen((current) => !current)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/80 transition hover:bg-white/10 hover:text-white lg:hidden"
+              aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={mobileNavOpen}
+              data-cursor="hover"
+            >
+              {mobileNavOpen ? <X size={19} /> : <Menu size={19} />}
+            </button>
           </div>
         </div>
+        <AnimatePresence>
+          {mobileNavOpen && (
+            <motion.nav
+              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              className="mx-auto mt-2 grid max-w-[1600px] grid-cols-2 gap-2 rounded-[1.5rem] border border-white/10 bg-[rgba(6,12,24,0.9)] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.38)] backdrop-blur-2xl lg:hidden"
+            >
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => scrollToSection(item.id)}
+                  className="rounded-xl border border-white/6 bg-white/[0.025] px-4 py-3 text-left text-sm text-white/72 transition hover:border-white/12 hover:bg-white/[0.06] hover:text-white"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
-      <main className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+      <main className="relative z-10 mx-auto flex max-w-[1600px] flex-col gap-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         <motion.section
           id="home"
           initial={{ opacity: 0, y: 28 }}
@@ -569,51 +677,29 @@ function App() {
               </div>
             </div>
 
-            <div className="relative min-h-[560px] lg:min-h-[640px]">
-              <motion.div
-                className="hero-stage"
-                style={{ x: panelShiftX, y: panelShiftY }}
-              >
-                <motion.div
-                  className="robot-platform"
-                  style={{
-                    rotateY: robotRotateY,
-                    rotateX: robotRotateX,
-                    x: robotShiftX,
-                    y: robotShiftY,
-                  }}
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="robot-halo" />
-                  <div className="robot-ring robot-ring--outer" />
-                  <div className="robot-ring robot-ring--inner" />
-                  <div className="robot-figure">
-                    <div className="robot-head">
-                      <div className="robot-cranium" />
-                      <div className="robot-faceplate" />
-                      <div className="robot-eye" />
-                      <div className="robot-ear" />
-                    </div>
-                    <div className="robot-neck" />
-                    <div className="robot-shoulders">
-                      <div className="robot-shoulder robot-shoulder--left" />
-                      <div className="robot-torso">
-                        <div className="robot-core" />
-                        <div className="robot-circuit robot-circuit--left" />
-                        <div className="robot-circuit robot-circuit--right" />
-                      </div>
-                      <div className="robot-shoulder robot-shoulder--right" />
-                    </div>
-                  </div>
-                </motion.div>
+            <div className="hero-visual-column">
+              <div className="hero-stage">
+                <div className="hero-stage__aura" aria-hidden="true" />
+                {isClient ? (
+                  <Suspense fallback={<SceneLoader label="Initializing synthetic unit" />}>
+                    <HeroScene />
+                  </Suspense>
+                ) : (
+                  <SceneLoader label="Initializing synthetic unit" />
+                )}
 
                 <FloatingWindow className="hero-window hero-window--code" label="CODE.SYS">
                   <CodeWindow />
                 </FloatingWindow>
 
-                <FloatingWindow className="hero-window hero-window--brain" label="AI MODEL">
-                  <BrainOrb />
+                <FloatingWindow className="hero-window hero-window--brain" label="NEURAL.CORE">
+                  {isClient ? (
+                    <Suspense fallback={<SceneLoader label="Mapping neurons" compact />}>
+                      <BrainScene compact />
+                    </Suspense>
+                  ) : (
+                    <SceneLoader label="Mapping neurons" compact />
+                  )}
                 </FloatingWindow>
 
                 <FloatingWindow className="hero-window hero-window--system" label="SYSTEM.INFO">
@@ -626,7 +712,7 @@ function App() {
                     </p>
                   </div>
                 </FloatingWindow>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -779,8 +865,14 @@ function App() {
                   </p>
                 </div>
               </div>
-              <div className="mt-6">
-                <BrainOrb />
+              <div className="mt-6 stack-brain-scene">
+                {isClient ? (
+                  <Suspense fallback={<SceneLoader label="Mapping neurons" />}>
+                    <BrainScene />
+                  </Suspense>
+                ) : (
+                  <SceneLoader label="Mapping neurons" />
+                )}
               </div>
               <div className="mt-6 space-y-3 text-sm text-white/68">
                 <p>
@@ -1241,8 +1333,9 @@ function FloatingWindow({ label, className, children }) {
   return (
     <motion.div
       className={cn("floating-window", className)}
-      animate={{ y: [0, -10, 0] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      animate={{ y: [0, -9, 0], rotateZ: [-0.25, 0.2, -0.25] }}
+      transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
+      whileHover={{ scale: 1.025, zIndex: 12 }}
     >
       <div className="floating-window__bar">
         <span>{label}</span>
@@ -1258,41 +1351,107 @@ function FloatingWindow({ label, className, children }) {
 }
 
 function CodeWindow() {
+  const program = liveCodeProgram.join("\n");
+  const [visibleCode, setVisibleCode] = useState("");
+  const [compileState, setCompileState] = useState("BOOTING");
+
+  useEffect(() => {
+    let index = 0;
+    let direction = 1;
+    let timer;
+
+    const run = () => {
+      index += direction;
+      setVisibleCode(program.slice(0, Math.max(0, index)));
+
+      if (index >= program.length) {
+        direction = -1;
+        setCompileState("COMPILED / 0 ERRORS");
+        timer = window.setTimeout(run, 1800);
+        return;
+      }
+
+      if (index <= 0) {
+        direction = 1;
+        setCompileState("RESTARTING");
+        timer = window.setTimeout(run, 520);
+        return;
+      }
+
+      setCompileState(direction === 1 ? "TYPING" : "PURGING CACHE");
+      timer = window.setTimeout(run, direction === 1 ? 24 : 7);
+    };
+
+    timer = window.setTimeout(run, 260);
+    return () => window.clearTimeout(timer);
+  }, [program]);
+
   return (
     <div className="code-window">
-      {codeLineWidths.map((width, index) => (
-        <span
-          key={`${width}-${index}`}
-          className={cn("code-line", width === 0 && "code-line--spacer")}
-          style={{
-            width: width ? `${width}%` : undefined,
-            animationDelay: `${index * 0.35}s`,
-          }}
-        />
-      ))}
+      <pre aria-label="Live looping code preview">
+        <code>{highlightCode(visibleCode)}</code>
+        <span className="code-caret" aria-hidden="true" />
+      </pre>
+      <div className="code-compiler font-mono">
+        <span className="code-compiler__pulse" />
+        {compileState}
+      </div>
     </div>
   );
 }
 
-function BrainOrb() {
+function highlightCode(source) {
+  const tokenPattern = /(\b(?:const|new|await|return|async)\b|'[^']*'|\b\d+\b|\/\/.*$)/gm;
+
   return (
-    <div className="brain-orb">
-      <div className="brain-orb__core" />
-      <div className="brain-orb__ring brain-orb__ring--one" />
-      <div className="brain-orb__ring brain-orb__ring--two" />
-      <div className="brain-orb__glow" />
-      {[0, 1, 2, 3, 4, 5, 6].map((particle) => (
-        <span
-          key={particle}
-          className="brain-orb__particle"
-          style={{
-            "--delay": `${particle * 0.4}s`,
-            "--x": `${Math.cos((particle / 7) * Math.PI * 2) * 72}px`,
-            "--y": `${Math.sin((particle / 7) * Math.PI * 2) * 44}px`,
-          }}
-        />
-      ))}
+    source.split(tokenPattern).map((token, index) => {
+      let className = "code-token";
+      if (/^(const|new|await|return|async)$/.test(token)) className += " code-token--keyword";
+      else if (/^'/.test(token)) className += " code-token--string";
+      else if (/^\d+$/.test(token)) className += " code-token--number";
+      else if (/^\/\//.test(token)) className += " code-token--comment";
+
+      return (
+        <span key={`${index}-${token.slice(0, 8)}`} className={className}>
+          {token}
+        </span>
+      );
+    })
+  );
+}
+
+function SceneLoader({ label, compact = false }) {
+  return (
+    <div className={cn("scene-loader", compact && "scene-loader--compact")}>
+      <span className="scene-loader__ring" />
+      <span className="font-mono">{label}</span>
     </div>
+  );
+}
+
+function CursorTrailParticle({ x, y, index }) {
+  const trailX = useSpring(x, {
+    stiffness: 420 - index * 48,
+    damping: 34 + index * 4,
+    mass: 0.18 + index * 0.04,
+  });
+  const trailY = useSpring(y, {
+    stiffness: 420 - index * 48,
+    damping: 34 + index * 4,
+    mass: 0.18 + index * 0.04,
+  });
+
+  return (
+    <motion.span
+      aria-hidden="true"
+      className="custom-cursor custom-cursor--trail"
+      style={{
+        x: trailX,
+        y: trailY,
+        opacity: 0.24 - index * 0.035,
+        scale: 1 - index * 0.11,
+      }}
+    />
   );
 }
 
@@ -1311,13 +1470,34 @@ function MetricRow({ metric }) {
 }
 
 function ProjectCard({ project, onOpen }) {
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const smoothX = useSpring(pointerX, { stiffness: 260, damping: 28, mass: 0.45 });
+  const smoothY = useSpring(pointerY, { stiffness: 260, damping: 28, mass: 0.45 });
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-4.5, 4.5]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [4.5, -4.5]);
+
+  const handlePointerMove = (event) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    pointerX.set((event.clientX - bounds.left) / bounds.width - 0.5);
+    pointerY.set((event.clientY - bounds.top) / bounds.height - 0.5);
+  };
+
+  const resetTilt = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
+
   return (
     <motion.button
       type="button"
       onClick={onOpen}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetTilt}
       whileHover={{ y: -6, scale: 1.01 }}
       transition={{ duration: 0.25 }}
       className="project-card text-left"
+      style={{ rotateX, rotateY, transformPerspective: 1200 }}
       data-cursor="hover"
     >
       <div className="flex items-center justify-between gap-3">

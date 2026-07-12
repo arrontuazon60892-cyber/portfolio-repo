@@ -19,12 +19,16 @@
 
 html {
   min-width: 320px;
+  width: 100%;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  width: 100%;
   min-height: 100vh;
+  overflow-x: clip;
   background: #04070d;
   color: #f6fbff;
 }
@@ -46,7 +50,13 @@ video {
 }
 
 #root {
+  width: 100%;
   min-height: 100vh;
+}
+
+::selection {
+  background: rgba(77, 201, 255, 0.28);
+  color: #ffffff;
 }
 
 .font-mono {

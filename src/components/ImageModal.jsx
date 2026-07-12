@@ -1,27 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, ZoomOut } from "lucide-react";
-import { cn } from "../lib/utils";
 
 export default function ImageModal({ isOpen, onClose, imageSrc, isDark }) {
     const [zoom, setZoom] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-    const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
     const imageRef = useRef(null);
     const containerRef = useRef(null);
-
-    // Load image dimensions when modal opens
-    useEffect(() => {
-        if (isOpen && imageSrc) {
-            const img = new Image();
-            img.onload = () => {
-                setImageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
-            };
-            img.src = imageSrc;
-        }
-    }, [isOpen, imageSrc]);
 
     useEffect(() => {
         if (isOpen) {

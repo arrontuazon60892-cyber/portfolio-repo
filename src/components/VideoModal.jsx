@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
-import { cn } from "../lib/utils";
 
 export default function VideoModal({ isOpen, onClose, videoSrc, isDark }) {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -12,22 +11,25 @@ export default function VideoModal({ isOpen, onClose, videoSrc, isDark }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
+        let resetTimer;
+
         if (isOpen) {
             document.body.style.overflow = "hidden";
-            // Reset video state when modal opens
             if (videoRef.current) {
                 videoRef.current.pause();
                 videoRef.current.currentTime = 0;
-                setIsPlaying(false);
             }
         } else {
             document.body.style.overflow = "unset";
             if (videoRef.current) {
                 videoRef.current.pause();
-                setIsPlaying(false);
             }
         }
+
+        resetTimer = window.setTimeout(() => setIsPlaying(false), 0);
+
         return () => {
+            window.clearTimeout(resetTimer);
             document.body.style.overflow = "unset";
         };
     }, [isOpen]);
@@ -101,10 +103,6 @@ export default function VideoModal({ isOpen, onClose, videoSrc, isDark }) {
         document.addEventListener("fullscreenchange", handleFullscreenChange);
         return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
     }, []);
-
-    const handleVideoClick = (e) => {
-        e.stopPropagation();
-    };
 
     return (
         <AnimatePresence>
