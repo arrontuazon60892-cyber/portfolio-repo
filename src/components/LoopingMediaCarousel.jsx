@@ -77,14 +77,16 @@ function VideoPreview({ item, enabled }) {
   const videoRef = useRef(null);
   const [shouldLoad, setShouldLoad] = useState(Boolean(item.poster));
   const [hasFrame, setHasFrame] = useState(false);
-  const [hovering, setHovering] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return undefined;
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setShouldLoad(true);
-      else {
+      setPreviewVisible(entry.isIntersecting);
+      if (entry.isIntersecting) {
+        setShouldLoad(true);
+      } else {
         videoRef.current?.pause();
         if (videoRef.current?.readyState) videoRef.current.currentTime = 0;
       }
@@ -95,24 +97,17 @@ function VideoPreview({ item, enabled }) {
 
   useEffect(() => {
     const video = videoRef.current;
-    const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!video || !enabled || !hovering || !supportsHover) {
+    if (!video || !enabled || !previewVisible || !shouldLoad) {
       video?.pause();
-      if (video?.readyState && !hovering) video.currentTime = 0;
       return undefined;
     }
 
     video.play().catch(() => {});
     return () => video.pause();
-  }, [enabled, hovering, shouldLoad]);
+  }, [enabled, previewVisible, shouldLoad]);
 
   return (
-    <div
-      ref={rootRef}
-      className="media-loop-card__video"
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-    >
+    <div ref={rootRef} className="media-loop-card__video">
       {item.poster && <img src={item.poster} alt="" loading="lazy" decoding="async" />}
       <video
         ref={videoRef}
@@ -120,6 +115,7 @@ function VideoPreview({ item, enabled }) {
         src={shouldLoad ? item.src : undefined}
         poster={item.poster}
         preload="metadata"
+        autoPlay
         muted
         loop
         playsInline

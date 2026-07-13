@@ -7,6 +7,7 @@ const portalIcons = {
   certificates: Award,
   gallery: GalleryHorizontal,
   "ai-video": Clapperboard,
+  "commercial-videos": Clapperboard,
 };
 
 const portals = mediaCategories.map((category) => ({

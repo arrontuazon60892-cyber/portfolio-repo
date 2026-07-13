@@ -868,7 +868,7 @@ function ShowcaseSection({ id, eyebrow, title, children }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="glass-panel showcase-section p-6 sm:p-8"
+      className="showcase-section"
     >
       <SectionHeader eyebrow={eyebrow} title={title} />
       <div className="showcase-section__content">{children}</div>

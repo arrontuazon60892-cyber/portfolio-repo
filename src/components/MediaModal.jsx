@@ -19,6 +19,7 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
     if (!isOpen) return undefined;
 
     returnFocusRef.current = document.activeElement;
+    const modalRoot = dialogRef.current;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const focusTimer = window.setTimeout(() => closeRef.current?.focus(), 0);
@@ -29,7 +30,7 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
       if (event.key === "ArrowRight") actionsRef.current.onNext?.();
 
       if (event.key === "Tab" && dialogRef.current) {
-        const controls = [...dialogRef.current.querySelectorAll("button:not(:disabled), a[href], video[controls]")];
+        const controls = [...dialogRef.current.querySelectorAll('button:not(:disabled):not([tabindex="-1"]), a[href], video[controls]')];
         if (!controls.length) return;
         const first = controls[0];
         const last = controls[controls.length - 1];
@@ -45,6 +46,13 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
 
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      const modalVideo = modalRoot?.querySelector("video[controls]");
+      if (modalVideo) {
+        modalVideo.pause();
+        if (modalVideo.readyState) modalVideo.currentTime = 0;
+        modalVideo.removeAttribute("src");
+        modalVideo.load();
+      }
       window.clearTimeout(focusTimer);
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
@@ -71,14 +79,14 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={dialogRef}
           className="media-modal"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <button className="media-modal__backdrop" type="button" onClick={onClose} aria-label="Close preview" />
+          <button className="media-modal__backdrop" type="button" tabIndex={-1} onClick={onClose} aria-label="Close preview" />
           <motion.div
-            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="media-modal-title"
@@ -90,10 +98,6 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
             onTouchStart={(event) => { touchStartRef.current = event.touches[0].clientX; }}
             onTouchEnd={finishSwipe}
           >
-            <button ref={closeRef} type="button" className="media-modal__close" onClick={onClose} aria-label="Close preview">
-              <X size={20} />
-            </button>
-
             {onPrevious && (
               <button type="button" className="media-modal__nav media-modal__nav--previous" onClick={onPrevious} aria-label="Previous item">
                 <ChevronLeft size={22} />
@@ -137,6 +141,9 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
               )}
             </aside>
           </motion.div>
+          <button ref={closeRef} type="button" className="media-modal__close" onClick={onClose} aria-label="Close preview">
+            <X size={24} />
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

@@ -1,8 +1,7 @@
 import realityPoster from "../assets/graphic_design/404 REALITY NOT FOUND.png";
+import burgerPoster from "../assets/graphic_design/burger.png";
 import coffeePoster from "../assets/graphic_design/COFFEE.png";
 import coloringCover from "../assets/graphic_design/Colorful Coloring Book Cover A4 Document.png";
-import freshVideo from "../assets/graphic_design/FRESH (2).mp4";
-import lemonVideo from "../assets/graphic_design/lemon slideeeeeeee.mp4";
 import seolinahPoster from "../assets/graphic_design/seolinah.png";
 
 import mrs0 from "../assets/projects_school/mrs.png";
@@ -13,7 +12,6 @@ import booth0 from "../assets/projects_school/photoobooth.png";
 import booth1 from "../assets/projects_school/photobooth1.png";
 import booth2 from "../assets/projects_school/photobooth2.png";
 
-import gallery0 from "../assets/gallary/burger.png";
 import gallery1 from "../assets/gallary/gallary.webp";
 import gallery2 from "../assets/gallary/gallary1.webp";
 import gallery3 from "../assets/gallary/gallary2.webp";
@@ -28,14 +26,15 @@ import cert5 from "../assets/certicate/Transforming industries Through Technolog
 
 import octopusVideo from "../assets/ai_video/octopus.mp4";
 import penguinVideo from "../assets/ai_video/penguin.mp4";
+import freshVideo from "../assets/video_commercial/FRESH (2).mp4";
+import lemonVideo from "../assets/video_commercial/lemon slideeeeeeee.mp4";
 
 export const graphicDesignMedia = [
   { id: "reality", folder: "graphic_design", title: "404 Reality Not Found", type: "image", src: realityPoster, category: "Concept Poster", tools: ["Canva"] },
+  { id: "burger", folder: "graphic_design", type: "image", title: "Burger Promotional Poster", src: burgerPoster, category: "Campaign Visual", tools: ["Canva"] },
   { id: "coffee", folder: "graphic_design", title: "Coffee Promotional Poster", type: "image", src: coffeePoster, category: "Campaign Visual", tools: ["Canva"] },
   { id: "coloring", folder: "graphic_design", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design", tools: ["Canva"] },
   { id: "seolinah", folder: "graphic_design", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design", tools: ["Canva"] },
-  { id: "fresh", folder: "graphic_design", title: "Fresh Promotional Motion", type: "video", src: freshVideo, category: "Motion Design", tools: ["CapCut"] },
-  { id: "lemon", folder: "graphic_design", title: "Lemon Slide Promotional Motion", type: "video", src: lemonVideo, category: "Video Editing", tools: ["CapCut"] },
 ];
 
 export const schoolProjectsMedia = [
@@ -83,7 +82,6 @@ export const certificateMedia = [
 ];
 
 export const galleryMedia = [
-  { id: "burger", folder: "gallary", type: "image", title: "Burger Campaign Archive", src: gallery0, category: "Creative Archive" },
   { id: "campus", folder: "gallary", type: "image", title: "Campus Team", src: gallery1, category: "Visual Archive" },
   { id: "presentation", folder: "gallary", type: "image", title: "Project Presentation", src: gallery2, category: "Visual Archive" },
   { id: "development-team", folder: "gallary", type: "image", title: "Development Team", src: gallery3, category: "Visual Archive" },
@@ -95,12 +93,18 @@ export const aiVideoMedia = [
   { id: "penguin", folder: "ai_video", type: "video", title: "AI Penguin", src: penguinVideo, category: "AI Video Creation", tools: ["AI Video"] },
 ];
 
+export const commercialVideoMedia = [
+  { id: "fresh-commercial", folder: "video_commercial", type: "video", title: "Fresh Commercial", src: freshVideo, category: "Commercial Video", tools: ["CapCut"] },
+  { id: "lemon-commercial", folder: "video_commercial", type: "video", title: "Lemon Commercial", src: lemonVideo, category: "Commercial Video", tools: ["CapCut"] },
+];
+
 export const mediaCategories = [
   { id: "graphic-design", folder: "graphic_design", title: "Graphic Design", direction: "right", variant: "creative", items: graphicDesignMedia },
   { id: "school-projects", folder: "projects_school", title: "School Projects", direction: "left", variant: "systems", items: schoolProjectSlides },
   { id: "certificates", folder: "certicate", title: "Certificates", direction: "right", variant: "certificates", items: certificateMedia },
   { id: "gallery", folder: "gallary", title: "Gallery", direction: "left", variant: "gallery", items: galleryMedia },
   { id: "ai-video", folder: "ai_video", title: "AI Video Creations", direction: "right", variant: "video", items: aiVideoMedia },
+  { id: "commercial-videos", folder: "video_commercial", title: "Commercial Videos", direction: "left", variant: "commercial", items: commercialVideoMedia },
 ];
 
 export const mediaCounts = {
@@ -109,4 +113,5 @@ export const mediaCounts = {
   certificates: certificateMedia.length,
   gallery: galleryMedia.length,
   aiVideo: aiVideoMedia.length,
+  commercialVideo: commercialVideoMedia.length,
 };
