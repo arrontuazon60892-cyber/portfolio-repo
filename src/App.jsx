@@ -4,19 +4,10 @@ import React, {
   Suspense,
   lazy,
   useEffect,
-  useRef,
   useState,
-  useSyncExternalStore,
 } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -70,18 +61,13 @@ import Certifications from "./components/Certifications";
 import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
 import PhotoGallery from "./components/PhotoGallery";
-import ChatWidget from "./components/ChatWidget";
 import ProfileAvatar from "./components/ProfileAvatar";
 import ImageModal from "./components/ImageModal";
 import VideoModal from "./components/VideoModal";
 import { schoolProjects } from "./data/projects";
 import { cn } from "./lib/utils";
 
-const HeroScene = lazy(() => import("./components/three/HeroScene"));
-const BrainScene = lazy(() => import("./components/three/BrainScene"));
-const AtmosphereScene = lazy(() => import("./components/three/AtmosphereScene"));
-
-const subscribeToClient = () => () => {};
+const ChatWidget = lazy(() => import("./components/ChatWidget"));
 
 const navItems = [
   { label: "Home", id: "home" },
@@ -178,32 +164,7 @@ const timeline = [
   },
 ];
 
-const floatingNodes = [
-  { top: "11%", left: "8%", size: 10, delay: 0 },
-  { top: "20%", left: "28%", size: 6, delay: 0.8 },
-  { top: "18%", left: "78%", size: 8, delay: 1.4 },
-  { top: "30%", left: "54%", size: 9, delay: 0.3 },
-  { top: "46%", left: "16%", size: 7, delay: 1.2 },
-  { top: "55%", left: "83%", size: 11, delay: 0.5 },
-  { top: "66%", left: "37%", size: 7, delay: 1.8 },
-  { top: "78%", left: "12%", size: 9, delay: 0.2 },
-  { top: "82%", left: "66%", size: 8, delay: 1.1 },
-  { top: "72%", left: "90%", size: 6, delay: 0.7 },
-];
-
-const liveCodeProgram = [
-  "const arron = new Developer({",
-  "  focus: ['web', 'data', 'AI'],",
-  "  stack: ['React', 'Java', 'MySQL'],",
-  "  mindset: 'build with purpose'",
-  "});",
-  "",
-  "await arron.learn();",
-  "await arron.ship({ quality: 100 });",
-];
-
 function App() {
-  const appRef = useRef(null);
   const [theme, setTheme] = useState("dark");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeProjectKey, setActiveProjectKey] = useState(null);
@@ -216,126 +177,31 @@ function App() {
     message: "",
   });
   const [contactSent, setContactSent] = useState(false);
-  const [cursorHover, setCursorHover] = useState(false);
-  const [cursorEnabled, setCursorEnabled] = useState(false);
-  const isClient = useSyncExternalStore(subscribeToClient, () => true, () => false);
+  const [showChat, setShowChat] = useState(false);
 
   const isDark = true;
   const activeProject = schoolProjects.find(
     (project) => project.key === activeProjectKey
   );
 
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const ringX = useSpring(cursorX, { stiffness: 650, damping: 42, mass: 0.2 });
-  const ringY = useSpring(cursorY, { stiffness: 650, damping: 42, mass: 0.2 });
-  const dotX = useSpring(cursorX, { stiffness: 900, damping: 48, mass: 0.08 });
-  const dotY = useSpring(cursorY, { stiffness: 900, damping: 48, mass: 0.08 });
-
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const lenis = new Lenis({
-      duration: 1.05,
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.1,
-    });
-    const updateScroll = () => ScrollTrigger.update();
-    const tick = (time) => lenis.raf(time * 1000);
-
-    lenis.on("scroll", updateScroll);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-
-    const context = gsap.context(() => {
-      gsap.to(".scene-aurora--left", {
-        yPercent: -24,
-        xPercent: 7,
-        ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 1.4 },
-      });
-      gsap.to(".scene-aurora--right", {
-        yPercent: 28,
-        xPercent: -8,
-        ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 1.8 },
-      });
-      gsap.to(".scene-rings", {
-        rotation: 36,
-        yPercent: -42,
-        ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 2 },
-      });
-    }, appRef);
+    const loadChat = () => setShowChat(true);
+    const idleId = window.requestIdleCallback?.(loadChat, { timeout: 3000 });
+    const timeoutId = idleId === undefined ? window.setTimeout(loadChat, 2200) : undefined;
 
     return () => {
-      context.revert();
-      lenis.off("scroll", updateScroll);
-      lenis.destroy();
-      gsap.ticker.remove(tick);
+      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return undefined;
-    }
-
-    const hoverSelector = "a, button, input, textarea, [data-cursor='hover']";
-    const mediaQuery = window.matchMedia("(pointer: coarse)");
-
-    const syncCursorMode = (event) => {
-      const enabled = !event.matches;
-      setCursorEnabled(enabled);
-      document.body.classList.toggle("has-custom-cursor", enabled);
-    };
-
-    const setHoverState = (target) => {
-      if (!(target instanceof Element)) {
-        setCursorHover(false);
-        return;
-      }
-      setCursorHover(Boolean(target.closest(hoverSelector)));
-    };
-
-    const handleMove = (event) => {
-      const x = event.clientX;
-      const y = event.clientY;
-
-      cursorX.set(x);
-      cursorY.set(y);
-      setHoverState(event.target);
-    };
-
-    const handleOver = (event) => {
-      setHoverState(event.target);
-    };
-
-    const handleLeave = () => {
-      cursorX.set(-100);
-      cursorY.set(-100);
-      setCursorHover(false);
-    };
-
-    syncCursorMode(mediaQuery);
-    mediaQuery.addEventListener("change", syncCursorMode);
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("mouseover", handleOver);
-      window.addEventListener("blur", handleLeave);
-
-    return () => {
-      mediaQuery.removeEventListener("change", syncCursorMode);
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("mouseover", handleOver);
-      window.removeEventListener("blur", handleLeave);
-      document.body.classList.remove("has-custom-cursor");
-    };
-  }, [cursorX, cursorY]);
-
   const scrollToSection = (id) => {
     setMobileNavOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById(id)?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
   };
 
   const copyEmail = async () => {
@@ -374,67 +240,16 @@ function App() {
 
   return (
     <div
-      ref={appRef}
       className={cn(
         "app-shell min-h-screen",
         theme === "dark-alt" ? "theme-dark-alt" : "theme-dark"
       )}
     >
-      {cursorEnabled && (
-        <>
-          {[0, 1, 2, 3, 4].map((index) => (
-            <CursorTrailParticle key={index} x={cursorX} y={cursorY} index={index} />
-          ))}
-          <motion.div
-            aria-hidden="true"
-            className={cn("custom-cursor custom-cursor--ring", cursorHover && "is-hovering")}
-            style={{ x: ringX, y: ringY }}
-          />
-          <motion.div
-            aria-hidden="true"
-            className="custom-cursor custom-cursor--dot"
-            style={{ x: dotX, y: dotY }}
-          />
-        </>
-      )}
-
       <div className="scene-root" aria-hidden="true">
-        {isClient && (
-          <Suspense fallback={null}>
-            <AtmosphereScene />
-          </Suspense>
-        )}
         <div className="scene-aurora scene-aurora--left" />
         <div className="scene-aurora scene-aurora--right" />
         <div className="scene-grid" />
-        <div className="scene-rings" />
         <div className="scene-vignette" />
-        {floatingNodes.map((node) => (
-          <motion.span
-            key={`${node.top}-${node.left}`}
-            className="ambient-node"
-            style={{
-              top: node.top,
-              left: node.left,
-              width: node.size,
-              height: node.size,
-            }}
-            animate={{ opacity: [0.28, 0.92, 0.28], scale: [1, 1.5, 1] }}
-            transition={{
-              duration: 4.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: node.delay,
-            }}
-          />
-        ))}
-        {[18, 39, 62, 79].map((position, index) => (
-          <span
-            key={position}
-            className="data-beam"
-            style={{ left: `${position}%`, animationDelay: `${index * 2.4}s` }}
-          />
-        ))}
       </div>
 
       <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6 lg:px-8">
@@ -529,21 +344,19 @@ function App() {
           id="home"
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, ease: [0.2, 0.8, 0.2, 1] }}
-          className="hero-shell glass-panel overflow-hidden px-6 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-14"
+          transition={{ duration: 0.58, ease: [0.2, 0.8, 0.2, 1] }}
+          className="hero-shell glass-panel overflow-hidden"
         >
           <div className="hero-background-lines" />
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-            <div className="relative z-10 max-w-2xl">
+          <div className="hero-layout">
+            <div className="hero-content">
               <span className="section-kicker">
                 <span className="kicker-dot" />
-                Software Developer
+                Hello, I&apos;m Arron
               </span>
 
-              <div className="mt-6 max-w-xl">
-                <h1 className="hero-title">
-                  Hello, I&apos;m <span className="text-gradient">Arron Tuazon</span>
-                </h1>
+              <div className="mt-5 max-w-xl">
+                <h1 className="hero-title text-gradient">Tuazon</h1>
                 <p className="hero-subtitle">AI-powered Full Stack Developer</p>
                 <p className="hero-copy mt-4">
                   Building intelligent digital experiences with modern technologies.
@@ -605,73 +418,43 @@ function App() {
                 </button>
               </div>
 
-              <div className="mt-10 grid gap-3 sm:grid-cols-3">
-                <MiniSignalCard
-                  icon={Cpu}
-                  title="Live Systems"
-                  description="Frontend, backend, and interface craft moving in sync."
-                />
-                <MiniSignalCard
-                  icon={ShieldCheck}
-                  title="Reliable Builds"
-                  description="Responsive layouts, accessible flows, and clear hierarchy."
-                />
-                <MiniSignalCard
-                  icon={Sparkles}
-                  title="Creative Edge"
-                  description="Design, motion, and storytelling layered into the work."
-                />
-              </div>
             </div>
 
             <div className="hero-visual-column">
-              <div className="hero-stage">
-                <div className="hero-stage__aura" aria-hidden="true" />
-                {isClient ? (
-                  <Suspense fallback={<SceneLoader label="Initializing synthetic unit" />}>
-                    <HeroScene />
-                  </Suspense>
-                ) : (
-                  <SceneLoader label="Initializing synthetic unit" />
-                )}
+              <div className="hero-media">
+                <Image
+                  src="/images/ai-human-hero.webp"
+                  alt="A luminous digital AI face meeting a human developer face to face"
+                  fill
+                  priority
+                  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 92vw, 62vw"
+                  className="hero-media__image"
+                />
+                <div className="hero-media__shade" aria-hidden="true" />
+                <span className="hero-eye hero-eye--ai" aria-hidden="true" />
+                <span className="hero-eye hero-eye--human" aria-hidden="true" />
 
-                <FloatingWindow className="hero-window hero-window--code" label="CODE.SYS">
-                  <CodeWindow />
-                </FloatingWindow>
+                <div className="hero-hud hero-hud--code" aria-hidden="true">
+                  <span>CODE.SYS</span>
+                  <code>import future<br />import AI<br />return build()</code>
+                </div>
 
-                <FloatingWindow className="hero-window hero-window--brain" label="NEURAL.CORE">
-                  {isClient ? (
-                    <Suspense fallback={<SceneLoader label="Mapping neurons" compact />}>
-                      <BrainScene compact />
-                    </Suspense>
-                  ) : (
-                    <SceneLoader label="Mapping neurons" compact />
-                  )}
-                </FloatingWindow>
+                <div className="hero-hud hero-hud--neural" aria-hidden="true">
+                  <span>NEURAL.CORE</span>
+                  <div className="neural-glyph"><i /><i /><i /><i /><i /></div>
+                </div>
 
-                <FloatingWindow className="hero-window hero-window--system" label="SYSTEM.INFO">
-                  <div className="space-y-3">
+                <div className="hero-hud hero-hud--system">
+                  <span className="hero-hud__label">SYSTEM.STATUS</span>
+                  <div className="hero-metrics">
                     {systemMetrics.map((metric) => (
                       <MetricRow key={metric.label} metric={metric} />
                     ))}
-                    <p className="pt-1 text-xs uppercase tracking-[0.24em] text-emerald-300/90">
-                      Status: Running
-                    </p>
                   </div>
-                </FloatingWindow>
+                  <p className="hero-status">Status: Running</p>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="mt-10 flex justify-center">
-            <button
-              type="button"
-              onClick={() => scrollToSection("about")}
-              className="scroll-chip"
-              data-cursor="hover"
-            >
-              Scroll to explore
-            </button>
           </div>
         </motion.section>
 
@@ -816,27 +599,20 @@ function App() {
                 <div className="icon-pill">
                   <Orbit size={18} />
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">Holographic AI Brain</p>
+              <div>
+                  <p className="text-sm font-semibold text-white">Neural Systems Map</p>
                   <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                    Continuous motion layer
+                    Lightweight signal layer
                   </p>
                 </div>
               </div>
               <div className="mt-6 stack-brain-scene">
-                {isClient ? (
-                  <Suspense fallback={<SceneLoader label="Mapping neurons" />}>
-                    <BrainScene />
-                  </Suspense>
-                ) : (
-                  <SceneLoader label="Mapping neurons" />
-                )}
+                <NeuralCoreGraphic />
               </div>
               <div className="mt-6 space-y-3 text-sm text-white/68">
                 <p>
-                  The background brain, floating code, and signal windows give the
-                  interface an AI-first identity without removing any of the original
-                  portfolio information.
+                  A focused neural signal visual keeps the AI-first identity without
+                  requiring a continuous 3D render loop.
                 </p>
                 <p>
                   This keeps the work professional, minimal, and premium instead of
@@ -1113,7 +889,11 @@ function App() {
         </footer>
       </main>
 
-      <ChatWidget isDark={isDark} />
+      {showChat && (
+        <Suspense fallback={null}>
+          <ChatWidget isDark={isDark} />
+        </Suspense>
+      )}
 
       <ImageModal
         isOpen={Boolean(selectedImage)}
@@ -1190,20 +970,6 @@ function SectionHeader({ eyebrow, title, description }) {
   );
 }
 
-function MiniSignalCard({ icon: Icon, title, description }) {
-  return (
-    <div className="mini-signal-card">
-      <div className="icon-pill">
-        <Icon size={16} />
-      </div>
-      <div className="mt-4">
-        <p className="text-sm font-semibold text-white">{title}</p>
-        <p className="mt-2 text-sm leading-6 text-white/56">{description}</p>
-      </div>
-    </div>
-  );
-}
-
 function InfoPanel({ icon: Icon, title, description }) {
   return (
     <div className="info-panel">
@@ -1220,129 +986,17 @@ function InfoPanel({ icon: Icon, title, description }) {
   );
 }
 
-function FloatingWindow({ label, className, children }) {
+function NeuralCoreGraphic() {
   return (
-    <motion.div
-      className={cn("floating-window", className)}
-      animate={{ y: [0, -9, 0], rotateZ: [-0.25, 0.2, -0.25] }}
-      transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-      whileHover={{ scale: 1.025, zIndex: 12 }}
-    >
-      <div className="floating-window__bar">
-        <span>{label}</span>
-        <div className="flex gap-1.5">
-          <span className="window-dot" />
-          <span className="window-dot" />
-          <span className="window-dot" />
-        </div>
-      </div>
-      {children}
-    </motion.div>
-  );
-}
-
-function CodeWindow() {
-  const program = liveCodeProgram.join("\n");
-  const [visibleCode, setVisibleCode] = useState("");
-  const [compileState, setCompileState] = useState("BOOTING");
-
-  useEffect(() => {
-    let index = 0;
-    let direction = 1;
-    let timer;
-
-    const run = () => {
-      index += direction;
-      setVisibleCode(program.slice(0, Math.max(0, index)));
-
-      if (index >= program.length) {
-        direction = -1;
-        setCompileState("COMPILED / 0 ERRORS");
-        timer = window.setTimeout(run, 1800);
-        return;
-      }
-
-      if (index <= 0) {
-        direction = 1;
-        setCompileState("RESTARTING");
-        timer = window.setTimeout(run, 520);
-        return;
-      }
-
-      setCompileState(direction === 1 ? "TYPING" : "PURGING CACHE");
-      timer = window.setTimeout(run, direction === 1 ? 24 : 7);
-    };
-
-    timer = window.setTimeout(run, 260);
-    return () => window.clearTimeout(timer);
-  }, [program]);
-
-  return (
-    <div className="code-window">
-      <pre aria-label="Live looping code preview">
-        <code>{highlightCode(visibleCode)}</code>
-        <span className="code-caret" aria-hidden="true" />
-      </pre>
-      <div className="code-compiler font-mono">
-        <span className="code-compiler__pulse" />
-        {compileState}
-      </div>
+    <div className="neural-core-graphic" aria-hidden="true">
+      <div className="neural-core-graphic__orb" />
+      {[0, 1, 2].map((ring) => (
+        <span key={ring} className={`neural-core-graphic__ring neural-core-graphic__ring--${ring + 1}`} />
+      ))}
+      {[0, 1, 2, 3, 4, 5].map((node) => (
+        <i key={node} className={`neural-core-graphic__node neural-core-graphic__node--${node + 1}`} />
+      ))}
     </div>
-  );
-}
-
-function highlightCode(source) {
-  const tokenPattern = /(\b(?:const|new|await|return|async)\b|'[^']*'|\b\d+\b|\/\/.*$)/gm;
-
-  return (
-    source.split(tokenPattern).map((token, index) => {
-      let className = "code-token";
-      if (/^(const|new|await|return|async)$/.test(token)) className += " code-token--keyword";
-      else if (/^'/.test(token)) className += " code-token--string";
-      else if (/^\d+$/.test(token)) className += " code-token--number";
-      else if (/^\/\//.test(token)) className += " code-token--comment";
-
-      return (
-        <span key={`${index}-${token.slice(0, 8)}`} className={className}>
-          {token}
-        </span>
-      );
-    })
-  );
-}
-
-function SceneLoader({ label, compact = false }) {
-  return (
-    <div className={cn("scene-loader", compact && "scene-loader--compact")}>
-      <span className="scene-loader__ring" />
-      <span className="font-mono">{label}</span>
-    </div>
-  );
-}
-
-function CursorTrailParticle({ x, y, index }) {
-  const trailX = useSpring(x, {
-    stiffness: 420 - index * 48,
-    damping: 34 + index * 4,
-    mass: 0.18 + index * 0.04,
-  });
-  const trailY = useSpring(y, {
-    stiffness: 420 - index * 48,
-    damping: 34 + index * 4,
-    mass: 0.18 + index * 0.04,
-  });
-
-  return (
-    <motion.span
-      aria-hidden="true"
-      className="custom-cursor custom-cursor--trail"
-      style={{
-        x: trailX,
-        y: trailY,
-        opacity: 0.24 - index * 0.035,
-        scale: 1 - index * 0.11,
-      }}
-    />
   );
 }
 

@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import profileLight from "../assets/profile.jpg";
 import profileDark from "../assets/profile-hover.jpg";
-import { cn } from "../lib/utils";
 
 const transition = {
   duration: 0.68,
@@ -10,13 +8,6 @@ const transition = {
 };
 
 export default function ProfileAvatar({ isDark }) {
-  useEffect(() => {
-    [profileLight, profileDark].forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
-
   return (
     <motion.div
       key={isDark ? "dark-avatar" : "light-avatar"}
@@ -43,34 +34,14 @@ export default function ProfileAvatar({ isDark }) {
       />
 
       <div className="relative h-40 w-40 overflow-hidden rounded-[1.65rem] sm:h-48 sm:w-48">
-        <div
-          className={cn(
-            "absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-            isDark ? "opacity-0 blur-sm scale-[1.015]" : "opacity-100 blur-0 scale-100"
-          )}
-        >
-          <img
-            src={profileLight}
-            alt="Arron Tuazon portrait in light theme"
-            className="h-full w-full object-cover"
-            draggable="false"
-          />
-        </div>
-
-        <div
-          className={cn(
-            "absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-            isDark ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-sm scale-[1.015]"
-          )}
-        >
+        <div className="absolute inset-0">
           <img
             src={profileDark}
-            alt="Arron Tuazon portrait in dark theme"
-            className={cn(
-              "h-full w-full object-cover transition-[filter] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-              isDark ? "brightness-[1.03] contrast-[1.04]" : "brightness-100"
-            )}
+            alt="Arron Tuazon portrait"
+            className="h-full w-full object-cover brightness-[1.03] contrast-[1.04]"
             draggable="false"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

@@ -57,7 +57,7 @@ export default function Gallery({ onOpenProject, onOpenImage, onOpenVideo }) {
                     poster={project.poster}
                     muted
                     playsInline
-                    preload="metadata"
+                    preload="none"
                     aria-label={`${project.title} video preview`}
                   />
                 ) : project.thumbnail ? (
