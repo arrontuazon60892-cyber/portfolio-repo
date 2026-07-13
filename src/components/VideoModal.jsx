@@ -161,17 +161,6 @@ export default function VideoModal({ isOpen, onClose, videoSrc, poster, title = 
                                 <source src={videoSrc} type="video/mp4" />
                             </video>
 
-                            {/* Play/Pause Overlay */}
-                            {!isPlaying && (
-                                <div 
-                                    className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                                    onClick={togglePlay}
-                                >
-                                    <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center hover:scale-110 transition-transform">
-                                        <Play className="w-10 h-10 ml-1 text-black" fill="currentColor" />
-                                    </div>
-                                </div>
-                            )}
                         </div>
 
                         {/* Video Controls */}

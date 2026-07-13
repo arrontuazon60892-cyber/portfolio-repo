@@ -101,6 +101,8 @@ function VideoPreview({ item, enabled }) {
       return undefined;
     }
 
+    video.muted = true;
+    video.defaultMuted = true;
     video.play().catch(() => {});
     return () => video.pause();
   }, [enabled, previewVisible, shouldLoad]);
@@ -122,6 +124,8 @@ function VideoPreview({ item, enabled }) {
         aria-hidden="true"
         onLoadedData={(event) => {
           setHasFrame(true);
+          event.currentTarget.muted = true;
+          event.currentTarget.defaultMuted = true;
           if (enabled && previewVisible && !document.hidden) {
             event.currentTarget.play().catch(() => {});
           } else {
