@@ -1,13 +1,20 @@
-import { Award, Code2, GalleryHorizontal, GraduationCap, Palette, Radio } from "lucide-react";
-import { mediaCounts } from "../data/mediaManifest";
+import { Award, Clapperboard, GalleryHorizontal, GraduationCap, Palette, Radio } from "lucide-react";
+import { mediaCategories } from "../data/mediaManifest";
 
-const portals = [
-  { href: "#projects", label: "Development Projects", count: 4, icon: Code2 },
-  { href: "#graphic-design", label: "Graphic Design", count: mediaCounts.graphicDesign, icon: Palette },
-  { href: "#school-projects", label: "School Projects", count: mediaCounts.schoolProjectAssets, icon: GraduationCap },
-  { href: "#certificates", label: "Certificates", count: mediaCounts.certificates, icon: Award },
-  { href: "#gallery", label: "Gallery", count: mediaCounts.gallery, icon: GalleryHorizontal },
-];
+const portalIcons = {
+  "graphic-design": Palette,
+  "school-projects": GraduationCap,
+  certificates: Award,
+  gallery: GalleryHorizontal,
+  "ai-video": Clapperboard,
+};
+
+const portals = mediaCategories.map((category) => ({
+  href: `#${category.id}`,
+  label: category.title,
+  count: category.items.length,
+  icon: portalIcons[category.id],
+}));
 
 export default function ExploreWork() {
   return (

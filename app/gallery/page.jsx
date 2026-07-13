@@ -1,5 +1,5 @@
 import WorkPageShell from "../../src/components/WorkPageShell";
-import VisualArchive from "../../src/components/VisualArchive";
+import LoopingMediaCarousel from "../../src/components/LoopingMediaCarousel";
 import { galleryMedia } from "../../src/data/mediaManifest";
 
 export const metadata = { title: "Gallery | Arron Tuazon" };
@@ -12,7 +12,7 @@ export default function GalleryPage() {
       description="A cinematic archive of development milestones, teams, and selected visual moments."
       count={galleryMedia.length}
     >
-      <VisualArchive items={galleryMedia} />
+      <LoopingMediaCarousel items={galleryMedia} direction="left" variant="gallery" />
     </WorkPageShell>
   );
 }

@@ -46,7 +46,11 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
                 return (
                   <button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} aria-label={cycle ? undefined : `Open ${item.title}`} className="media-loop-card" onClick={(event) => open(index, event.currentTarget)}>
                     <div className="media-loop-card__media">
-                      {item.type === "video" ? <div className="media-loop-card__video">{item.poster && <img src={item.poster} alt="" loading="lazy" decoding="async" />}<span><Video size={38} /><Play size={18} fill="currentColor" /></span></div> : <img src={image} alt="" loading="lazy" decoding="async" />}
+                      {item.type === "video" ? (
+                        <VideoPreview item={item} enabled={!selected && visible && tabVisible} />
+                      ) : (
+                        <img src={image} alt="" loading="lazy" decoding="async" />
+                      )}
                       <span className="media-loop-card__scan" />
                     </div>
                   </button>
@@ -64,6 +68,66 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
         onPrevious={() => move(-1)}
         onNext={() => move(1)}
       />
+    </div>
+  );
+}
+
+function VideoPreview({ item, enabled }) {
+  const rootRef = useRef(null);
+  const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(Boolean(item.poster));
+  const [hasFrame, setHasFrame] = useState(false);
+  const [hovering, setHovering] = useState(false);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setShouldLoad(true);
+      else {
+        videoRef.current?.pause();
+        if (videoRef.current?.readyState) videoRef.current.currentTime = 0;
+      }
+    }, { rootMargin: "160px", threshold: 0.01 });
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!video || !enabled || !hovering || !supportsHover) {
+      video?.pause();
+      if (video?.readyState && !hovering) video.currentTime = 0;
+      return undefined;
+    }
+
+    video.play().catch(() => {});
+    return () => video.pause();
+  }, [enabled, hovering, shouldLoad]);
+
+  return (
+    <div
+      ref={rootRef}
+      className="media-loop-card__video"
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    >
+      {item.poster && <img src={item.poster} alt="" loading="lazy" decoding="async" />}
+      <video
+        ref={videoRef}
+        className={hasFrame ? "is-ready" : undefined}
+        src={shouldLoad ? item.src : undefined}
+        poster={item.poster}
+        preload="metadata"
+        muted
+        loop
+        playsInline
+        tabIndex={-1}
+        aria-hidden="true"
+        onLoadedData={() => setHasFrame(true)}
+      />
+      <span aria-hidden="true"><Video size={38} /><Play size={18} fill="currentColor" /></span>
     </div>
   );
 }

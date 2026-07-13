@@ -58,22 +58,12 @@ import {
   SiVite,
 } from "react-icons/si";
 import SocialLinks from "./components/SocialLinks";
-import Gallery from "./components/Gallery";
-import CertificateVault from "./components/CertificateVault";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
-import MediaModal from "./components/MediaModal";
 import ProfileAvatar from "./components/ProfileAvatar";
 import HeroVisual from "./components/HeroVisual";
 import NeuralSystemsMap from "./components/NeuralSystemsMap";
 import ExploreWork from "./components/ExploreWork";
-import VisualArchive from "./components/VisualArchive";
-import {
-  certificateMedia,
-  galleryMedia,
-  graphicDesignMedia,
-  schoolProjectSlides,
-} from "./data/mediaManifest";
-import { schoolProjects } from "./data/projects";
+import { mediaCategories } from "./data/mediaManifest";
 import { cn } from "./lib/utils";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
@@ -81,7 +71,7 @@ const ChatWidget = lazy(() => import("./components/ChatWidget"));
 const navItems = [
   { label: "Home", id: "home" },
   { label: "About", id: "about" },
-  { label: "Projects", id: "projects" },
+  { label: "Projects", id: "school-projects" },
   { label: "Skills", id: "skills" },
   { label: "Work", id: "explore" },
   { label: "Experience", id: "experience" },
@@ -196,7 +186,6 @@ const timeline = [
 function App() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [activeProjectKey, setActiveProjectKey] = useState(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const [contactFields, setContactFields] = useState({
     name: "",
@@ -205,15 +194,6 @@ function App() {
   });
   const [contactSent, setContactSent] = useState(false);
   const [showChat, setShowChat] = useState(false);
-
-  const activeProject = schoolProjects.find(
-    (project) => project.key === activeProjectKey
-  );
-  const moveActiveProject = (delta) => {
-    const currentIndex = schoolProjects.findIndex((project) => project.key === activeProjectKey);
-    const nextIndex = (currentIndex + delta + schoolProjects.length) % schoolProjects.length;
-    setActiveProjectKey(schoolProjects[nextIndex].key);
-  };
 
   useEffect(() => {
     const loadChat = () => setShowChat(true);
@@ -424,7 +404,7 @@ function App() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <button
                   type="button"
-                  onClick={() => scrollToSection("projects")}
+                  onClick={() => scrollToSection("school-projects")}
                   className="cta-primary"
                   data-cursor="hover"
                 >
@@ -433,7 +413,7 @@ function App() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => scrollToSection("projects")}
+                  onClick={() => scrollToSection("school-projects")}
                   className="cta-secondary"
                   data-cursor="hover"
                 >
@@ -642,41 +622,20 @@ function App() {
           <ExploreWork />
         </motion.div>
 
-        <motion.section
-          id="projects"
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="glass-panel p-6 sm:p-8"
-        >
-          <SectionHeader
-            eyebrow="Development Projects"
-            title="Development Projects"
-          />
-          <Gallery
-            onOpenProject={(project) => setActiveProjectKey(project.key)}
-            onOpenImage={() => {}}
-            onOpenVideo={() => {}}
-            isModalOpen={Boolean(activeProject)}
-          />
-        </motion.section>
-
-        <ShowcaseSection id="graphic-design" eyebrow="Creative Visuals" title="Graphic Design">
-          <LoopingMediaCarousel items={graphicDesignMedia} direction="left" variant="creative" />
-        </ShowcaseSection>
-
-        <ShowcaseSection id="school-projects" eyebrow="Academic Systems" title="School Projects">
-          <LoopingMediaCarousel items={schoolProjectSlides} direction="right" variant="systems" />
-        </ShowcaseSection>
-
-        <ShowcaseSection id="certificates" eyebrow="Verified Credentials" title="Certificates">
-          <CertificateVault items={certificateMedia} />
-        </ShowcaseSection>
-
-        <ShowcaseSection id="gallery" eyebrow="Visual Archive" title="Gallery">
-          <VisualArchive items={galleryMedia} />
-        </ShowcaseSection>
+        {mediaCategories.map((category) => (
+          <ShowcaseSection
+            key={category.folder}
+            id={category.id}
+            eyebrow={`${category.folder} · ${String(category.items.length).padStart(2, "0")} media files`}
+            title={category.title}
+          >
+            <LoopingMediaCarousel
+              items={category.items}
+              direction={category.direction}
+              variant={category.variant}
+            />
+          </ShowcaseSection>
+        ))}
 
         <div className="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
           <motion.section
@@ -882,13 +841,6 @@ function App() {
         </Suspense>
       )}
 
-      <MediaModal
-        isOpen={Boolean(activeProject)}
-        item={activeProject}
-        onClose={() => setActiveProjectKey(null)}
-        onPrevious={() => moveActiveProject(-1)}
-        onNext={() => moveActiveProject(1)}
-      />
     </div>
   );
 }

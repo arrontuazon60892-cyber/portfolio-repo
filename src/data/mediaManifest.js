@@ -26,13 +26,16 @@ import cert3 from "../assets/certicate/Chatbot using Natural Language Processing
 import cert4 from "../assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg";
 import cert5 from "../assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg";
 
+import octopusVideo from "../assets/ai_video/octopus.mp4";
+import penguinVideo from "../assets/ai_video/penguin.mp4";
+
 export const graphicDesignMedia = [
-  { id: "reality", title: "404 Reality Not Found", type: "image", src: realityPoster, category: "Concept Poster", tools: ["Canva"] },
-  { id: "coffee", title: "Coffee Promotional Poster", type: "image", src: coffeePoster, category: "Campaign Visual", tools: ["Canva"] },
-  { id: "coloring", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design", tools: ["Canva"] },
-  { id: "seolinah", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design", tools: ["Canva"] },
-  { id: "fresh", title: "Fresh Promotional Motion", type: "video", src: freshVideo, poster: seolinahPoster, category: "Motion Design", tools: ["CapCut"] },
-  { id: "lemon", title: "Lemon Slide Promotional Motion", type: "video", src: lemonVideo, poster: coffeePoster, category: "Video Editing", tools: ["CapCut"] },
+  { id: "reality", folder: "graphic_design", title: "404 Reality Not Found", type: "image", src: realityPoster, category: "Concept Poster", tools: ["Canva"] },
+  { id: "coffee", folder: "graphic_design", title: "Coffee Promotional Poster", type: "image", src: coffeePoster, category: "Campaign Visual", tools: ["Canva"] },
+  { id: "coloring", folder: "graphic_design", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design", tools: ["Canva"] },
+  { id: "seolinah", folder: "graphic_design", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design", tools: ["Canva"] },
+  { id: "fresh", folder: "graphic_design", title: "Fresh Promotional Motion", type: "video", src: freshVideo, category: "Motion Design", tools: ["CapCut"] },
+  { id: "lemon", folder: "graphic_design", title: "Lemon Slide Promotional Motion", type: "video", src: lemonVideo, category: "Video Editing", tools: ["CapCut"] },
 ];
 
 export const schoolProjectsMedia = [
@@ -62,6 +65,7 @@ export const schoolProjectSlides = schoolProjectsMedia.flatMap((project) =>
   project.images.map((src, index) => ({
     ...project,
     id: `${project.id}-${index + 1}`,
+    folder: "projects_school",
     type: "image",
     src,
     cover: src,
@@ -70,20 +74,33 @@ export const schoolProjectSlides = schoolProjectsMedia.flatMap((project) =>
 );
 
 export const certificateMedia = [
-  { id: "arduino-complete", title: "Arduino for Beginners — Complete Course", src: cert0, category: "Verified Credential" },
-  { id: "arduino-ai", title: "Arduino Masterclass: AI, Robotics & ChatGPT", src: cert1, category: "Verified Credential" },
-  { id: "power-bi", title: "Basics of Power BI: Pros and Cons", src: cert2, category: "Verified Credential" },
-  { id: "nlp-chatbot", title: "Chatbot Using NLP with Regex", src: cert3, category: "Verified Credential" },
-  { id: "it-consulting", title: "The Road to IT Consulting Opportunities", src: cert4, category: "Verified Credential" },
-  { id: "digital-divide", title: "Transforming Industries Through Technology", src: cert5, category: "Verified Credential" },
+  { id: "arduino-complete", folder: "certicate", type: "image", title: "Arduino for Beginners — Complete Course", src: cert0, category: "Verified Credential" },
+  { id: "arduino-ai", folder: "certicate", type: "image", title: "Arduino Masterclass: AI, Robotics & ChatGPT", src: cert1, category: "Verified Credential" },
+  { id: "power-bi", folder: "certicate", type: "image", title: "Basics of Power BI: Pros and Cons", src: cert2, category: "Verified Credential" },
+  { id: "nlp-chatbot", folder: "certicate", type: "image", title: "Chatbot Using NLP with Regex", src: cert3, category: "Verified Credential" },
+  { id: "it-consulting", folder: "certicate", type: "image", title: "The Road to IT Consulting Opportunities", src: cert4, category: "Verified Credential" },
+  { id: "digital-divide", folder: "certicate", type: "image", title: "Transforming Industries Through Technology", src: cert5, category: "Verified Credential" },
 ];
 
 export const galleryMedia = [
-  { id: "burger", title: "Burger Campaign Archive", src: gallery0, category: "Creative Archive" },
-  { id: "campus", title: "Campus Team", src: gallery1, category: "Visual Archive" },
-  { id: "presentation", title: "Project Presentation", src: gallery2, category: "Visual Archive" },
-  { id: "development-team", title: "Development Team", src: gallery3, category: "Visual Archive" },
-  { id: "project-group", title: "Project Group", src: gallery4, category: "Visual Archive" },
+  { id: "burger", folder: "gallary", type: "image", title: "Burger Campaign Archive", src: gallery0, category: "Creative Archive" },
+  { id: "campus", folder: "gallary", type: "image", title: "Campus Team", src: gallery1, category: "Visual Archive" },
+  { id: "presentation", folder: "gallary", type: "image", title: "Project Presentation", src: gallery2, category: "Visual Archive" },
+  { id: "development-team", folder: "gallary", type: "image", title: "Development Team", src: gallery3, category: "Visual Archive" },
+  { id: "project-group", folder: "gallary", type: "image", title: "Project Group", src: gallery4, category: "Visual Archive" },
+];
+
+export const aiVideoMedia = [
+  { id: "octopus", folder: "ai_video", type: "video", title: "AI Octopus", src: octopusVideo, category: "AI Video Creation", tools: ["AI Video"] },
+  { id: "penguin", folder: "ai_video", type: "video", title: "AI Penguin", src: penguinVideo, category: "AI Video Creation", tools: ["AI Video"] },
+];
+
+export const mediaCategories = [
+  { id: "graphic-design", folder: "graphic_design", title: "Graphic Design", direction: "right", variant: "creative", items: graphicDesignMedia },
+  { id: "school-projects", folder: "projects_school", title: "School Projects", direction: "left", variant: "systems", items: schoolProjectSlides },
+  { id: "certificates", folder: "certicate", title: "Certificates", direction: "right", variant: "certificates", items: certificateMedia },
+  { id: "gallery", folder: "gallary", title: "Gallery", direction: "left", variant: "gallery", items: galleryMedia },
+  { id: "ai-video", folder: "ai_video", title: "AI Video Creations", direction: "right", variant: "video", items: aiVideoMedia },
 ];
 
 export const mediaCounts = {
@@ -91,4 +108,5 @@ export const mediaCounts = {
   schoolProjectAssets: schoolProjectsMedia.reduce((total, project) => total + project.images.length, 0),
   certificates: certificateMedia.length,
   gallery: galleryMedia.length,
+  aiVideo: aiVideoMedia.length,
 };
