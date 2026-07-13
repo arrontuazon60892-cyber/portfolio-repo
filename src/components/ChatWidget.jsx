@@ -5,7 +5,7 @@ import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { cn } from "../lib/utils";
 import { getInitialMessages, getQuickReplies } from "../lib/arronChat";
 
-export default function ChatWidget({ isDark }) {
+export default function ChatWidget() {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -96,20 +96,10 @@ export default function ChatWidget({ isDark }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className={cn(
-              "pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-xl",
-              isDark
-                ? "border-cyan-400/14 bg-[#08111f]/92 text-white"
-                : "border-slate-200 bg-white/95 text-black"
-            )}
+            className="pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border border-cyan-400/14 bg-[#08111f]/92 text-white shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-xl"
           >
             <div
-              className={cn(
-                "relative overflow-hidden px-5 py-4",
-                isDark
-                  ? "bg-[radial-gradient(circle_at_top_left,_rgba(77,201,255,0.18),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(123,97,255,0.14),_transparent_42%),linear-gradient(135deg,_rgba(255,255,255,0.05),_rgba(255,255,255,0))]"
-                  : "bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.18),_transparent_42%),linear-gradient(135deg,_rgba(0,0,0,0.04),_rgba(0,0,0,0))]"
-              )}
+              className="relative overflow-hidden px-5 py-4 bg-[radial-gradient(circle_at_top_left,_rgba(77,201,255,0.18),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(123,97,255,0.14),_transparent_42%),linear-gradient(135deg,_rgba(255,255,255,0.05),_rgba(255,255,255,0))]"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -128,10 +118,7 @@ export default function ChatWidget({ isDark }) {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "rounded-full p-2 transition-colors",
-                    isDark ? "hover:bg-white/10" : "hover:bg-black/5"
-                  )}
+                  className="rounded-full p-2 transition-colors hover:bg-white/10"
                   aria-label="Close chat"
                 >
                   <X size={16} />
@@ -153,9 +140,7 @@ export default function ChatWidget({ isDark }) {
                       "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm",
                       message.role === "user"
                         ? "bg-[linear-gradient(135deg,rgba(104,114,255,0.96),rgba(77,201,255,0.92))] text-white"
-                        : isDark
-                          ? "bg-white/6 text-white"
-                          : "bg-black/[0.04] text-black"
+                        : "bg-white/6 text-white"
                     )}
                   >
                     {message.text}
@@ -166,10 +151,7 @@ export default function ChatWidget({ isDark }) {
               {isLoading && (
                 <div className="flex justify-start">
                   <div
-                    className={cn(
-                      "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm",
-                      isDark ? "bg-white/8 text-white" : "bg-black/[0.04] text-black"
-                    )}
+                    className="max-w-[85%] rounded-2xl bg-white/8 px-4 py-3 text-sm leading-relaxed text-white shadow-sm"
                   >
                     Thinking...
                   </div>
@@ -185,12 +167,7 @@ export default function ChatWidget({ isDark }) {
                     onClick={() => {
                       void sendMessage(reply);
                     }}
-                    className={cn(
-                      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
-                      isDark
-                        ? "border-white/10 bg-white/5 hover:border-cyan-400/24 hover:bg-white/9"
-                        : "border-black/10 bg-black/[0.03] hover:bg-black/[0.06]"
-                    )}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition-colors hover:border-cyan-400/24 hover:bg-white/9"
                   >
                     {reply}
                   </button>
@@ -202,10 +179,7 @@ export default function ChatWidget({ isDark }) {
                   event.preventDefault();
                   void sendMessage(input);
                 }}
-                className={cn(
-                  "flex items-center gap-2 rounded-2xl border p-2",
-                  isDark ? "border-white/10 bg-white/5" : "border-black/10 bg-black/[0.02]"
-                )}
+                className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2"
               >
                 <input
                   value={input}

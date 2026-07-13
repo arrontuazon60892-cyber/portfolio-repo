@@ -1,6 +1,5 @@
 import React from "react";
 import { Facebook, Instagram, Music2 } from "lucide-react";
-import { cn } from "../lib/utils";
 import { motion } from "framer-motion";
 
 const socialLinks = [
@@ -8,23 +7,23 @@ const socialLinks = [
     name: "Facebook",
     icon: <Facebook className="h-5 w-5" />,
     url: "https://www.facebook.com/arron.tuazon.7",
-    color: "hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    color: "hover:text-blue-300 hover:bg-blue-500/10",
   },
   {
     name: "Instagram",
     icon: <Instagram className="h-5 w-5" />,
     url: "https://www.instagram.com/aronnntzn",
-    color: "hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900/20",
+    color: "hover:text-pink-300 hover:bg-pink-500/10",
   },
   {
     name: "TikTok",
     icon: <Music2 className="h-5 w-5" />,
     url: "https://www.tiktok.com/@chocolate_o_o5?is_from_webapp=1&sender_device=pc",
-    color: "hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800",
+    color: "hover:text-white hover:bg-slate-800",
   },
 ];
 
-export default function SocialLinks({ isDark }) {
+export default function SocialLinks() {
   return (
     <div className="flex flex-col gap-3">
       {socialLinks.map((link, index) => (
@@ -36,20 +35,11 @@ export default function SocialLinks({ isDark }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 * index }}
-          className={cn(
-            "group flex items-center justify-between rounded-2xl border p-4 transition-all duration-300",
-            isDark
-              ? "border-slate-800 bg-slate-900/40 hover:border-slate-700"
-              : "border-slate-200 bg-white hover:border-slate-300",
-            link.color
-          )}
+          className={`group flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900/40 p-4 transition-all duration-300 hover:border-slate-700 ${link.color}`}
         >
           <div className="flex items-center gap-3">
             <div
-              className={cn(
-                "rounded-xl p-2 transition-all duration-300 group-hover:scale-110",
-                isDark ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-900"
-              )}
+              className="rounded-xl bg-slate-800 p-2 text-white transition-all duration-300 group-hover:scale-110"
             >
               {link.icon}
             </div>

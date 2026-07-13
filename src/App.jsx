@@ -25,13 +25,11 @@ import {
   MapPin,
   Menu,
   MonitorSmartphone,
-  Moon,
   Orbit,
   Rocket,
   ScanLine,
   ShieldCheck,
   Sparkles,
-  Sun,
   TerminalSquare,
   Workflow,
   Wrench,
@@ -53,29 +51,24 @@ import {
   SiVercel,
   SiVite,
 } from "react-icons/si";
-import PrintFlowCarousel from "./components/PrintFlowCarousel";
-import PhotoboothCarousel from "./components/PhotoboothCarousel";
 import SocialLinks from "./components/SocialLinks";
-import Certifications from "./components/Certifications";
 import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
-import PhotoGallery from "./components/PhotoGallery";
 import ProfileAvatar from "./components/ProfileAvatar";
-import ImageModal from "./components/ImageModal";
-import VideoModal from "./components/VideoModal";
 import HeroVisual from "./components/HeroVisual";
 import NeuralSystemsMap from "./components/NeuralSystemsMap";
-import { projects, schoolProjects } from "./data/projects";
+import ExploreWork from "./components/ExploreWork";
+import { schoolProjects } from "./data/projects";
 import { cn } from "./lib/utils";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
-const imageProjects = projects.filter((project) => project.type === "image");
 
 const navItems = [
   { label: "Home", id: "home" },
   { label: "About", id: "about" },
   { label: "Projects", id: "projects" },
   { label: "Skills", id: "skills" },
+  { label: "Work", id: "explore" },
   { label: "Experience", id: "experience" },
   { label: "Contact", id: "contact" },
 ];
@@ -167,12 +160,9 @@ const timeline = [
 ];
 
 function App() {
-  const [theme, setTheme] = useState("dark");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [activeProjectKey, setActiveProjectKey] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const [contactFields, setContactFields] = useState({
     name: "",
@@ -182,7 +172,6 @@ function App() {
   const [contactSent, setContactSent] = useState(false);
   const [showChat, setShowChat] = useState(false);
 
-  const isDark = true;
   const activeProject = schoolProjects.find(
     (project) => project.key === activeProjectKey
   );
@@ -255,23 +244,8 @@ function App() {
     window.setTimeout(() => setContactSent(false), 2400);
   };
 
-  const navigateImage = (direction) => {
-    setSelectedImage((current) => {
-      const currentIndex = imageProjects.findIndex((project) => project.id === current?.id);
-      const nextIndex = currentIndex < 0
-        ? 0
-        : (currentIndex + direction + imageProjects.length) % imageProjects.length;
-      return imageProjects[nextIndex];
-    });
-  };
-
   return (
-    <div
-      className={cn(
-        "app-shell min-h-screen",
-        theme === "dark-alt" ? "theme-dark-alt" : "theme-dark"
-      )}
-    >
+    <div className="app-shell min-h-screen">
       <div className="scene-root" aria-hidden="true">
         <div className="scene-aurora scene-aurora--left" />
         <div className="scene-aurora scene-aurora--right" />
@@ -321,15 +295,6 @@ function App() {
               data-cursor="hover"
             >
               Let&apos;s Connect
-            </button>
-            <button
-              type="button"
-              onClick={() => setTheme((current) => (current === "dark" ? "dark-alt" : "dark"))}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/80 transition hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
-              aria-label="Toggle interface accent mode"
-              data-cursor="hover"
-            >
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button
               type="button"
@@ -471,7 +436,7 @@ function App() {
             />
 
             <div className="mt-8 grid gap-8 md:grid-cols-[auto_1fr] md:items-start">
-              <ProfileAvatar isDark={isDark} />
+              <ProfileAvatar />
               <div className="space-y-5 text-white/76">
                 <p>
                   I&apos;m a full-stack web developer focused on building modern web
@@ -620,6 +585,16 @@ function App() {
           </div>
         </motion.section>
 
+        <motion.div
+          id="explore"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{ duration: 0.62 }}
+        >
+          <ExploreWork />
+        </motion.div>
+
         <motion.section
           id="projects"
           initial={{ opacity: 0, y: 32 }}
@@ -629,15 +604,15 @@ function App() {
           className="glass-panel p-6 sm:p-8"
         >
           <SectionHeader
-            eyebrow="Projects & Gallery"
-            title="Selected Work"
-            description="Explore web development, graphic design, and video-editing projects in one complete gallery."
+            eyebrow="Development Projects"
+            title="Software Systems"
+            description="A focused stream of web, mobile, and academic software builds. Creative media lives in its own dedicated routes."
           />
           <Gallery
             onOpenProject={(project) => setActiveProjectKey(project.key)}
-            onOpenImage={setSelectedImage}
-            onOpenVideo={setSelectedVideo}
-            isModalOpen={Boolean(activeProject || selectedImage || selectedVideo)}
+            onOpenImage={() => {}}
+            onOpenVideo={() => {}}
+            isModalOpen={Boolean(activeProject)}
           />
         </motion.section>
 
@@ -681,57 +656,9 @@ function App() {
             </div>
           </motion.section>
 
-          <motion.section
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
-            className="glass-panel p-6 sm:p-8"
-          >
-            <SectionHeader
-              eyebrow="Recent Certifications"
-              title="Recent Certifications"
-              description="Every original certificate entry stays accessible through a cleaner, more polished command list."
-            />
-            <div className="mt-8">
-              <Certifications isDark={isDark} />
-            </div>
-          </motion.section>
-        </div>
-
-        <div className="grid gap-8 xl:grid-cols-[0.78fr_1.22fr]">
-          <motion.section
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="glass-panel p-6 sm:p-8"
-          >
-            <SectionHeader
-              eyebrow="Social Links"
-              title="Social Links"
-              description="Your direct channels remain one click away."
-            />
-            <div className="mt-8">
-              <SocialLinks isDark={isDark} />
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
-            className="glass-panel p-6 sm:p-8"
-          >
-            <SectionHeader
-              eyebrow="Gallery"
-              title="Gallery"
-              description="The original gallery now sits inside the same holographic visual language as the rest of the portfolio."
-            />
-            <div className="mt-8">
-              <PhotoGallery onOpenImage={setSelectedImage} />
-            </div>
+          <motion.section initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className="glass-panel p-6 sm:p-8">
+            <SectionHeader eyebrow="Network" title="Social Links" description="Direct channels for collaboration, updates, and creative work." />
+            <div className="mt-8"><SocialLinks /></div>
           </motion.section>
         </div>
 
@@ -889,34 +816,13 @@ function App() {
 
       {showChat && (
         <Suspense fallback={null}>
-          <ChatWidget isDark={isDark} />
+          <ChatWidget />
         </Suspense>
       )}
-
-      <ImageModal
-        key={selectedImage?.id || selectedImage?.src || "image-modal"}
-        isOpen={Boolean(selectedImage)}
-        onClose={() => setSelectedImage(null)}
-        onPrevious={() => navigateImage(-1)}
-        onNext={() => navigateImage(1)}
-        imageSrc={selectedImage?.src}
-        imageAlt={selectedImage ? `${selectedImage.title} full-size preview` : "Design project"}
-        isDark={isDark}
-      />
-
-      <VideoModal
-        isOpen={Boolean(selectedVideo)}
-        onClose={() => setSelectedVideo(null)}
-        videoSrc={selectedVideo?.src}
-        poster={selectedVideo?.poster}
-        title={selectedVideo?.title}
-        isDark={isDark}
-      />
 
       <Modal
         isOpen={Boolean(activeProject)}
         onClose={() => setActiveProjectKey(null)}
-        isDark={isDark}
       >
         {activeProject && (
           <div className="space-y-6 p-3 sm:p-6">
@@ -932,15 +838,11 @@ function App() {
               </div>
             </header>
 
-            {activeProject.key === "printflow" ? (
-              <PrintFlowCarousel isDark={isDark} />
-            ) : activeProject.key === "photobooth" ? (
-              <PhotoboothCarousel isDark={isDark} />
-            ) : (
-              <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(107,115,255,0.16),rgba(7,12,24,0.82))] p-10 text-center text-sm text-white/62">
-                Project images coming soon
-              </div>
-            )}
+            <div className="project-modal-system">
+              <span><Cpu size={16} /> {activeProject.status}</span>
+              <b>BUILD MANIFEST</b>
+              <p>Architecture, interface, and data workflows are documented as a focused development system.</p>
+            </div>
 
             <div className="flex flex-wrap gap-2 border-t border-white/10 pt-5">
               {activeProject.tags.map((tag) => (
