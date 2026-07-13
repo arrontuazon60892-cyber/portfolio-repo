@@ -27,12 +27,12 @@ import cert4 from "../assets/certicate/The Road to IT Consulting Opportunities f
 import cert5 from "../assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg";
 
 export const graphicDesignMedia = [
-  { id: "reality", title: "404 Reality Not Found", type: "image", src: realityPoster, category: "Concept Poster" },
-  { id: "coffee", title: "Coffee Promotional Poster", type: "image", src: coffeePoster, category: "Campaign Visual" },
-  { id: "coloring", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design" },
-  { id: "seolinah", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design" },
-  { id: "fresh", title: "Fresh Promotional Motion", type: "video", src: freshVideo, poster: seolinahPoster, category: "Motion Design" },
-  { id: "lemon", title: "Lemon Slide Promotional Motion", type: "video", src: lemonVideo, poster: coffeePoster, category: "Video Editing" },
+  { id: "reality", title: "404 Reality Not Found", type: "image", src: realityPoster, category: "Concept Poster", tools: ["Canva"] },
+  { id: "coffee", title: "Coffee Promotional Poster", type: "image", src: coffeePoster, category: "Campaign Visual", tools: ["Canva"] },
+  { id: "coloring", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design", tools: ["Canva"] },
+  { id: "seolinah", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design", tools: ["Canva"] },
+  { id: "fresh", title: "Fresh Promotional Motion", type: "video", src: freshVideo, poster: seolinahPoster, category: "Motion Design", tools: ["CapCut"] },
+  { id: "lemon", title: "Lemon Slide Promotional Motion", type: "video", src: lemonVideo, poster: coffeePoster, category: "Video Editing", tools: ["CapCut"] },
 ];
 
 export const schoolProjectsMedia = [
@@ -57,6 +57,17 @@ export const schoolProjectsMedia = [
     images: [booth0, booth1, booth2],
   },
 ];
+
+export const schoolProjectSlides = schoolProjectsMedia.flatMap((project) =>
+  project.images.map((src, index) => ({
+    ...project,
+    id: `${project.id}-${index + 1}`,
+    type: "image",
+    src,
+    cover: src,
+    title: `${project.title} · View ${index + 1}`,
+  })),
+);
 
 export const certificateMedia = [
   { id: "arduino-complete", title: "Arduino for Beginners — Complete Course", src: cert0, category: "Verified Credential" },

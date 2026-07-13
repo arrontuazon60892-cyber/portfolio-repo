@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Image as ImageIcon, Play, Radio, Video } from "lucide-react";
-import ImageModal from "./ImageModal";
-import VideoModal from "./VideoModal";
+import { Play, Video } from "lucide-react";
+import MediaModal from "./MediaModal";
 import { cn } from "../lib/utils";
 
 export default function LoopingMediaCarousel({ items, direction = "left", variant = "creative" }) {
@@ -45,17 +44,10 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
               {items.map((item, index) => {
                 const image = item.cover || item.src;
                 return (
-                  <button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} className="media-loop-card" onClick={(event) => open(index, event.currentTarget)}>
+                  <button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} aria-label={cycle ? undefined : `Open ${item.title}`} className="media-loop-card" onClick={(event) => open(index, event.currentTarget)}>
                     <div className="media-loop-card__media">
                       {item.type === "video" ? <div className="media-loop-card__video">{item.poster && <img src={item.poster} alt="" loading="lazy" decoding="async" />}<span><Video size={38} /><Play size={18} fill="currentColor" /></span></div> : <img src={image} alt="" loading="lazy" decoding="async" />}
                       <span className="media-loop-card__scan" />
-                    </div>
-                    <div className="media-loop-card__body">
-                      <span><Radio size={11} /> {item.status || item.category}</span>
-                      <h2>{item.title}</h2>
-                      {item.description && <p>{item.description}</p>}
-                      {item.tools && <div>{item.tools.map((tool) => <small key={tool}>{tool}</small>)}</div>}
-                      <b>{item.type === "video" ? <Video size={13} /> : <ImageIcon size={13} />} OPEN MEDIA</b>
                     </div>
                   </button>
                 );
@@ -65,11 +57,13 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
         </div>
       </div>
       <div className="media-loop__status"><span>{paused ? "STREAM PAUSED" : `${direction.toUpperCase()} STREAM ACTIVE`}</span><b>{items.length} ITEMS</b></div>
-      {selected?.type === "video" ? (
-        <VideoModal isOpen onClose={close} videoSrc={selected.src} poster={selected.poster} title={selected.title} />
-      ) : (
-        <ImageModal key={selected?.id || "media-modal"} isOpen={Boolean(selected)} onClose={close} onPrevious={() => move(-1)} onNext={() => move(1)} imageSrc={selected?.cover || selected?.src} imageAlt={selected?.title} />
-      )}
+      <MediaModal
+        isOpen={Boolean(selected)}
+        item={selected}
+        onClose={close}
+        onPrevious={() => move(-1)}
+        onNext={() => move(1)}
+      />
     </div>
   );
 }

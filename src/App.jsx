@@ -17,7 +17,6 @@ import {
   Check,
   Code2,
   Copy,
-  Cpu,
   Database,
   GraduationCap,
   Images,
@@ -59,12 +58,21 @@ import {
   SiVite,
 } from "react-icons/si";
 import SocialLinks from "./components/SocialLinks";
-import Modal from "./components/Modal";
 import Gallery from "./components/Gallery";
+import CertificateVault from "./components/CertificateVault";
+import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
+import MediaModal from "./components/MediaModal";
 import ProfileAvatar from "./components/ProfileAvatar";
 import HeroVisual from "./components/HeroVisual";
 import NeuralSystemsMap from "./components/NeuralSystemsMap";
 import ExploreWork from "./components/ExploreWork";
+import VisualArchive from "./components/VisualArchive";
+import {
+  certificateMedia,
+  galleryMedia,
+  graphicDesignMedia,
+  schoolProjectSlides,
+} from "./data/mediaManifest";
 import { schoolProjects } from "./data/projects";
 import { cn } from "./lib/utils";
 
@@ -201,6 +209,11 @@ function App() {
   const activeProject = schoolProjects.find(
     (project) => project.key === activeProjectKey
   );
+  const moveActiveProject = (delta) => {
+    const currentIndex = schoolProjects.findIndex((project) => project.key === activeProjectKey);
+    const nextIndex = (currentIndex + delta + schoolProjects.length) % schoolProjects.length;
+    setActiveProjectKey(schoolProjects[nextIndex].key);
+  };
 
   useEffect(() => {
     const loadChat = () => setShowChat(true);
@@ -639,8 +652,7 @@ function App() {
         >
           <SectionHeader
             eyebrow="Development Projects"
-            title="Software Systems"
-            description="A focused stream of web, mobile, and academic software builds. Creative media lives in its own dedicated routes."
+            title="Development Projects"
           />
           <Gallery
             onOpenProject={(project) => setActiveProjectKey(project.key)}
@@ -649,6 +661,22 @@ function App() {
             isModalOpen={Boolean(activeProject)}
           />
         </motion.section>
+
+        <ShowcaseSection id="graphic-design" eyebrow="Creative Visuals" title="Graphic Design">
+          <LoopingMediaCarousel items={graphicDesignMedia} direction="left" variant="creative" />
+        </ShowcaseSection>
+
+        <ShowcaseSection id="school-projects" eyebrow="Academic Systems" title="School Projects">
+          <LoopingMediaCarousel items={schoolProjectSlides} direction="right" variant="systems" />
+        </ShowcaseSection>
+
+        <ShowcaseSection id="certificates" eyebrow="Verified Credentials" title="Certificates">
+          <CertificateVault items={certificateMedia} />
+        </ShowcaseSection>
+
+        <ShowcaseSection id="gallery" eyebrow="Visual Archive" title="Gallery">
+          <VisualArchive items={galleryMedia} />
+        </ShowcaseSection>
 
         <div className="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
           <motion.section
@@ -854,40 +882,13 @@ function App() {
         </Suspense>
       )}
 
-      <Modal
+      <MediaModal
         isOpen={Boolean(activeProject)}
+        item={activeProject}
         onClose={() => setActiveProjectKey(null)}
-      >
-        {activeProject && (
-          <div className="space-y-6 p-3 sm:p-6">
-            <header className="space-y-4">
-              <span className="inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-cyan-200">
-                {activeProject.category}
-              </span>
-              <div>
-                <h3 className="text-2xl font-semibold text-white">{activeProject.title}</h3>
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-white/68">
-                  {activeProject.description}
-                </p>
-              </div>
-            </header>
-
-            <div className="project-modal-system">
-              <span><Cpu size={16} /> {activeProject.status}</span>
-              <b>BUILD MANIFEST</b>
-              <p>Architecture, interface, and data workflows are documented as a focused development system.</p>
-            </div>
-
-            <div className="flex flex-wrap gap-2 border-t border-white/10 pt-5">
-              {activeProject.tags.map((tag) => (
-                <span key={tag} className="chip">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </Modal>
+        onPrevious={() => moveActiveProject(-1)}
+        onNext={() => moveActiveProject(1)}
+      />
     </div>
   );
 }
@@ -902,8 +903,24 @@ function SectionHeader({ eyebrow, title, description }) {
       <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
         {title}
       </h2>
-      <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base">{description}</p>
+      {description && <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base">{description}</p>}
     </div>
+  );
+}
+
+function ShowcaseSection({ id, eyebrow, title, children }) {
+  return (
+    <motion.section
+      id={id}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className="glass-panel showcase-section p-6 sm:p-8"
+    >
+      <SectionHeader eyebrow={eyebrow} title={title} />
+      <div className="showcase-section__content">{children}</div>
+    </motion.section>
   );
 }
 

@@ -1980,6 +1980,355 @@
   }
 }
 
+/* Image-first homepage showcase */
+.showcase-section {
+  scroll-margin-top: 7rem;
+  overflow: hidden;
+}
+
+.showcase-section__content {
+  margin-top: 1.35rem;
+}
+
+.showcase-section .media-loop,
+.showcase-section .certificate-stack {
+  margin-top: 0;
+}
+
+.project-showcase {
+  margin-top: 1.35rem;
+}
+
+.project-carousel {
+  margin-top: 0;
+}
+
+.project-carousel .gallery-project-card {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 1.2rem;
+}
+
+.project-carousel .gallery-project-media {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.project-carousel .gallery-project-media img,
+.project-carousel .gallery-project-placeholder,
+.project-carousel .gallery-video-poster {
+  width: 100%;
+  height: 100%;
+}
+
+.project-carousel .gallery-project-copy {
+  display: none;
+}
+
+.media-loop-card {
+  aspect-ratio: 16 / 10;
+  background: #050c18;
+}
+
+.media-loop-card__media {
+  height: 100%;
+}
+
+.media-loop-card__body {
+  display: none;
+}
+
+.media-loop-card::after,
+.gallery-project-card::after,
+.certificate-card::after,
+.archive-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(146, 222, 255, 0.025);
+  transition: box-shadow 220ms ease;
+}
+
+.media-loop-card:hover::after,
+.media-loop-card:focus-visible::after,
+.gallery-project-card:hover::after,
+.gallery-project-card:focus-visible::after,
+.certificate-card:hover::after,
+.certificate-card:focus-visible::after,
+.archive-card:hover::after,
+.archive-card:focus-visible::after {
+  box-shadow: inset 0 0 0 1px rgba(112, 224, 255, 0.28), 0 0 26px rgba(69, 196, 255, 0.12);
+}
+
+.certificate-stack {
+  gap: 0.9rem;
+}
+
+.certificate-card {
+  aspect-ratio: 1.42 / 1;
+  transform: none;
+}
+
+.certificate-card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-focus-frame {
+  position: absolute;
+  inset: 0.55rem;
+  pointer-events: none;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+  transition: border-color 200ms ease;
+}
+
+.certificate-card:hover .image-focus-frame,
+.certificate-card:focus-visible .image-focus-frame,
+.archive-card:hover .image-focus-frame,
+.archive-card:focus-visible .image-focus-frame {
+  border-color: rgba(121, 226, 255, 0.24);
+}
+
+.archive-card__spotlight {
+  background: linear-gradient(180deg, transparent 65%, rgba(2, 8, 17, 0.22));
+}
+
+.media-modal {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+}
+
+.media-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(1, 5, 13, 0.91);
+  backdrop-filter: blur(14px);
+}
+
+.media-modal__dialog {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(17rem, 0.55fr);
+  width: min(94vw, 86rem);
+  max-height: 91vh;
+  overflow: hidden;
+  border: 1px solid rgba(100, 211, 255, 0.2);
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, rgba(7, 16, 31, 0.98), rgba(5, 10, 23, 0.98));
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.55), 0 0 45px rgba(63, 169, 255, 0.08);
+}
+
+.media-modal__preview {
+  display: grid;
+  min-height: min(66vh, 42rem);
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, rgba(57, 128, 220, 0.12), transparent 46%), #020711;
+}
+
+.media-modal__preview img,
+.media-modal__preview video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 91vh;
+  object-fit: contain;
+}
+
+.media-modal__placeholder {
+  width: 42%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(104, 214, 255, 0.16);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(89, 111, 255, 0.23), transparent 62%);
+  box-shadow: 0 0 70px rgba(65, 184, 255, 0.1);
+}
+
+.media-modal__details {
+  min-width: 0;
+  overflow-y: auto;
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.media-modal__details > span {
+  color: rgba(93, 229, 255, 0.72);
+  font: 0.58rem/1.2 "Cascadia Code", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.media-modal__details h2 {
+  margin: 0.85rem 0 0;
+  color: white;
+  font-size: clamp(1.35rem, 2.5vw, 2.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.media-modal__details p {
+  margin: 1rem 0 0;
+  color: rgba(226, 239, 255, 0.64);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.media-modal__credential {
+  color: rgba(84, 238, 192, 0.72) !important;
+}
+
+.media-modal__tools,
+.media-modal__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.media-modal__tools small,
+.media-modal__links a {
+  border: 1px solid rgba(104, 205, 255, 0.16);
+  border-radius: 0.55rem;
+  padding: 0.42rem 0.58rem;
+  color: rgba(211, 235, 255, 0.75);
+  background: rgba(75, 160, 255, 0.05);
+  font: 0.6rem/1 "Cascadia Code", monospace;
+}
+
+.media-modal__close,
+.media-modal__nav {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(133, 219, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  background: rgba(4, 12, 25, 0.82);
+  backdrop-filter: blur(10px);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.media-modal__close:hover,
+.media-modal__close:focus-visible,
+.media-modal__nav:hover,
+.media-modal__nav:focus-visible {
+  transform: scale(1.06);
+  border-color: rgba(121, 229, 255, 0.5);
+  background: rgba(15, 37, 68, 0.95);
+  outline: none;
+}
+
+.media-modal__close {
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 2.65rem;
+  height: 2.65rem;
+}
+
+.media-modal__nav {
+  top: 50%;
+  width: 2.8rem;
+  height: 2.8rem;
+  transform: translateY(-50%);
+}
+
+.media-modal__nav:hover,
+.media-modal__nav:focus-visible {
+  transform: translateY(-50%) scale(1.06);
+}
+
+.media-modal__nav--previous { left: 0.85rem; }
+.media-modal__nav--next { right: calc(min(94vw, 86rem) * 0.245 + 0.85rem); }
+
+@media (max-width: 800px) {
+  .media-modal__dialog {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(15rem, 58vh) auto;
+    overflow-y: auto;
+  }
+
+  .media-modal__preview {
+    min-height: 15rem;
+  }
+
+  .media-modal__preview img,
+  .media-modal__preview video {
+    max-height: 58vh;
+  }
+
+  .media-modal__details {
+    overflow: visible;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 0;
+  }
+
+  .media-modal__nav--next {
+    right: 0.85rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .project-carousel .gallery-project-card,
+  .media-loop-card {
+    width: min(82vw, 19rem);
+  }
+
+  .project-carousel__readout,
+  .media-loop__status {
+    font-size: 0.46rem;
+  }
+
+  .certificate-stack {
+    margin-top: 0;
+  }
+
+  .certificate-card {
+    width: min(82vw, 22rem);
+  }
+
+  .media-modal {
+    padding: 0.5rem;
+  }
+
+  .media-modal__dialog {
+    width: 100%;
+    max-height: 96vh;
+    border-radius: 1rem;
+  }
+
+  .media-modal__details {
+    padding: 1.25rem;
+  }
+
+  .media-modal__close {
+    top: 0.65rem;
+    right: 0.65rem;
+  }
+
+  .media-modal__nav--previous { left: 0.65rem; }
+  .media-modal__nav--next { right: 0.65rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-loop__track,
+  .project-carousel__track {
+    animation: none !important;
+  }
+}
+
 /* Neural systems galaxy */
 .stack-brain-scene {
   min-height: clamp(34rem, 56vw, 45rem);
@@ -2754,4 +3103,50 @@ section[id] {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Final image-only showcase normalization */
+.gallery-project-card,
+.media-loop-card {
+  position: relative;
+}
+
+.project-carousel {
+  margin-top: 0;
+}
+
+.project-carousel .gallery-project-card,
+.media-loop-card {
+  aspect-ratio: 16 / 10;
+}
+
+.project-carousel .gallery-project-media,
+.media-loop-card__media {
+  height: 100%;
+  min-height: 0;
+}
+
+.project-carousel .gallery-video-poster {
+  height: 100%;
+}
+
+.certificate-stack {
+  gap: 0.9rem;
+}
+
+.showcase-section .certificate-stack {
+  margin-top: 0;
+}
+
+.certificate-card {
+  aspect-ratio: 1.42 / 1;
+  transform: none;
+}
+
+.certificate-card img {
+  height: 100%;
+}
+
+.archive-card__spotlight {
+  background: linear-gradient(180deg, transparent 65%, rgba(2, 8, 17, 0.22));
 }

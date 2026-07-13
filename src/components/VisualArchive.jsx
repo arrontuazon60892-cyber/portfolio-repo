@@ -1,24 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { Aperture, ScanLine } from "lucide-react";
-import ImageModal from "./ImageModal";
+import { useRef, useState } from "react";
+import MediaModal from "./MediaModal";
 
 export default function VisualArchive({ items }) {
   const [selected, setSelected] = useState(null);
+  const triggerRef = useRef(null);
   const move = (delta) => setSelected((current) => current === null ? 0 : (current + delta + items.length) % items.length);
+  const close = () => {
+    setSelected(null);
+    window.setTimeout(() => triggerRef.current?.focus({ preventScroll: true }), 0);
+  };
 
   return (
     <section className="visual-archive" aria-label="Futuristic visual archive">
       {items.map((item, index) => (
-        <button type="button" className="archive-card" key={item.id} onClick={() => setSelected(index)}>
-          <img src={item.src} alt={item.title} loading="lazy" decoding="async" />
+        <button type="button" className="archive-card" key={item.id} aria-label={`Open ${item.title}`} onClick={(event) => { triggerRef.current = event.currentTarget; setSelected(index); }}>
+          <img src={item.src} alt="" loading="lazy" decoding="async" />
           <span className="archive-card__spotlight" />
-          <span className="archive-card__meta"><Aperture size={14} /><b>{item.title}</b><small>{item.category}</small></span>
-          <i><ScanLine size={13} /> ARCHIVE {String(index + 1).padStart(2, "0")}</i>
+          <span className="image-focus-frame" aria-hidden="true" />
         </button>
       ))}
-      <ImageModal key={selected ?? "archive"} isOpen={selected !== null} onClose={() => setSelected(null)} onPrevious={() => move(-1)} onNext={() => move(1)} imageSrc={selected === null ? undefined : items[selected].src} imageAlt={selected === null ? "Gallery image" : items[selected].title} />
+      <MediaModal isOpen={selected !== null} item={selected === null ? null : items[selected]} onClose={close} onPrevious={() => move(-1)} onNext={() => move(1)} />
     </section>
   );
 }
