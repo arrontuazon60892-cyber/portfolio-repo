@@ -26,8 +26,10 @@ import {
   Menu,
   MonitorSmartphone,
   Orbit,
+  Palette,
   Rocket,
   ScanLine,
+  Scissors,
   ShieldCheck,
   Sparkles,
   TerminalSquare,
@@ -36,8 +38,12 @@ import {
   X,
 } from "lucide-react";
 import {
+  SiClaudecode,
+  SiCursor,
   SiGit,
   SiGithub,
+  SiGoogle,
+  SiMetaai,
   SiMysql,
   SiNextdotjs,
   SiOpenjdk,
@@ -47,6 +53,7 @@ import {
   SiSpringboot,
   SiSupabase,
   SiTailwindcss,
+  SiTiktok,
   SiTypescript,
   SiVercel,
   SiVite,
@@ -128,6 +135,25 @@ const techStackPanels = [
       { name: "Git", icon: SiGit, color: "#F05032" },
       { name: "GitHub", icon: SiGithub, color: "#FFFFFF" },
       { name: "Vercel", icon: SiVercel, color: "#FFFFFF" },
+    ],
+  },
+  {
+    title: "AI & Creative Tools",
+    icon: Sparkles,
+    wide: true,
+    items: [
+      { name: "Google Flow", icon: SiGoogle, color: "#4285F4" },
+      { name: "CapCut", icon: Scissors, color: "#FFFFFF" },
+      { name: "PixVerse", icon: Sparkles, color: "#A78BFA" },
+      { name: "Canva", icon: Palette, color: "#00C4CC" },
+      { name: "TikTok Editing", icon: SiTiktok, color: "#25F4EE" },
+      { name: "Meta AI", icon: SiMetaai, color: "#0081FB" },
+      { name: "Visual Studio Code", icon: Code2, color: "#23A9F2" },
+      { name: "Codex", icon: TerminalSquare, color: "#10A37F" },
+      { name: "Claude Code", icon: SiClaudecode, color: "#D97757" },
+      { name: "Antigravity", icon: Orbit, color: "#A78BFA" },
+      { name: "Devin", icon: Bot, color: "#60A5FA" },
+      { name: "Cursor", icon: SiCursor, color: "#FFFFFF" },
     ],
   },
 ];
@@ -526,14 +552,22 @@ function App() {
               />
               <div className="mt-8 grid gap-4 lg:grid-cols-3">
                 {techStackPanels.map((panel) => (
-                  <div key={panel.title} className="stack-card">
+                  <div
+                    key={panel.title}
+                    className={cn("stack-card", panel.wide && "lg:col-span-3")}
+                  >
                     <div className="flex items-center gap-3">
                       <div className="icon-pill">
                         <panel.icon size={18} />
                       </div>
                       <h3 className="text-base font-semibold text-white">{panel.title}</h3>
                     </div>
-                    <div className="tech-logo-grid">
+                    <div
+                      className={cn(
+                        "tech-logo-grid",
+                        panel.wide && "tech-logo-grid--tools",
+                      )}
+                    >
                       {panel.items.map((item) => (
                         <div
                           key={item.name}

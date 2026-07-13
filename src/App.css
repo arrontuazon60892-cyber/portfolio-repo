@@ -320,6 +320,18 @@
   margin-top: 1.25rem;
 }
 
+@media (min-width: 640px) {
+  .tech-logo-grid.tech-logo-grid--tools {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tech-logo-grid.tech-logo-grid--tools {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .tech-logo-item {
   display: flex;
   min-width: 0;
