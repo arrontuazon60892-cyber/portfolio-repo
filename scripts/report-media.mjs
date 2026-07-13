@@ -6,6 +6,8 @@ const folders = {
   "School projects": "src/assets/projects_school",
   Certificates: "src/assets/certicate",
   Gallery: "src/assets/gallary",
+  "AI videos": "src/assets/ai_video",
+  "Commercial videos": "src/assets/video_commercial",
 };
 
 for (const [label, folder] of Object.entries(folders)) {

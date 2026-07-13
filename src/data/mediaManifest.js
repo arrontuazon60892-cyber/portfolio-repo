@@ -26,6 +26,7 @@ import cert5 from "../assets/certicate/Transforming industries Through Technolog
 
 import octopusVideo from "../assets/ai_video/octopus.mp4";
 import penguinVideo from "../assets/ai_video/penguin.mp4";
+import finalHumanVideo from "../assets/ai_video/final-human.mp4";
 import freshVideo from "../assets/video_commercial/FRESH (2).mp4";
 import lemonVideo from "../assets/video_commercial/lemon slideeeeeeee.mp4";
 
@@ -91,6 +92,7 @@ export const galleryMedia = [
 export const aiVideoMedia = [
   { id: "octopus", folder: "ai_video", type: "video", title: "AI Octopus", src: octopusVideo, category: "AI Video Creation", tools: ["AI Video"] },
   { id: "penguin", folder: "ai_video", type: "video", title: "AI Penguin", src: penguinVideo, category: "AI Video Creation", tools: ["AI Video"] },
+  { id: "final-human", folder: "ai_video", type: "video", title: "Final Human", src: finalHumanVideo, category: "AI Video Creation", tools: ["AI Video"] },
 ];
 
 export const commercialVideoMedia = [

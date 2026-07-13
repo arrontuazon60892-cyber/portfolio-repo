@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Play, Video } from "lucide-react";
 import MediaModal from "./MediaModal";
 import { cn } from "../lib/utils";
 
@@ -22,6 +21,7 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { rootMargin: "100px" });
     if (root) observer.observe(root);
     const onVisibility = () => setTabVisible(!document.hidden);
+    onVisibility();
     document.addEventListener("visibilitychange", onVisibility);
     return () => { observer.disconnect(); document.removeEventListener("visibilitychange", onVisibility); };
   }, []);
@@ -44,14 +44,14 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
               {items.map((item, index) => {
                 const image = item.cover || item.src;
                 return (
-                  <button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} aria-label={cycle ? undefined : `Open ${item.title}`} className="media-loop-card" onClick={(event) => open(index, event.currentTarget)}>
+                  <button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} aria-label={cycle ? undefined : `Open ${item.title}`} className={cn("media-loop-card", item.type === "video" && "media-loop-card--video")} onClick={(event) => open(index, event.currentTarget)}>
                     <div className="media-loop-card__media">
                       {item.type === "video" ? (
                         <VideoPreview item={item} enabled={!selected && visible && tabVisible} />
                       ) : (
                         <img src={image} alt="" loading="lazy" decoding="async" />
                       )}
-                      <span className="media-loop-card__scan" />
+                      {item.type !== "video" && <span className="media-loop-card__scan" />}
                     </div>
                   </button>
                 );
@@ -88,9 +88,8 @@ function VideoPreview({ item, enabled }) {
         setShouldLoad(true);
       } else {
         videoRef.current?.pause();
-        if (videoRef.current?.readyState) videoRef.current.currentTime = 0;
       }
-    }, { rootMargin: "160px", threshold: 0.01 });
+    }, { threshold: 0.01 });
     observer.observe(root);
     return () => observer.disconnect();
   }, []);
@@ -121,9 +120,15 @@ function VideoPreview({ item, enabled }) {
         playsInline
         tabIndex={-1}
         aria-hidden="true"
-        onLoadedData={() => setHasFrame(true)}
+        onLoadedData={(event) => {
+          setHasFrame(true);
+          if (enabled && previewVisible && !document.hidden) {
+            event.currentTarget.play().catch(() => {});
+          } else {
+            event.currentTarget.pause();
+          }
+        }}
       />
-      <span aria-hidden="true"><Video size={38} /><Play size={18} fill="currentColor" /></span>
     </div>
   );
 }

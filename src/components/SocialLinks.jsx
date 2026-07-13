@@ -18,7 +18,8 @@ const socialLinks = [
   {
     name: "TikTok",
     icon: <Music2 className="h-5 w-5" />,
-    url: "https://www.tiktok.com/@chocolate_o_o5?is_from_webapp=1&sender_device=pc",
+    url: "https://www.tiktok.com/@no0zee22?is_from_webapp=1&sender_device=pc",
+    ariaLabel: "Visit Arron Tuazon on TikTok",
     color: "hover:text-white hover:bg-slate-800",
   },
 ];
@@ -32,6 +33,7 @@ export default function SocialLinks() {
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={link.ariaLabel}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 * index }}

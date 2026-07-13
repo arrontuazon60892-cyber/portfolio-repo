@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Code2, Image as ImageIcon, Play, Video } from "lucide-react";
+import { Code2, Image as ImageIcon } from "lucide-react";
 
 import { projects } from "../data/projects";
 import { cn } from "../lib/utils";
@@ -88,7 +88,7 @@ export default function Gallery({ onOpenProject, onOpenImage, onOpenVideo, isMod
 }
 
 function ProjectCard({ project, duplicate, onOpen }) {
-  const TypeIcon = project.type === "video" ? Video : project.type === "image" ? ImageIcon : Code2;
+  const TypeIcon = project.type === "image" ? ImageIcon : Code2;
 
   return (
     <button
@@ -100,7 +100,7 @@ function ProjectCard({ project, duplicate, onOpen }) {
     >
       <div className="gallery-project-media">
         {project.type === "video" ? (
-          <div className="gallery-video-poster" aria-hidden="true"><Video size={44} /><span>VIDEO / READY</span></div>
+          <div className="gallery-video-poster" aria-hidden="true" />
         ) : project.thumbnail ? (
           <img src={project.thumbnail} alt="" loading="lazy" decoding="async" />
         ) : (
@@ -108,8 +108,7 @@ function ProjectCard({ project, duplicate, onOpen }) {
         )}
         <div className="gallery-project-overlay" />
         <span className="gallery-scanline" aria-hidden="true" />
-        {project.type === "video" && <span className="gallery-play-icon" aria-hidden="true"><Play size={22} fill="currentColor" /></span>}
-        <span className="gallery-type-icon" aria-hidden="true"><TypeIcon size={15} /></span>
+        {project.type !== "video" && <span className="gallery-type-icon" aria-hidden="true"><TypeIcon size={15} /></span>}
       </div>
     </button>
   );
