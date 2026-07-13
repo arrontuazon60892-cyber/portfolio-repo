@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
@@ -64,10 +63,13 @@ import PhotoGallery from "./components/PhotoGallery";
 import ProfileAvatar from "./components/ProfileAvatar";
 import ImageModal from "./components/ImageModal";
 import VideoModal from "./components/VideoModal";
-import { schoolProjects } from "./data/projects";
+import HeroVisual from "./components/HeroVisual";
+import NeuralSystemsMap from "./components/NeuralSystemsMap";
+import { projects, schoolProjects } from "./data/projects";
 import { cn } from "./lib/utils";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
+const imageProjects = projects.filter((project) => project.type === "image");
 
 const navItems = [
   { label: "Home", id: "home" },
@@ -167,6 +169,7 @@ const timeline = [
 function App() {
   const [theme, setTheme] = useState("dark");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const [activeProjectKey, setActiveProjectKey] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -195,8 +198,22 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const sections = navItems.map(({ id }) => document.getElementById(id)).filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target.id) setActiveSection(visible.target.id);
+      },
+      { rootMargin: "-24% 0px -58%", threshold: [0.05, 0.2, 0.45] }
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const scrollToSection = (id) => {
     setMobileNavOpen(false);
+    setActiveSection(id);
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.getElementById(id)?.scrollIntoView({
       behavior: reduceMotion ? "auto" : "smooth",
@@ -238,6 +255,16 @@ function App() {
     window.setTimeout(() => setContactSent(false), 2400);
   };
 
+  const navigateImage = (direction) => {
+    setSelectedImage((current) => {
+      const currentIndex = imageProjects.findIndex((project) => project.id === current?.id);
+      const nextIndex = currentIndex < 0
+        ? 0
+        : (currentIndex + direction + imageProjects.length) % imageProjects.length;
+      return imageProjects[nextIndex];
+    });
+  };
+
   return (
     <div
       className={cn(
@@ -277,7 +304,8 @@ function App() {
                 key={item.id}
                 type="button"
                 onClick={() => scrollToSection(item.id)}
-                className="rounded-full px-4 py-2 text-sm text-white/68 transition hover:bg-white/6 hover:text-white"
+                className={cn("nav-link rounded-full px-4 py-2 text-sm text-white/68 transition hover:bg-white/6 hover:text-white", activeSection === item.id && "is-active")}
+                aria-current={activeSection === item.id ? "page" : undefined}
                 data-cursor="hover"
               >
                 {item.label}
@@ -329,7 +357,8 @@ function App() {
                   key={item.id}
                   type="button"
                   onClick={() => scrollToSection(item.id)}
-                  className="rounded-xl border border-white/6 bg-white/[0.025] px-4 py-3 text-left text-sm text-white/72 transition hover:border-white/12 hover:bg-white/[0.06] hover:text-white"
+                  className={cn("rounded-xl border border-white/6 bg-white/[0.025] px-4 py-3 text-left text-sm text-white/72 transition hover:border-white/12 hover:bg-white/[0.06] hover:text-white", activeSection === item.id && "border-cyan-300/20 bg-cyan-300/[0.07] text-white")}
+                  aria-current={activeSection === item.id ? "page" : undefined}
                 >
                   {item.label}
                 </button>
@@ -421,39 +450,7 @@ function App() {
             </div>
 
             <div className="hero-visual-column">
-              <div className="hero-media">
-                <Image
-                  src="/images/ai-human-hero.webp"
-                  alt="A luminous digital AI face meeting a human developer face to face"
-                  fill
-                  priority
-                  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 92vw, 62vw"
-                  className="hero-media__image"
-                />
-                <div className="hero-media__shade" aria-hidden="true" />
-                <span className="hero-eye hero-eye--ai" aria-hidden="true" />
-                <span className="hero-eye hero-eye--human" aria-hidden="true" />
-
-                <div className="hero-hud hero-hud--code" aria-hidden="true">
-                  <span>CODE.SYS</span>
-                  <code>import future<br />import AI<br />return build()</code>
-                </div>
-
-                <div className="hero-hud hero-hud--neural" aria-hidden="true">
-                  <span>NEURAL.CORE</span>
-                  <div className="neural-glyph"><i /><i /><i /><i /><i /></div>
-                </div>
-
-                <div className="hero-hud hero-hud--system">
-                  <span className="hero-hud__label">SYSTEM.STATUS</span>
-                  <div className="hero-metrics">
-                    {systemMetrics.map((metric) => (
-                      <MetricRow key={metric.label} metric={metric} />
-                    ))}
-                  </div>
-                  <p className="hero-status">Status: Running</p>
-                </div>
-              </div>
+              <HeroVisual />
             </div>
           </div>
         </motion.section>
@@ -607,7 +604,7 @@ function App() {
                 </div>
               </div>
               <div className="mt-6 stack-brain-scene">
-                <NeuralCoreGraphic />
+                <NeuralSystemsMap />
               </div>
               <div className="mt-6 space-y-3 text-sm text-white/68">
                 <p>
@@ -640,6 +637,7 @@ function App() {
             onOpenProject={(project) => setActiveProjectKey(project.key)}
             onOpenImage={setSelectedImage}
             onOpenVideo={setSelectedVideo}
+            isModalOpen={Boolean(activeProject || selectedImage || selectedVideo)}
           />
         </motion.section>
 
@@ -896,8 +894,11 @@ function App() {
       )}
 
       <ImageModal
+        key={selectedImage?.id || selectedImage?.src || "image-modal"}
         isOpen={Boolean(selectedImage)}
         onClose={() => setSelectedImage(null)}
+        onPrevious={() => navigateImage(-1)}
+        onNext={() => navigateImage(1)}
         imageSrc={selectedImage?.src}
         imageAlt={selectedImage ? `${selectedImage.title} full-size preview` : "Design project"}
         isDark={isDark}
@@ -982,20 +983,6 @@ function InfoPanel({ icon: Icon, title, description }) {
           <p className="mt-1 text-sm leading-6 text-white/56">{description}</p>
         </div>
       </div>
-    </div>
-  );
-}
-
-function NeuralCoreGraphic() {
-  return (
-    <div className="neural-core-graphic" aria-hidden="true">
-      <div className="neural-core-graphic__orb" />
-      {[0, 1, 2].map((ring) => (
-        <span key={ring} className={`neural-core-graphic__ring neural-core-graphic__ring--${ring + 1}`} />
-      ))}
-      {[0, 1, 2, 3, 4, 5].map((node) => (
-        <i key={node} className={`neural-core-graphic__node neural-core-graphic__node--${node + 1}`} />
-      ))}
     </div>
   );
 }

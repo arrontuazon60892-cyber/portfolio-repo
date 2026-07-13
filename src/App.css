@@ -2224,14 +2224,301 @@
 .neural-core-graphic__node--5 { left: 19%; top: 52%; }
 .neural-core-graphic__node--6 { right: 19%; top: 49%; }
 
-main > section:not(#home),
-main > div {
-  content-visibility: auto;
-  contain-intrinsic-size: 700px;
-}
-
 section[id] {
   scroll-margin-top: 7.5rem;
+}
+
+/* Layered human + AI scene */
+.hero-visual {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 52% 42%, rgba(39, 160, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 80% 45%, rgba(111, 75, 255, 0.13), transparent 30%),
+    linear-gradient(120deg, rgba(2, 8, 18, 0.98), rgba(3, 15, 31, 0.88));
+  isolation: isolate;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: 0.15rem;
+  height: 1px;
+  background: linear-gradient(90deg, #4dc9ff, #8b5cff);
+  box-shadow: 0 0 8px rgba(77, 201, 255, 0.55);
+  transition: left 180ms ease, right 180ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  left: 24%;
+  right: 24%;
+}
+
+.nav-link.is-active {
+  color: white;
+}
+
+.hero-visual__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(rgba(79, 204, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 204, 255, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(90deg, transparent, #000 32%, #000);
+}
+
+.hero-person {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  height: 100%;
+  animation: personIdle 8s ease-in-out infinite;
+}
+
+.hero-person--ai {
+  left: -2%;
+  width: 72%;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 91%, transparent 100%);
+}
+
+.hero-person--human {
+  right: -2%;
+  width: 58%;
+  animation-delay: -3.1s;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 100%);
+}
+
+.hero-person__image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.ai-neural-overlay {
+  position: absolute;
+  inset: 5% 4% 4% 12%;
+  width: 84%;
+  height: 90%;
+  overflow: visible;
+  fill: rgba(84, 221, 255, 0.72);
+  stroke: rgba(70, 199, 255, 0.32);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 5px rgba(69, 198, 255, 0.55));
+}
+
+.ai-neural-overlay path { fill: none; }
+.ai-neural-overlay circle.is-active { animation: neuralNodePulse 4.8s ease-in-out infinite; }
+.ai-neural-overlay .ai-signal { fill: #d5fbff; stroke: none; }
+
+.hero-eyelid,
+.hero-pupil,
+.hero-ai-scan,
+.hero-human-light {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hero-eyelid {
+  height: 0.45%;
+  border-radius: 999px;
+  opacity: 0;
+  background: #03101e;
+}
+
+.hero-eyelid--ai {
+  left: 74%;
+  top: 34.6%;
+  width: 5.4%;
+  animation: aiLayerBlink 11.8s ease-in-out infinite;
+  box-shadow: 0 0 7px rgba(70, 218, 255, 0.78);
+}
+
+.hero-eyelid--human {
+  left: 37.5%;
+  top: 32.3%;
+  width: 6%;
+  animation: humanLayerBlink 13.4s ease-in-out infinite;
+}
+
+.hero-pupil {
+  width: 0.55rem;
+  height: 0.24rem;
+  border-radius: 50%;
+  opacity: 0.32;
+  background: #b8f4ff;
+  animation: eyeFocus 9.7s ease-in-out infinite;
+}
+
+.hero-pupil--ai { left: 76.2%; top: 34.3%; }
+.hero-pupil--human { left: 39.5%; top: 31.9%; animation-delay: -3.5s; }
+
+.hero-ai-scan {
+  left: 14%;
+  top: -20%;
+  width: 72%;
+  height: 12%;
+  opacity: 0;
+  background: linear-gradient(180deg, transparent, rgba(86, 222, 255, 0.16), transparent);
+  animation: aiScan 9s ease-in-out infinite;
+}
+
+.hero-human-light {
+  inset: 0;
+  opacity: 0.42;
+  background: linear-gradient(90deg, rgba(45, 211, 255, 0.18), transparent 30%);
+  animation: rimLight 8.6s ease-in-out infinite;
+}
+
+.developer-terminal,
+.system-panel {
+  position: absolute;
+  z-index: 6;
+  border: 1px solid rgba(80, 200, 255, 0.16);
+  border-radius: 0.9rem;
+  background: rgba(3, 14, 28, 0.62);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+}
+
+.developer-terminal {
+  left: 4%;
+  top: 12%;
+  width: min(15rem, 38%);
+  padding: 0.75rem;
+}
+
+.developer-terminal__bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: rgba(126, 217, 255, 0.62);
+  font: 600 0.5rem/1.4 "Cascadia Code", monospace;
+  letter-spacing: 0.12em;
+}
+
+.developer-terminal__bar b { color: rgba(80, 240, 190, 0.68); }
+.developer-terminal pre { min-height: 7rem; margin: 0.65rem 0 0; white-space: pre-wrap; color: rgba(191, 229, 255, 0.58); font: 0.55rem/1.55 "Cascadia Code", monospace; }
+.developer-terminal pre i { display: inline-block; width: 0.38rem; height: 0.7rem; background: #61dcff; animation: caretBlink 0.8s steps(1) infinite; }
+
+.system-panel {
+  right: 18%;
+  bottom: 6%;
+  width: min(13rem, 33%);
+  padding: 0.8rem;
+}
+
+.system-panel__title { color: rgba(119, 219, 255, 0.66); font: 600 0.54rem/1.4 "Cascadia Code", monospace; letter-spacing: 0.16em; }
+.system-panel__metric { display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 0.5rem; margin-top: 0.48rem; color: rgba(214, 235, 255, 0.48); font: 0.46rem/1.2 "Cascadia Code", monospace; text-transform: uppercase; }
+.system-panel__metric i { grid-column: 1 / -1; height: 0.18rem; overflow: hidden; border-radius: 1rem; background: rgba(255,255,255,0.09); }
+.system-panel__metric i b { display: block; width: var(--metric); height: 100%; transform-origin: left; background: linear-gradient(90deg,#3dd7ff,#805bff); animation: systemBar 1.2s 0.5s both; }
+
+.hero-stack-labels { position: absolute; z-index: 5; right: 2%; top: 8%; display: grid; gap: 0.4rem; color: rgba(151, 213, 255, 0.26); font: 0.48rem/1.2 "Cascadia Code", monospace; letter-spacing: 0.13em; }
+.hero-visual__data { position: absolute; z-index: 1; left: 3%; bottom: 4%; display: flex; gap: 1.2rem; color: rgba(87, 208, 255, 0.22); font: 0.46rem/1 "Cascadia Code", monospace; white-space: nowrap; animation: dataStream 13s linear infinite; }
+
+/* Animated skills network */
+.neural-map { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 50% 48%, rgba(57, 167, 255, 0.16), transparent 40%); }
+.neural-map svg { width: 100%; height: 100%; overflow: visible; }
+.neural-map__edges line { stroke: url(#neuralLine); stroke-width: 0.34; opacity: 0.34; }
+.neural-map__edges line.has-signal { stroke-dasharray: 1.8 5; animation: signalRoute 5s linear infinite; }
+.neural-map__node { cursor: pointer; outline: none; }
+.neural-map__node > circle:first-child { fill: rgba(8, 24, 45, 0.9); stroke: rgba(93, 211, 255, 0.52); stroke-width: 0.5; transition: fill 180ms ease, stroke 180ms ease; animation: mapNodePulse 5s ease-in-out infinite; }
+.neural-map__node-core { fill: #73e7ff; filter: drop-shadow(0 0 2px #4dc9ff); }
+.neural-map__node text { fill: rgba(224, 242, 255, 0.72); font: 3.2px "Cascadia Code", monospace; text-anchor: middle; pointer-events: none; }
+.neural-map__node:hover > circle:first-child,
+.neural-map__node:focus > circle:first-child { fill: rgba(88, 69, 220, 0.38); stroke: #b2f5ff; }
+.neural-map__node--2 > circle:first-child,
+.neural-map__node--5 > circle:first-child { animation-delay: -2.4s; }
+.neural-map__readout { position: absolute; left: 1rem; right: 1rem; bottom: 0.7rem; display: flex; justify-content: space-between; color: rgba(140, 211, 255, 0.45); font: 0.52rem/1 "Cascadia Code", monospace; letter-spacing: 0.1em; }
+.neural-map__readout b { color: rgba(81, 239, 190, 0.68); }
+.neural-map.is-paused * { animation-play-state: paused !important; }
+
+/* Seamless project media system */
+.project-showcase { margin-top: 1.75rem; overflow: hidden; }
+.project-carousel { margin-top: 1.25rem; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
+.project-carousel__track { display: flex; width: max-content; animation: projectLoop 54s linear infinite; }
+.project-carousel.is-paused .project-carousel__track { animation-play-state: paused; }
+.project-carousel__set { display: flex; gap: 1rem; padding-right: 1rem; }
+.project-carousel .gallery-project-card { width: clamp(18rem, 27vw, 23rem); flex: none; }
+.project-carousel .gallery-project-copy { min-height: 13.5rem; }
+.gallery-project-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.project-online { flex: none; color: rgba(85, 239, 192, 0.7); font: 0.5rem/1 "Cascadia Code", monospace; letter-spacing: 0.1em; }
+.project-online i { display: inline-block; width: 0.38rem; height: 0.38rem; margin-right: 0.25rem; border-radius: 50%; background: #55efc0; box-shadow: 0 0 8px rgba(85,239,192,.7); }
+.gallery-project-footer { display: flex; flex-direction: column; gap: 0.85rem; margin-top: auto; padding-top: 1rem; }
+.gallery-project-footer > div { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.gallery-open-action { display: inline-flex; align-items: center; gap: 0.4rem; color: rgba(160, 221, 255, 0.68); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; }
+.gallery-scanline { position: absolute; z-index: 2; top: -20%; left: 0; width: 100%; height: 15%; opacity: 0; background: linear-gradient(transparent, rgba(97,222,255,0.12), transparent); transition: transform 700ms ease, opacity 200ms ease; }
+.gallery-project-card:hover .gallery-scanline,
+.gallery-project-card:focus-visible .gallery-scanline { opacity: 1; transform: translateY(700%); }
+.gallery-video-poster { display: grid; width: 100%; height: 13rem; place-items: center; align-content: center; gap: 0.6rem; color: rgba(132,220,255,.7); background: radial-gradient(circle,rgba(79,145,255,.18),transparent 42%),linear-gradient(135deg,#071426,#0a0d22); }
+.gallery-video-poster span { font: 0.56rem/1 "Cascadia Code", monospace; letter-spacing: 0.15em; }
+.project-carousel__readout { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.9rem; color: rgba(153,207,255,.42); font: 0.55rem/1 "Cascadia Code", monospace; letter-spacing: 0.12em; }
+.project-carousel__readout b { color: rgba(83,241,192,.62); }
+
+@keyframes personIdle { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.003); } }
+@keyframes aiLayerBlink { 0%,31%,32.5%,76%,77.5%,100%{opacity:0;transform:scaleY(.1)}31.5%,32%,76.5%,77%{opacity:.96;transform:scaleY(1)} }
+@keyframes humanLayerBlink { 0%,38%,39.5%,82%,83.5%,100%{opacity:0;transform:scaleY(.1)}38.5%,39%,82.5%,83%{opacity:.96;transform:scaleY(1)} }
+@keyframes eyeFocus { 0%,38%,62%,100%{transform:translateX(0)} 44%,56%{transform:translateX(2px)} }
+@keyframes aiScan { 0%,60%{opacity:0;transform:translateY(0)}65%{opacity:.6}83%{opacity:0;transform:translateY(850%)}100%{opacity:0} }
+@keyframes rimLight { 0%,100%{opacity:.3}50%{opacity:.5} }
+@keyframes neuralNodePulse { 0%,100%{opacity:.45}50%{opacity:1;r:7px} }
+@keyframes systemBar { from{transform:scaleX(0)}to{transform:scaleX(1)} }
+@keyframes dataStream { from{transform:translateX(0)}to{transform:translateX(-30%)} }
+@keyframes signalRoute { to{stroke-dashoffset:-24} }
+@keyframes mapNodePulse { 0%,100%{stroke-opacity:.4}50%{stroke-opacity:1} }
+@keyframes projectLoop { to { transform: translateX(-50%); } }
+
+@media (max-width: 1023px) {
+  .hero-visual { position: relative; aspect-ratio: 16 / 9; border: 1px solid rgba(110,194,255,.12); border-radius: 1.25rem; }
+  .hero-person--ai { left: 8%; width: 60%; }
+  .hero-person--human { right: 3%; width: 49%; }
+  .developer-terminal { left: 2%; top: 6%; width: 34%; }
+  .developer-terminal pre { min-height: 5rem; font-size: .44rem; }
+  .system-panel { right: 3%; bottom: 4%; width: 28%; }
+  .hero-stack-labels { display: none; }
+}
+
+@media (max-width: 640px) {
+  .hero-visual { aspect-ratio: 1.25 / 1; }
+  .hero-person { top: -5%; height: 110%; }
+  .hero-person--ai { left: -7%; width: 73%; }
+  .hero-person--human { right: -8%; width: 66%; }
+  .developer-terminal { left: .5rem; top: .5rem; width: 44%; padding: .55rem; }
+  .developer-terminal pre { min-height: 3.8rem; max-height: 3.8rem; overflow: hidden; font-size: .38rem; }
+  .developer-terminal__bar b { display: none; }
+  .system-panel { display: none; }
+  .hero-visual__data { display: none; }
+  .project-carousel { overflow-x: auto; mask-image: none; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .project-carousel::-webkit-scrollbar { display: none; }
+  .project-carousel__track { animation: none; }
+  .project-carousel__set[aria-hidden="true"] { display: none; }
+  .project-carousel .gallery-project-card { width: min(84vw, 20rem); scroll-snap-align: center; }
+  .project-carousel__readout span:first-child { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-person,
+  .hero-eyelid,
+  .hero-pupil,
+  .hero-ai-scan,
+  .hero-human-light,
+  .ai-neural-overlay *,
+  .developer-terminal pre i,
+  .system-panel__metric i b,
+  .hero-visual__data,
+  .neural-map *,
+  .project-carousel__track {
+    animation: none !important;
+  }
 }
 
 @keyframes naturalBlink {

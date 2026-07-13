@@ -12,7 +12,9 @@ import photoboothPreview from "../assets/photobooth1.png";
 
 export const projectFilters = [
   { id: "all", label: "All" },
-  { id: "web-development", label: "Web Development" },
+  { id: "web-development", label: "Web Applications" },
+  { id: "mobile-application", label: "Mobile Applications" },
+  { id: "academic-system", label: "Academic Systems" },
   { id: "graphic-design", label: "Graphic Design" },
   { id: "video-editing", label: "Video Editing" },
 ];
@@ -39,7 +41,7 @@ export const projects = [
     key: "attendance",
     title: "Attendance Management System",
     category: "Mobile Application",
-    categorySlug: "web-development",
+    categorySlug: "mobile-application",
     type: "web",
     description:
       "A digital attendance tracking system designed to simplify monitoring and managing attendance records.",
@@ -52,7 +54,7 @@ export const projects = [
     key: "attendex",
     title: "Attendex: Attendance and Examination Management System",
     category: "Academic Management",
-    categorySlug: "web-development",
+    categorySlug: "academic-system",
     type: "web",
     description:
       "An academic management system for tracking student attendance and managing examination records.",
@@ -154,5 +156,5 @@ export const projects = [
 ];
 
 export const schoolProjects = projects.filter(
-  (project) => project.categorySlug === "web-development"
+  (project) => project.type === "web"
 );
