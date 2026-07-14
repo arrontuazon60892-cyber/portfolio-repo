@@ -4,6 +4,8 @@ import coffeePoster from "../assets/graphic_design/COFFEE.png";
 import cosmeticPoster from "../assets/graphic_design/COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC.png";
 import coloringCover from "../assets/graphic_design/Colorful Coloring Book Cover A4 Document.png";
 import seolinahPoster from "../assets/graphic_design/seolinah.png";
+import shoesPoster from "../assets/graphic_design/shoes.png";
+import windbreakerPoster from "../assets/graphic_design/wiindbreaker.png";
 
 import mrs0 from "../assets/projects_school/mrs.png";
 import mrs1 from "../assets/projects_school/mrs1.png";
@@ -38,6 +40,8 @@ export const graphicDesignMedia = [
   { id: "cosmetic", folder: "graphic_design", title: "Cosmetic Campaign", type: "image", src: cosmeticPoster, category: "Campaign Visual", tools: ["Canva"] },
   { id: "coloring", folder: "graphic_design", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design", tools: ["Canva"] },
   { id: "seolinah", folder: "graphic_design", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design", tools: ["Canva"] },
+  { id: "shoes", folder: "graphic_design", title: "Shoes Campaign", type: "image", src: shoesPoster, category: "Campaign Visual", tools: ["Canva"] },
+  { id: "windbreaker", folder: "graphic_design", title: "Windbreaker Design", type: "image", src: windbreakerPoster, category: "Campaign Visual", tools: ["Canva"] },
 ];
 
 export const schoolProjectsMedia = [
