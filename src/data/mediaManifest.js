@@ -1,6 +1,7 @@
 import realityPoster from "../assets/graphic_design/404 REALITY NOT FOUND.png";
 import burgerPoster from "../assets/graphic_design/burger.png";
 import coffeePoster from "../assets/graphic_design/COFFEE.png";
+import cosmeticPoster from "../assets/graphic_design/COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC.png";
 import coloringCover from "../assets/graphic_design/Colorful Coloring Book Cover A4 Document.png";
 import seolinahPoster from "../assets/graphic_design/seolinah.png";
 
@@ -34,6 +35,7 @@ export const graphicDesignMedia = [
   { id: "reality", folder: "graphic_design", title: "404 Reality Not Found", type: "image", src: realityPoster, category: "Concept Poster", tools: ["Canva"] },
   { id: "burger", folder: "graphic_design", type: "image", title: "Burger Promotional Poster", src: burgerPoster, category: "Campaign Visual", tools: ["Canva"] },
   { id: "coffee", folder: "graphic_design", title: "Coffee Promotional Poster", type: "image", src: coffeePoster, category: "Campaign Visual", tools: ["Canva"] },
+  { id: "cosmetic", folder: "graphic_design", title: "Cosmetic Campaign", type: "image", src: cosmeticPoster, category: "Campaign Visual", tools: ["Canva"] },
   { id: "coloring", folder: "graphic_design", title: "Colorful Coloring Book Cover", type: "image", src: coloringCover, category: "Publication Design", tools: ["Canva"] },
   { id: "seolinah", folder: "graphic_design", title: "Seolinah Editorial Poster", type: "image", src: seolinahPoster, category: "Editorial Design", tools: ["Canva"] },
 ];

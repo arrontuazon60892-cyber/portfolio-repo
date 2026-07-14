@@ -74,7 +74,6 @@ const navItems = [
   { label: "Projects", id: "school-projects" },
   { label: "Skills", id: "skills" },
   { label: "Work", id: "explore" },
-  { label: "Experience", id: "experience" },
   { label: "Contact", id: "contact" },
 ];
 
@@ -156,32 +155,6 @@ const techStackPanels = [
   },
 ];
 
-const timeline = [
-  {
-    title: "Junior Web Developer, Aspiring Full-Stack Developer",
-    org: "WebDevs",
-    year: "2027",
-    icon: Briefcase,
-  },
-  {
-    title: "BS Information Technology in Business Analytics",
-    org: "Laguna University (Expected Graduating)",
-    year: "2027",
-    icon: GraduationCap,
-  },
-  {
-    title: "Data Analyst Intern",
-    org: "",
-    year: "Ongoing(2026)",
-    icon: BrainCircuit,
-  },
-  {
-    title: "Hello World!",
-    org: "Wrote my first line of code",
-    year: "2024",
-    icon: TerminalSquare,
-  },
-];
 
 function App() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -352,7 +325,7 @@ function App() {
         </AnimatePresence>
       </header>
 
-      <main className="relative z-10 mx-auto flex max-w-[1600px] flex-col gap-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+      <main className="relative z-10 mx-auto flex max-w-[1600px] flex-col gap-6 px-4 pb-12 pt-4 sm:px-6 lg:px-8">
         <motion.section
           id="home"
           initial={{ opacity: 0, y: 28 }}
@@ -439,14 +412,14 @@ function App() {
           </div>
         </motion.section>
 
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
           <motion.section
             id="about"
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="glass-panel p-6 sm:p-8"
+            className="glass-panel p-5 sm:p-6"
           >
             <SectionHeader
               eyebrow="About"
@@ -454,9 +427,9 @@ function App() {
               description="The original story stays intact. The presentation becomes far more cinematic."
             />
 
-            <div className="mt-8 grid gap-8 md:grid-cols-[auto_1fr] md:items-start">
+            <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
               <ProfileAvatar />
-              <div className="space-y-5 text-white/76">
+              <div className="space-y-4 text-white/76">
                 <p>
                   I&apos;m a full-stack web developer focused on building modern web
                   applications with React on the frontend and Java on the backend. I
@@ -484,20 +457,20 @@ function App() {
             </div>
           </motion.section>
 
-          <div className="grid gap-8">
+          <div className="grid gap-5">
             <motion.section
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: 0.06 }}
-              className="glass-panel p-6 sm:p-8"
+              className="glass-panel p-5 sm:p-6"
             >
               <SectionHeader
                 eyebrow="Stats"
                 title="Mission Data"
                 description="A quick pulse check across the portfolio footprint."
               />
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2">
                 {stats.map((stat) => (
                   <div key={stat.label} className="stat-card">
                     <p className="stat-value">{stat.value}</p>
@@ -512,14 +485,14 @@ function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: 0.12 }}
-              className="glass-panel p-6 sm:p-8"
+              className="glass-panel p-5 sm:p-6"
             >
               <SectionHeader
                 eyebrow="Signals"
                 title="System Readiness"
-                description="A stylized snapshot inspired by the sci-fi command deck in your target reference."
+                description="A live overview of my development, creative, and delivery capabilities."
               />
-              <div className="mt-8 space-y-4">
+              <div className="mt-6 space-y-3">
                 {systemMetrics.map((metric) => (
                   <MetricRow key={metric.label} metric={metric} />
                 ))}
@@ -534,7 +507,7 @@ function App() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="glass-panel p-6 sm:p-8"
+          className="glass-panel p-5 sm:p-6"
         >
           <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
             <div>
@@ -637,51 +610,10 @@ function App() {
           </ShowcaseSection>
         ))}
 
-        <div className="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
-          <motion.section
-            id="experience"
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="glass-panel p-6 sm:p-8"
-          >
-            <SectionHeader
-              eyebrow="Experience"
-              title="Experience"
-              description="Experience and education stay connected in one cinematic timeline."
-            />
-
-            <div className="mt-8 space-y-6">
-              {timeline.map((item, index) => (
-                <div key={item.title} className="timeline-item">
-                  <div className="timeline-line" />
-                  <div className="timeline-marker">
-                    <item.icon size={16} />
-                  </div>
-                  <div className="timeline-content">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h3 className="text-base font-semibold text-white">{item.title}</h3>
-                      <span className="timeline-year">{item.year}</span>
-                    </div>
-                    <p className="mt-2 text-sm text-white/62">{item.org || " "}</p>
-                    {index === 1 && (
-                      <p className="mt-3 text-sm text-white/55">
-                        Education, internship momentum, and developer trajectory all
-                        remain visible as part of the same story arc.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className="glass-panel p-6 sm:p-8">
-            <SectionHeader eyebrow="Network" title="Social Links" description="Direct channels for collaboration, updates, and creative work." />
-            <div className="mt-8"><SocialLinks /></div>
-          </motion.section>
-        </div>
+        <motion.section initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className="glass-panel p-5 sm:p-6">
+          <SectionHeader eyebrow="Network" title="Social Links" description="Direct channels for collaboration, updates, and creative work." />
+          <div className="mt-6"><SocialLinks /></div>
+        </motion.section>
 
         <motion.section
           id="contact"
@@ -689,9 +621,9 @@ function App() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="glass-panel p-6 sm:p-8"
+          className="glass-panel p-5 sm:p-6"
         >
-          <div className="grid gap-8 xl:grid-cols-[0.85fr_1.15fr]">
+          <div className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
             <div>
               <SectionHeader
                 eyebrow="Contact"
@@ -699,7 +631,7 @@ function App() {
                 description="The direct email route is preserved, with a more premium interaction layer around it."
               />
 
-              <div className="mt-8 space-y-4">
+              <div className="mt-6 space-y-4">
                 <div className="contact-card">
                   <div className="flex items-center gap-3">
                     <div className="icon-pill">
@@ -760,8 +692,8 @@ function App() {
                 </div>
               </div>
 
-              <form onSubmit={handleContactSubmit} className="space-y-4">
-                <div className="grid gap-4 md:grid-cols-2">
+              <form onSubmit={handleContactSubmit} className="space-y-3">
+                <div className="grid gap-3 md:grid-cols-2">
                   <FloatingInput
                     id="contact-name"
                     label="Name"
@@ -805,7 +737,7 @@ function App() {
                     Send Inquiry
                     <ArrowRight size={16} />
                   </button>
-                  <span className="text-sm text-white/48">
+                  <span className="text-xs text-white/48">
                     Uses your default email client while keeping the original direct
                     email path intact.
                   </span>
@@ -852,10 +784,10 @@ function SectionHeader({ eyebrow, title, description }) {
         <span className="kicker-dot" />
         {eyebrow}
       </span>
-      <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+      <h2 className="mt-4 font-semibold tracking-[-0.04em] text-white sm:text-2xl" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.7rem)' }}>
         {title}
       </h2>
-      {description && <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base">{description}</p>}
+      {description && <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base" style={{ fontSize: 'clamp(0.9rem, 1vw, 1.05rem)' }}>{description}</p>}
     </div>
   );
 }

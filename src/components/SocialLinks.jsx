@@ -26,7 +26,7 @@ const socialLinks = [
 
 export default function SocialLinks() {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       {socialLinks.map((link, index) => (
         <motion.a
           key={link.name}
@@ -37,17 +37,17 @@ export default function SocialLinks() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 * index }}
-          className={`group flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900/40 p-4 transition-all duration-300 hover:border-slate-700 ${link.color}`}
+          className={`group flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/40 p-3 transition-all duration-300 hover:border-slate-700 ${link.color}`}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <div
-              className="rounded-xl bg-slate-800 p-2 text-white transition-all duration-300 group-hover:scale-110"
+              className="rounded-lg bg-slate-800 p-1.5 text-white transition-all duration-300 group-hover:scale-110"
             >
               {link.icon}
             </div>
-            <span className="text-sm font-bold">{link.name}</span>
+            <span className="text-xs font-bold">{link.name}</span>
           </div>
-          <motion.span className="translate-x-2 text-xs font-bold opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+          <motion.span className="translate-x-2 text-[10px] font-bold opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
             Follow →
           </motion.span>
         </motion.a>
