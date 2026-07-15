@@ -109,10 +109,10 @@ export const commercialVideoMedia = [
 export const mediaCategories = [
   { id: "ai-video", folder: "ai_video", title: "AI Video Creations", direction: "right", variant: "video", items: aiVideoMedia },
   { id: "graphic-design", folder: "graphic_design", title: "Graphic Design", direction: "left", variant: "creative", items: graphicDesignMedia },
-  { id: "school-projects", folder: "projects_school", title: "School Projects", direction: "right", variant: "systems", items: schoolProjectSlides },
-  { id: "certificates", folder: "certicate", title: "Certificates", direction: "left", variant: "certificates", items: certificateMedia },
-  { id: "gallery", folder: "gallary", title: "Gallery", direction: "right", variant: "gallery", items: galleryMedia },
-  { id: "commercial-videos", folder: "video_commercial", title: "Commercial Videos", direction: "left", variant: "commercial", items: commercialVideoMedia },
+  { id: "commercial-videos", folder: "video_commercial", title: "Commercial Videos", direction: "right", variant: "commercial", items: commercialVideoMedia },
+  { id: "school-projects", folder: "projects_school", title: "School Projects", direction: "left", variant: "systems", items: schoolProjectSlides },
+  { id: "certificates", folder: "certicate", title: "Certificates", direction: "right", variant: "certificates", items: certificateMedia },
+  { id: "gallery", folder: "gallary", title: "Gallery", direction: "left", variant: "gallery", items: galleryMedia },
 ];
 
 export const mediaCounts = {
