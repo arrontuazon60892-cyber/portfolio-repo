@@ -422,94 +422,86 @@ function App() {
           </div>
         </motion.section>
 
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
-          <motion.section
-            id="about"
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="glass-panel p-5 sm:p-6"
-          >
-            <SectionHeader
-              eyebrow="About"
-              title="About"
-              description="The original story stays intact. The presentation becomes far more cinematic."
-            />
+        <motion.section
+          id="about"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="glass-panel p-5 sm:p-6"
+        >
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] items-start">
+            {/* ── Left column: About Content ── */}
+            <div>
+              <SectionHeader
+                eyebrow="About"
+                title="About"
+                description="The original story stays intact. The presentation becomes far more cinematic."
+              />
 
-            <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
-              <ProfileAvatar />
-              <div className="space-y-4 text-white/76">
-                <p>
-                  I&apos;m a full-stack web developer focused on building modern web
-                  applications with React on the frontend and Java on the backend. I
-                  enjoy creating clean, responsive interfaces and reliable APIs that
-                  feel great to use.
-                </p>
-                <p>
-                  I have a passion for learning new technologies and staying
-                  up-to-date with the latest trends in web development. I&apos;m always
-                  looking for ways to improve my skills and take on new challenges.
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <InfoPanel
-                    icon={Bot}
-                    title="AI-flavored direction"
-                    description="This redesign frames the portfolio like a living operating system for your work."
-                  />
-                  <InfoPanel
-                    icon={Wrench}
-                    title="Execution mindset"
-                    description="Clean systems, useful interfaces, and practical problem solving remain the core."
-                  />
+              <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
+                <ProfileAvatar />
+                <div className="space-y-4 text-white/76">
+                  <p>
+                    I&apos;m a full-stack web developer focused on building modern web
+                    applications with React on the frontend and Java on the backend. I
+                    enjoy creating clean, responsive interfaces and reliable APIs that
+                    feel great to use.
+                  </p>
+                  <p>
+                    I have a passion for learning new technologies and staying
+                    up-to-date with the latest trends in web development. I&apos;m always
+                    looking for ways to improve my skills and take on new challenges.
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <InfoPanel
+                      icon={Bot}
+                      title="AI-flavored direction"
+                      description="This redesign frames the portfolio like a living operating system for your work."
+                    />
+                    <InfoPanel
+                      icon={Wrench}
+                      title="Execution mindset"
+                      description="Clean systems, useful interfaces, and practical problem solving remain the core."
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </motion.section>
 
-          <div className="grid gap-5">
-            <motion.section
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: 0.06 }}
-              className="glass-panel p-5 sm:p-6"
-            >
-              <SectionHeader
-                eyebrow="Stats"
-                title="Mission Data"
-                description="A quick pulse check across the portfolio footprint."
-              />
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="stat-card">
-                    <p className="stat-value">{stat.value}</p>
-                    <p className="stat-label">{stat.label}</p>
-                  </div>
-                ))}
+            {/* ── Right column: Stats & Readiness ── */}
+            <div className="space-y-8 lg:border-l lg:border-white/10 lg:pl-8">
+              <div>
+                <SectionHeader
+                  eyebrow="Stats"
+                  title="Mission Data"
+                  description="A quick pulse check across the portfolio footprint."
+                />
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2">
+                  {stats.map((stat) => (
+                    <div key={stat.label} className="stat-card">
+                      <p className="stat-value">{stat.value}</p>
+                      <p className="stat-label">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </motion.section>
 
-            <motion.section
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: 0.12 }}
-              className="glass-panel p-5 sm:p-6"
-            >
-              <SectionHeader
-                eyebrow="Signals"
-                title="System Readiness"
-                description="A live overview of my development, creative, and delivery capabilities."
-              />
-              <div className="mt-6 space-y-3">
-                {systemMetrics.map((metric) => (
-                  <MetricRow key={metric.label} metric={metric} />
-                ))}
+              <div className="border-t border-white/10 pt-6">
+                <SectionHeader
+                  eyebrow="Signals"
+                  title="System Readiness"
+                  description="A live overview of my development, creative, and delivery capabilities."
+                />
+                <div className="mt-6 space-y-3">
+                  {systemMetrics.map((metric) => (
+                    <MetricRow key={metric.label} metric={metric} />
+                  ))}
+                </div>
               </div>
-            </motion.section>
+            </div>
           </div>
-        </div>
+        </motion.section>
 
         <motion.section
           id="skills"
@@ -520,6 +512,7 @@ function App() {
           className="glass-panel p-5 sm:p-6"
         >
           <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr] items-start">
+            {/* ── Column 1: Tech Stack ── */}
             <div>
               <SectionHeader
                 eyebrow="Tech Stack"
@@ -527,52 +520,51 @@ function App() {
                 description="Every original technology stays present, reorganized into futuristic signal panels."
               />
               <div className="mt-8 grid gap-4 lg:grid-cols-3">
-                {techStackPanels.map((panel) => (
-                  <div
-                    key={panel.title}
-                    className={cn("stack-card", panel.wide && "lg:col-span-3")}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="icon-pill">
-                        <panel.icon size={18} />
-                      </div>
-                      <h3 className="text-base font-semibold text-white">{panel.title}</h3>
-                    </div>
-                    <div
-                      className={cn(
-                        "tech-logo-grid",
-                        panel.wide && "tech-logo-grid--tools",
-                      )}
-                    >
-                      {panel.items.map((item) => (
-                        <div
-                          key={item.name}
-                          className="tech-logo-item"
-                          aria-label={`${item.name} technology`}
-                          role="img"
-                        >
-                          <item.icon
-                            className="tech-logo-icon"
-                            style={{ color: item.color }}
-                            aria-hidden="true"
-                            title={item.name}
-                          />
-                          <span>{item.name}</span>
+                {techStackPanels
+                  .filter((panel) => !panel.wide)
+                  .map((panel) => (
+                    <div key={panel.title} className="stack-card">
+                      <div className="flex items-center gap-3">
+                        <div className="icon-pill">
+                          <panel.icon size={18} />
                         </div>
-                      ))}
+                        <h3 className="text-base font-semibold text-white">
+                          {panel.title}
+                        </h3>
+                      </div>
+                      <div className="tech-logo-grid">
+                        {panel.items.map((item) => (
+                          <div
+                            key={item.name}
+                            className="tech-logo-item"
+                            aria-label={`${item.name} technology`}
+                            role="img"
+                          >
+                            <item.icon
+                              className="tech-logo-icon"
+                              style={{ color: item.color }}
+                              aria-hidden="true"
+                              title={item.name}
+                            />
+                            <span>{item.name}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
 
+            {/* ── Column 2: Neural Map ── */}
             <div className="stack-feature-panel">
               <div className="flex items-center gap-3">
                 <div className="icon-pill">
                   <Orbit size={18} />
                 </div>
-              <div>
-                  <p className="text-sm font-semibold text-white">Neural Systems Map</p>
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    Neural Systems Map
+                  </p>
                   <p className="text-xs uppercase tracking-[0.24em] text-white/45">
                     Lightweight signal layer
                   </p>
@@ -592,6 +584,47 @@ function App() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* ── Row 2: AI & Creative Tools (Full Width) ── */}
+          <div className="mt-8 border-t border-white/10 pt-8">
+            {techStackPanels
+              .filter((panel) => panel.wide)
+              .map((panel) => (
+                <div key={panel.title}>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="icon-pill">
+                      <panel.icon size={18} />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">
+                        {panel.title}
+                      </h3>
+                      <p className="text-xs uppercase tracking-[0.24em] text-white/45 mt-1">
+                        State-of-the-art AI assistants & design tools
+                      </p>
+                    </div>
+                  </div>
+                  <div className="tech-logo-grid tech-logo-grid--tools">
+                    {panel.items.map((item) => (
+                      <div
+                        key={item.name}
+                        className="tech-logo-item"
+                        aria-label={`${item.name} technology`}
+                        role="img"
+                      >
+                        <item.icon
+                          className="tech-logo-icon"
+                          style={{ color: item.color }}
+                          aria-hidden="true"
+                          title={item.name}
+                        />
+                        <span>{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
           </div>
         </motion.section>
 
