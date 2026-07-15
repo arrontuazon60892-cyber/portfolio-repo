@@ -412,7 +412,7 @@ function App() {
           </div>
         </motion.section>
 
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
           <motion.section
             id="about"
             initial={{ opacity: 0, y: 32 }}
@@ -509,7 +509,7 @@ function App() {
           transition={{ duration: 0.6 }}
           className="glass-panel p-5 sm:p-6"
         >
-          <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
+          <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr] items-start">
             <div>
               <SectionHeader
                 eyebrow="Tech Stack"
@@ -623,7 +623,7 @@ function App() {
           transition={{ duration: 0.6 }}
           className="glass-panel p-5 sm:p-6"
         >
-          <div className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
+          <div className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr] items-start">
             <div>
               <SectionHeader
                 eyebrow="Contact"
