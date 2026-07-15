@@ -512,46 +512,44 @@ function App() {
           className="glass-panel p-5 sm:p-6"
         >
           <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr] items-start">
-            {/* ── Column 1: Tech Stack ── */}
+            {/* ── Column 1: Tech Stack & AI Tools (2x2 Grid of Cards) ── */}
             <div>
               <SectionHeader
-                eyebrow="Tech Stack"
-                title="Tech Stack"
-                description="Every original technology stays present, reorganized into futuristic signal panels."
+                eyebrow="Tech Stack & Tools"
+                title="Tech Stack & AI Tools"
+                description="Every original technology and AI creative assistant, organized into futuristic signal panels."
               />
-              <div className="mt-8 grid gap-4 lg:grid-cols-3">
-                {techStackPanels
-                  .filter((panel) => !panel.wide)
-                  .map((panel) => (
-                    <div key={panel.title} className="stack-card">
-                      <div className="flex items-center gap-3">
-                        <div className="icon-pill">
-                          <panel.icon size={18} />
-                        </div>
-                        <h3 className="text-base font-semibold text-white">
-                          {panel.title}
-                        </h3>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {techStackPanels.map((panel) => (
+                  <div key={panel.title} className="stack-card">
+                    <div className="flex items-center gap-3">
+                      <div className="icon-pill">
+                        <panel.icon size={18} />
                       </div>
-                      <div className="tech-logo-grid">
-                        {panel.items.map((item) => (
-                          <div
-                            key={item.name}
-                            className="tech-logo-item"
-                            aria-label={`${item.name} technology`}
-                            role="img"
-                          >
-                            <item.icon
-                              className="tech-logo-icon"
-                              style={{ color: item.color }}
-                              aria-hidden="true"
-                              title={item.name}
-                            />
-                            <span>{item.name}</span>
-                          </div>
-                        ))}
-                      </div>
+                      <h3 className="text-base font-semibold text-white">
+                        {panel.title}
+                      </h3>
                     </div>
-                  ))}
+                    <div className="tech-logo-grid">
+                      {panel.items.map((item) => (
+                        <div
+                          key={item.name}
+                          className="tech-logo-item"
+                          aria-label={`${item.name} technology`}
+                          role="img"
+                        >
+                          <item.icon
+                            className="tech-logo-icon"
+                            style={{ color: item.color }}
+                            aria-hidden="true"
+                            title={item.name}
+                          />
+                          <span>{item.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -584,47 +582,6 @@ function App() {
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* ── Row 2: AI & Creative Tools (Full Width) ── */}
-          <div className="mt-8 border-t border-white/10 pt-8">
-            {techStackPanels
-              .filter((panel) => panel.wide)
-              .map((panel) => (
-                <div key={panel.title}>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="icon-pill">
-                      <panel.icon size={18} />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        {panel.title}
-                      </h3>
-                      <p className="text-xs uppercase tracking-[0.24em] text-white/45 mt-1">
-                        State-of-the-art AI assistants & design tools
-                      </p>
-                    </div>
-                  </div>
-                  <div className="tech-logo-grid tech-logo-grid--tools">
-                    {panel.items.map((item) => (
-                      <div
-                        key={item.name}
-                        className="tech-logo-item"
-                        aria-label={`${item.name} technology`}
-                        role="img"
-                      >
-                        <item.icon
-                          className="tech-logo-icon"
-                          style={{ color: item.color }}
-                          aria-hidden="true"
-                          title={item.name}
-                        />
-                        <span>{item.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
           </div>
         </motion.section>
 
