@@ -681,13 +681,11 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
-  transition: transform 420ms ease, filter 420ms ease;
+  transition: transform 420ms ease;
 }
 
 .project-row:hover .project-preview img {
   transform: scale(1.045);
-  filter: grayscale(0.25);
 }
 
 .project-preview::after {
@@ -905,14 +903,12 @@ button {
 .media-loop-card__media img,
 .media-loop-card__video video {
   object-fit: cover;
-  filter: grayscale(1);
-  transition: transform 360ms ease, filter 360ms ease, opacity 240ms ease;
+  transition: transform 360ms ease, opacity 240ms ease;
 }
 
 .media-loop-card:hover img,
 .media-loop-card:hover video {
   transform: scale(1.035);
-  filter: grayscale(0.15);
 }
 
 .media-loop-card__video {
@@ -1502,7 +1498,7 @@ button {
   background: #e7e7e2;
 }
 
-.profile-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
+.profile-portrait img { width: 100%; height: 100%; object-fit: cover; }
 
 .media-loop-card__media img,
 .media-loop-card__video video {
@@ -1581,7 +1577,6 @@ button {
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  filter: grayscale(1) contrast(1.06);
   animation: robotFallbackFloat 6s ease-in-out infinite;
 }
 
@@ -1621,4 +1616,101 @@ button {
 
 @media (max-width: 700px) {
   .robot-visual-fallback img { max-height: 24rem; }
+}
+
+/* Full-page alternation and the complete 4x4 Graphic Design mosaic. */
+.hero-section,
+.editorial-section {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.editorial-section {
+  display: grid;
+  align-content: center;
+}
+
+#work {
+  align-content: start;
+}
+
+.media-loop-card__media,
+.media-loop-card__video,
+.media-loop-card__media img,
+.media-loop-card__video video {
+  min-width: 0;
+  min-height: 0;
+}
+
+.media-loop-card__media img,
+.media-loop-card__video video {
+  filter: none;
+}
+
+@media (min-width: 1025px) {
+  .graphic-design-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(4, clamp(150px, 12vw, 210px));
+    gap: 14px;
+  }
+
+  .graphic-design-grid .media-loop-card {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .graphic-design-grid .media-loop-card:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
+  .graphic-design-grid .media-loop-card:nth-child(2) { grid-column: 3; grid-row: 1 / 3; }
+  .graphic-design-grid .media-loop-card:nth-child(3) { grid-column: 4; grid-row: 1; }
+  .graphic-design-grid .media-loop-card:nth-child(4) { grid-column: 4; grid-row: 2; }
+  .graphic-design-grid .media-loop-card:nth-child(5) { grid-column: 1; grid-row: 3 / 5; }
+  .graphic-design-grid .media-loop-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+  .graphic-design-grid .media-loop-card:nth-child(7) { grid-column: 3 / 5; grid-row: 3; }
+  .graphic-design-grid .media-loop-card:nth-child(8) { grid-column: 2 / 5; grid-row: 4; }
+
+  .graphic-design-grid .media-loop-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .graphic-design-grid .media-loop-card:nth-child(4) img,
+  .graphic-design-grid .media-loop-card:nth-child(6) img { object-position: center 24%; }
+  .graphic-design-grid .media-loop-card:nth-child(7) img { object-position: center 34%; }
+  .graphic-design-grid .media-loop-card:nth-child(8) img { object-position: center 28%; }
+}
+
+@media (max-width: 1024px) {
+  .graphic-design-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    gap: 12px;
+  }
+
+  .graphic-design-grid .media-loop-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+  }
+
+  .graphic-design-grid .media-loop-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 700px) {
+  .graphic-design-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
 }

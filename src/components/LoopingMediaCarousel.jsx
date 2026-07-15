@@ -51,7 +51,6 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
                       ) : (
                         <SafeImage item={item} />
                       )}
-                      {item.type !== "video" && <span className="media-loop-card__scan" />}
                     </div>
                   </button>
                 );

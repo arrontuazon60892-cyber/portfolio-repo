@@ -27,7 +27,7 @@ export default function MediaGrid({ items, variant = "creative" }) {
 
   return (
     <div className={cn("media-grid-container", `media-grid--${variant}`)}>
-      <div className="media-grid">
+      <div className={cn("media-grid", variant === "creative" && "graphic-design-grid")}>
         {items.map((item, index) => {
           return (
             <button
@@ -46,7 +46,6 @@ export default function MediaGrid({ items, variant = "creative" }) {
                 ) : (
                   <SafeImage item={item} />
                 )}
-                {item.type !== "video" && <span className="media-loop-card__scan" />}
               </div>
             </button>
           );

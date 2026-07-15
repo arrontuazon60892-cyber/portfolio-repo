@@ -37,6 +37,7 @@ const navItems = [
 
 const techLabels = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
 const loadingAssets = [...allMediaAssets, { type: "image", src: profileImage }, { type: "image", src: ROBOT_FALLBACK_URL }];
+const mediaFolderLabel = (category) => category.id === "certificates" ? "certificate" : category.folder.replaceAll("_", " ");
 
 const stats = [
   { value: "04", label: "Development builds" },
@@ -362,7 +363,7 @@ export default function App() {
             {mediaCategories.map((category) => (
               <section key={category.id} id={category.id} className="media-category">
                 <div className="media-category__heading">
-                  <span>{category.folder} / {String(category.items.length).padStart(2, "0")} files</span>
+                  <span>{mediaFolderLabel(category)} / {String(category.items.length).padStart(2, "0")} files</span>
                   <h3>{category.title}</h3>
                 </div>
                 {category.items.length === 0 ? (
