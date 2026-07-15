@@ -16,16 +16,16 @@ import ProfileAvatar from "./components/ProfileAvatar";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
 import MediaGrid from "./components/MediaGrid";
 import IntroScreen from "./components/IntroScreen";
-import RobotStage from "./components/RobotStage";
 import SocialLinks from "./components/SocialLinks";
 import TechnologyStack from "./components/TechnologyStack";
 import { allMediaAssets, mediaCategories } from "./data/mediaManifest";
 import { projects } from "./data/projects";
-import { ROBOT_MODEL_URL } from "./config/robot";
+import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "./config/robot";
 import { cn } from "./lib/utils";
 import profileImage from "./assets/profile-hover.jpg";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
+const RobotStage = lazy(() => import("./components/RobotStage"));
 
 const navItems = [
   { label: "About", id: "about" },
@@ -36,7 +36,7 @@ const navItems = [
 ];
 
 const techLabels = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
-const loadingAssets = [...allMediaAssets, { type: "image", src: profileImage }];
+const loadingAssets = [...allMediaAssets, { type: "image", src: profileImage }, { type: "image", src: ROBOT_FALLBACK_URL }];
 
 const stats = [
   { value: "04", label: "Development builds" },
@@ -232,7 +232,7 @@ export default function App() {
           <motion.div
             className="hero-copyblock"
             variants={heroContainer}
-            initial="hidden"
+            initial={false}
             animate="show"
           >
             <motion.p className="availability-label" variants={revealUp}>
@@ -271,11 +271,13 @@ export default function App() {
           </motion.div>
           <motion.div
             className="hero-robot-wrap"
-            initial={{ opacity: 0, y: 30, filter: "blur(14px)" }}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <RobotStage />
+            <Suspense fallback={<div className="robot-visual-fallback"><img src={ROBOT_FALLBACK_URL} alt="Monochrome humanoid robot concept" /></div>}>
+              <RobotStage />
+            </Suspense>
           </motion.div>
           <button type="button" className="scroll-indicator" onClick={() => scrollToSection("about")} aria-label="Scroll to about">
             <ArrowDown size={18} />
@@ -313,7 +315,7 @@ export default function App() {
               <motion.article
                 key={project.id}
                 className="project-row"
-                initial={{ opacity: 0, y: 28 }}
+                initial={false}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.28 }}
                 transition={{ duration: 0.55, delay: index * 0.05 }}
@@ -360,10 +362,12 @@ export default function App() {
             {mediaCategories.map((category) => (
               <section key={category.id} id={category.id} className="media-category">
                 <div className="media-category__heading">
-                  <span>{category.folder}</span>
+                  <span>{category.folder} / {String(category.items.length).padStart(2, "0")} files</span>
                   <h3>{category.title}</h3>
                 </div>
-                {category.id === "graphic-design" || category.id === "gallery" ? (
+                {category.items.length === 0 ? (
+                  <p className="media-category__empty">No supported media files are currently available in this folder.</p>
+                ) : category.id === "graphic-design" || category.id === "gallery" ? (
                   <MediaGrid items={category.items} variant={category.variant} />
                 ) : (
                   <LoopingMediaCarousel
@@ -445,7 +449,7 @@ function EditorialSection({ id, theme, eyebrow, title, children }) {
     <motion.section
       id={id}
       className={cn("editorial-section", `section-${theme}`)}
-      initial={{ opacity: 0, y: 34 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.12 }}
       transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}

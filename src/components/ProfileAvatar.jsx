@@ -5,7 +5,7 @@ export default function ProfileAvatar() {
   return (
     <motion.figure
       className="profile-portrait"
-      initial={{ opacity: 0, y: 16 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.55 }}

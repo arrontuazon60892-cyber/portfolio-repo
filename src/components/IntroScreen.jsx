@@ -48,10 +48,9 @@ export default function IntroScreen({ assets = [], modelUrl, onComplete }) {
       () => document.fonts?.ready || Promise.resolve(),
       () => new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve))),
     ];
-    if (modelUrl) tasks.push(() => withTimeout(fetch(modelUrl, { cache: "force-cache" }).then((response) => {
-      if (!response.ok) throw new Error(`Robot model returned ${response.status}`);
-      return response.arrayBuffer();
-    })));
+    if (modelUrl) tasks.push(() => withTimeout(fetch(modelUrl, { cache: "force-cache" }).then((response) =>
+      response.ok ? response.arrayBuffer() : Promise.resolve()
+    )));
 
     let completed = 0;
     let errors = 0;

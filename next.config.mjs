@@ -10,7 +10,7 @@ const nextConfig = {
   turbopack: {},
   webpack(config) {
     config.module.rules.push({
-      test: /\.(png|jpe?g|gif|webp|avif|svg|mp4|webm)$/i,
+      test: /\.(png|jpe?g|gif|webp|avif|svg|mp4|webm|mov)$/i,
       type: "asset/resource",
       generator: {
         filename: "static/media/[name].[contenthash:8][ext]",

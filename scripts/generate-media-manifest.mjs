@@ -3,8 +3,8 @@ import path from "node:path";
 
 const root = process.cwd();
 const outputPath = path.join(root, "src/data/mediaManifest.generated.js");
-const supported = new Set([".png", ".jpg", ".jpeg", ".webp", ".svg", ".mp4", ".webm"]);
-const videoExtensions = new Set([".mp4", ".webm"]);
+const supported = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".mp4", ".webm", ".mov"]);
+const videoExtensions = new Set([".mp4", ".webm", ".mov"]);
 const categories = [
   { folder: "graphic_design", id: "graphic-design", title: "Graphic Design", variant: "creative", direction: "left" },
   { folder: "projects_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left" },

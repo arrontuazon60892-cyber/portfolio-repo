@@ -2,7 +2,29 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+function ModalPreview({ item, source }) {
+  const [failed, setFailed] = useState(false);
+  const isVideo = item.type === "video";
+  const fail = (reason) => {
+    if (process.env.NODE_ENV === "development") {
+      console.error("[portfolio media] modal asset failed", {
+        filename: item.title,
+        resolvedPath: source,
+        category: item.category || item.folder,
+        reason,
+      });
+    }
+    setFailed(true);
+  };
+
+  if (failed || !source) return <div className="media-modal__placeholder"><span>Preview unavailable</span></div>;
+  if (isVideo) {
+    return <video src={source} poster={item.poster} controls playsInline preload="metadata" aria-label={`${item.title} video`} onError={(event) => fail(event.currentTarget.error?.message || "Video could not be loaded")} />;
+  }
+  return <img src={source} alt={item.title || "Selected portfolio work"} draggable="false" onError={() => fail("Image could not be decoded or loaded")} />;
+}
 
 export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }) {
   const dialogRef = useRef(null);
@@ -64,7 +86,6 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
 
   const source = item.cover || item.src || item.previewImage || item.thumbnail;
   const tools = item.tools || item.tags || [];
-  const isVideo = item.type === "video";
 
   const finishSwipe = (event) => {
     if (touchStartRef.current === null) return;
@@ -110,13 +131,7 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
             )}
 
             <div className="media-modal__preview">
-              {isVideo ? (
-                <video key={source} src={source} poster={item.poster} controls playsInline preload="metadata" aria-label={`${item.title} video`} />
-              ) : source ? (
-                <img key={source} src={source} alt={item.title || "Selected portfolio work"} draggable="false" />
-              ) : (
-                <div className="media-modal__placeholder" aria-hidden="true" />
-              )}
+              <ModalPreview key={source} item={item} source={source} />
             </div>
 
             <aside className="media-modal__details">

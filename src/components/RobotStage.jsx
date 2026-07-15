@@ -3,9 +3,17 @@
 import { Component, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Bounds, ContactShadows, Environment, Html, useGLTF } from "@react-three/drei";
-import { Box } from "lucide-react";
+import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import * as THREE from "three";
-import { ROBOT_MODEL_URL } from "../config/robot";
+import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "../config/robot";
+
+function RobotVisualFallback({ compact = false }) {
+  return (
+    <div className={`robot-visual-fallback${compact ? " is-compact" : ""}`}>
+      <img src={ROBOT_FALLBACK_URL} alt="Monochrome humanoid robot concept" draggable="false" />
+    </div>
+  );
+}
 
 class RobotErrorBoundary extends Component {
   constructor(props) {
@@ -18,7 +26,7 @@ class RobotErrorBoundary extends Component {
 
 function RobotModel({ modelUrl, pointerEnabled }) {
   const { scene } = useGLTF(modelUrl);
-  const model = useMemo(() => scene.clone(true), [scene]);
+  const model = useMemo(() => clone(scene), [scene]);
   const rootRef = useRef(null);
   const headRef = useRef(null);
   const eyesRef = useRef([]);
@@ -30,7 +38,7 @@ function RobotModel({ modelUrl, pointerEnabled }) {
         object.receiveShadow = true;
       }
       const name = object.name.toLowerCase();
-      if (!headRef.current && /(head|neck)/.test(name)) headRef.current = object;
+      if (!headRef.current && /(head|neck|helmet)/.test(name)) headRef.current = object;
       if (/(eye|visor|face)/.test(name)) eyesRef.current.push(object);
     });
     return () => { eyesRef.current = []; };
@@ -51,30 +59,30 @@ function RobotModel({ modelUrl, pointerEnabled }) {
     });
   });
 
-  return <Bounds fit clip observe margin={1.18}><group ref={rootRef}><primitive object={model} /></group></Bounds>;
-}
-
-function ModelFallback({ compact = false }) {
-  return (
-    <div className="robot-model-fallback" role="status">
-      <Box aria-hidden="true" />
-      <strong>{compact ? "Preparing 3D model" : "3D robot model required"}</strong>
-      {!compact && <span>Add a GLB or GLTF model to enable the interactive robot.</span>}
-    </div>
-  );
+  return <Bounds fit clip observe margin={1.14}><group ref={rootRef}><primitive object={model} /></group></Bounds>;
 }
 
 export default function RobotStage() {
+  const [modelAvailable, setModelAvailable] = useState(false);
   const [pointerEnabled] = useState(() => typeof window !== "undefined" && !window.matchMedia("(pointer: coarse)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
-  if (!ROBOT_MODEL_URL) return <ModelFallback />;
+  useEffect(() => {
+    let active = true;
+    fetch(ROBOT_MODEL_URL, { method: "HEAD", cache: "no-store" })
+      .then((response) => { if (active) setModelAvailable(response.ok); })
+      .catch(() => { if (active) setModelAvailable(false); });
+    return () => { active = false; };
+  }, []);
+
+  if (!modelAvailable) return <RobotVisualFallback />;
+
   return (
-    <RobotErrorBoundary fallback={<ModelFallback />}>
+    <RobotErrorBoundary fallback={<RobotVisualFallback />}>
       <Canvas className="robot-canvas" dpr={[1, 1.5]} camera={{ position: [0, 1.1, 4.6], fov: 34 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }} shadows>
-        <ambientLight intensity={0.6} />
+        <ambientLight intensity={0.65} />
         <directionalLight position={[3, 5, 4]} intensity={3.2} castShadow shadow-mapSize={[1024, 1024]} />
         <spotLight position={[-3, 4, 2]} intensity={2.2} angle={0.42} penumbra={0.8} />
-        <Suspense fallback={<Html center><ModelFallback compact /></Html>}>
+        <Suspense fallback={<Html center><RobotVisualFallback compact /></Html>}>
           <RobotModel modelUrl={ROBOT_MODEL_URL} pointerEnabled={pointerEnabled} />
           <Environment preset="studio" environmentIntensity={0.55} />
           <ContactShadows position={[0, -1.35, 0]} opacity={0.42} scale={5} blur={2.4} far={4} />
