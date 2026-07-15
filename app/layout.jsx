@@ -2,14 +2,14 @@ import "../src/index.css";
 import "../src/App.css";
 
 export const metadata = {
-  title: "Arron Tuazon | AI-Powered Full Stack Developer",
+  title: "Arron Tuazon | Full-Stack Developer & AI Creative Specialist",
   description:
-    "The interactive portfolio of Arron Tuazon, a full-stack developer building intelligent digital experiences.",
+    "The minimalist portfolio of Arron Tuazon, a full-stack developer and AI creative specialist.",
   metadataBase: new URL("https://arrontuazon.vercel.app"),
   openGraph: {
-    title: "Arron Tuazon | AI-Powered Full Stack Developer",
+    title: "Arron Tuazon | Full-Stack Developer & AI Creative Specialist",
     description:
-      "Projects, skills, certifications, and creative work inside an immersive real-time AI interface.",
+      "Development projects, creative work, certificates, and contact details in a clean black-and-white portfolio.",
     type: "website",
     url: "/",
   },
@@ -18,7 +18,7 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#04070d",
+  themeColor: "#020202",
 };
 
 export default function RootLayout({ children }) {
