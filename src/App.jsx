@@ -18,6 +18,7 @@ import {
   Code2,
   Copy,
   Database,
+  Film,
   GraduationCap,
   Images,
   Mail,
@@ -35,6 +36,7 @@ import {
   Workflow,
   Wrench,
   X,
+  Zap,
 } from "lucide-react";
 import {
   SiClaudecode,
@@ -63,6 +65,7 @@ import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
 import ProfileAvatar from "./components/ProfileAvatar";
 import HeroVisual from "./components/HeroVisual";
 import ExploreWork from "./components/ExploreWork";
+import IntroScreen, { shouldShowIntro } from "./components/IntroScreen";
 import { mediaCategories } from "./data/mediaManifest";
 import { cn } from "./lib/utils";
 
@@ -153,10 +156,41 @@ const techStackPanels = [
       { name: "Cursor", icon: SiCursor, color: "#FFFFFF" },
     ],
   },
+  {
+    title: "AI Creative Skills",
+    icon: Film,
+    items: [
+      { name: "AI Image Editing", icon: Sparkles, color: "#F472B6" },
+      { name: "AI Video Editing", icon: Film, color: "#A78BFA" },
+      { name: "Generative AI", icon: Zap, color: "#FBBF24" },
+      { name: "Prompt Engineering", icon: TerminalSquare, color: "#34D399" },
+      { name: "Creative Automation", icon: Orbit, color: "#60A5FA" },
+      { name: "AI Content", icon: Bot, color: "#F87171" },
+      { name: "Visual Storytelling", icon: Palette, color: "#C084FC" },
+      { name: "Short-Form Video", icon: Scissors, color: "#22D3EE" },
+      { name: "Graphic Design", icon: Palette, color: "#00C4CC" },
+      { name: "Motion Design", icon: Sparkles, color: "#FB923C" },
+    ],
+  },
 ];
 
 
+// Hero text stagger variants
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+const heroWord = {
+  hidden: { opacity: 0, y: 22, filter: "blur(6px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+const heroFade = (delay = 0) => ({
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, delay, ease: "easeOut" } },
+});
+
 function App() {
+  const [showIntro, setShowIntro] = useState(() => shouldShowIntro());
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [emailCopied, setEmailCopied] = useState(false);
@@ -247,6 +281,11 @@ function App() {
 
   return (
     <div className="app-shell min-h-screen">
+      {/* Intro Screen */}
+      {showIntro && (
+        <IntroScreen onComplete={() => setShowIntro(false)} />
+      )}
+
       <div className="scene-root" aria-hidden="true">
         <div className="scene-aurora scene-aurora--left" />
         <div className="scene-aurora scene-aurora--right" />
@@ -337,34 +376,69 @@ function App() {
       <main className="relative z-10 mx-auto flex max-w-[1600px] flex-col gap-6 px-4 pb-12 pt-4 sm:px-6 lg:px-8">
         <motion.section
           id="home"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.58, ease: [0.2, 0.8, 0.2, 1] }}
+          data-theme="dark"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: showIntro ? 0.1 : 0 }}
           className="hero-shell glass-panel overflow-hidden"
         >
           <div className="hero-background-lines" />
           <div className="hero-layout">
-            <div className="hero-content">
-              <span className="section-kicker">
+            <motion.div
+              className="hero-content"
+              variants={heroContainer}
+              initial="hidden"
+              animate="show"
+            >
+              <motion.span variants={heroWord} className="section-kicker">
                 <span className="kicker-dot" />
                 Hello, I&apos;m Arron
-              </span>
+              </motion.span>
 
               <div className="mt-5 max-w-xl">
-                <h1 className="hero-title text-gradient">Tuazon</h1>
-                <p className="hero-subtitle">AI-powered Full Stack Developer</p>
-                <p className="hero-copy mt-4">
+                <motion.h1
+                  className="hero-title text-gradient"
+                  initial={{ opacity: 0, y: 32, filter: "blur(12px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  Tuazon
+                </motion.h1>
+                <motion.p
+                  className="hero-subtitle"
+                  variants={heroFade(0.32)}
+                  initial="hidden"
+                  animate="show"
+                >
+                  AI-powered Full Stack Developer
+                </motion.p>
+                <motion.p
+                  className="hero-copy mt-4"
+                  variants={heroFade(0.42)}
+                  initial="hidden"
+                  animate="show"
+                >
                   Building intelligent digital experiences with modern technologies.
-                </p>
-                <p className="hero-copy mt-4 text-white/72">
+                </motion.p>
+                <motion.p
+                  className="hero-copy mt-4 text-white/72"
+                  variants={heroFade(0.52)}
+                  initial="hidden"
+                  animate="show"
+                >
                   I&apos;m a full-stack web developer focused on building modern web
                   applications with React on the frontend and Java on the backend. I
                   enjoy creating clean, responsive interfaces and reliable APIs that
                   feel great to use.
-                </p>
+                </motion.p>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-white/68">
+              <motion.div
+                className="mt-8 flex flex-wrap items-center gap-3 text-sm text-white/68"
+                variants={heroFade(0.6)}
+                initial="hidden"
+                animate="show"
+              >
                 <span className="info-badge">
                   <MapPin size={15} />
                   Laguna, Philippines
@@ -373,17 +447,27 @@ function App() {
                   <BrainCircuit size={15} />
                   Intelligent system builder
                 </span>
-              </div>
+              </motion.div>
 
-              <div className="mt-6 flex flex-wrap gap-2">
+              <motion.div
+                className="mt-6 flex flex-wrap gap-2"
+                variants={heroFade(0.68)}
+                initial="hidden"
+                animate="show"
+              >
                 {roleChips.map((role) => (
                   <span key={role} className="chip">
                     {role}
                   </span>
                 ))}
-              </div>
+              </motion.div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <motion.div
+                className="mt-8 flex flex-wrap gap-3"
+                variants={heroFade(0.76)}
+                initial="hidden"
+                animate="show"
+              >
                 <button
                   type="button"
                   onClick={() => scrollToSection("school-projects")}
@@ -411,9 +495,9 @@ function App() {
                   <Mail size={16} />
                   Contact
                 </button>
-              </div>
+              </motion.div>
 
-            </div>
+            </motion.div>
 
             <div className="hero-visual-column">
               <HeroVisual />
@@ -423,14 +507,15 @@ function App() {
 
         <motion.section
           id="about"
+          data-theme="light"
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6 }}
-          className="glass-panel p-5 sm:p-6"
+          className="section-light rounded-3xl overflow-hidden px-6 py-10 sm:px-10 sm:py-14"
         >
-          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] items-start">
-            {/* ── Left column: About Content ── */}
+          <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] items-start">
+            {/* ── Left: About Bio ── */}
             <div>
               <SectionHeader
                 eyebrow="About"
@@ -438,9 +523,9 @@ function App() {
                 description="The original story stays intact. The presentation becomes far more cinematic."
               />
 
-              <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
+              <div className="mt-8 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
                 <ProfileAvatar />
-                <div className="space-y-4 text-white/76">
+                <div className="space-y-5 text-light-body">
                   <p>
                     I&apos;m a full-stack web developer focused on building modern web
                     applications with React on the frontend and Java on the backend. I
@@ -468,17 +553,17 @@ function App() {
               </div>
             </div>
 
-            {/* ── Right column: Stats & Readiness ── */}
-            <div className="space-y-8 lg:border-l lg:border-white/10 lg:pl-8">
+            {/* ── Right: Stats & Readiness ── */}
+            <div className="space-y-8 lg:border-l lg:border-light-border lg:pl-10">
               <div>
                 <SectionHeader
                   eyebrow="Stats"
                   title="Mission Data"
                   description="A quick pulse check across the portfolio footprint."
                 />
-                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2">
+                <div className="mt-6 grid grid-cols-2 gap-3">
                   {stats.map((stat) => (
-                    <div key={stat.label} className="stat-card">
+                    <div key={stat.label} className="stat-card stat-card--light">
                       <p className="stat-value">{stat.value}</p>
                       <p className="stat-label">{stat.label}</p>
                     </div>
@@ -486,7 +571,7 @@ function App() {
                 </div>
               </div>
 
-              <div className="border-t border-white/10 pt-6">
+              <div className="border-t border-light-border pt-8">
                 <SectionHeader
                   eyebrow="Signals"
                   title="System Readiness"
@@ -504,6 +589,7 @@ function App() {
 
         <motion.section
           id="skills"
+          data-theme="dark"
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
