@@ -1,85 +1,91 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 
-const INTRO_KEY = "at_portfolio_intro_seen";
+const ASSET_TIMEOUT = 12000;
 
-export default function IntroScreen({ onComplete }) {
-  const [phase, setPhase] = useState("name");
-
-  useEffect(() => {
-    const portfolioTimer = setTimeout(() => setPhase("portfolio"), 850);
-    const exitTimer = setTimeout(() => setPhase("exit"), 2050);
-    return () => {
-      clearTimeout(portfolioTimer);
-      clearTimeout(exitTimer);
-    };
-  }, []);
-
-  const handleExitComplete = () => {
-    sessionStorage.setItem(INTRO_KEY, "1");
-    onComplete?.();
-  };
-
-  return (
-    <AnimatePresence onExitComplete={handleExitComplete}>
-      {phase !== "exit" && (
-        <motion.div
-          key="intro"
-          className="intro-screen"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.04, filter: "blur(12px)" }}
-          transition={{
-            enter: { duration: 0.35 },
-            exit: { duration: 0.65, ease: [0.4, 0, 0.2, 1] },
-          }}
-          aria-hidden="true"
-        >
-          <div className="intro-center">
-            <AnimatePresence mode="wait">
-              <motion.h1
-                key={phase === "portfolio" ? "portfolio" : "name"}
-                className="intro-name"
-                initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
-                transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {phase === "portfolio" ? "Portfolio" : "Arron Tuazon"}
-              </motion.h1>
-            </AnimatePresence>
-            <motion.div
-              className="intro-progress"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.28 }}
-            >
-              <motion.div
-                className="intro-progress__fill"
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1.65, delay: 0.22, ease: [0.4, 0, 0.2, 1] }}
-              />
-            </motion.div>
-            <motion.p
-              className="intro-status"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.44 }}
-            >
-              Loading selected work
-            </motion.p>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+function withTimeout(promise) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => window.setTimeout(() => reject(new Error("Asset load timed out")), ASSET_TIMEOUT)),
+  ]);
 }
 
-/** Call this to check if the intro should be skipped */
-export function shouldShowIntro() {
-  if (typeof window === "undefined") return false;
-  return !sessionStorage.getItem(INTRO_KEY);
+function loadImage(src) {
+  return withTimeout(new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = resolve;
+    image.onerror = reject;
+    image.src = src;
+    if (image.complete && image.naturalWidth > 0) resolve();
+  }));
+}
+
+function loadVideoMetadata(src) {
+  return withTimeout(new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    const cleanup = () => { video.removeAttribute("src"); video.load(); };
+    video.preload = "metadata";
+    video.muted = true;
+    video.onloadedmetadata = () => { cleanup(); resolve(); };
+    video.onerror = () => { cleanup(); reject(new Error(`Unable to load ${src}`)); };
+    video.src = src;
+    video.load();
+  }));
+}
+
+export default function IntroScreen({ assets = [], modelUrl, onComplete }) {
+  const [progress, setProgress] = useState(0);
+  const [failed, setFailed] = useState(0);
+  const [ready, setReady] = useState(false);
+  const uniqueAssets = useMemo(() => [...new Map(assets.filter((asset) => asset?.src).map((asset) => [asset.src, asset])).values()], [assets]);
+
+  useEffect(() => {
+    let active = true;
+    const tasks = [
+      ...uniqueAssets.map((asset) => () => asset.type === "video" ? loadVideoMetadata(asset.src) : loadImage(asset.src)),
+      () => document.fonts?.ready || Promise.resolve(),
+      () => new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve))),
+    ];
+    if (modelUrl) tasks.push(() => withTimeout(fetch(modelUrl, { cache: "force-cache" }).then((response) => {
+      if (!response.ok) throw new Error(`Robot model returned ${response.status}`);
+      return response.arrayBuffer();
+    })));
+
+    let completed = 0;
+    let errors = 0;
+    Promise.allSettled(tasks.map((task) => Promise.resolve().then(task).catch((error) => {
+      errors += 1;
+      throw error;
+    }).finally(() => {
+      completed += 1;
+      if (active) setProgress(Math.round((completed / tasks.length) * 100));
+    }))).then(() => {
+      if (!active) return;
+      setFailed(errors);
+      setProgress(100);
+      setReady(true);
+    });
+    return () => { active = false; };
+  }, [modelUrl, uniqueAssets]);
+
+  useEffect(() => {
+    if (!ready) return undefined;
+    const timer = window.setTimeout(() => onComplete?.(), 520);
+    return () => window.clearTimeout(timer);
+  }, [onComplete, ready]);
+
+  const status = progress < 34 ? "INITIALIZING ASSETS" : progress < 82 ? "LOADING PORTFOLIO" : "PREPARING EXPERIENCE";
+  return (
+    <motion.div className="intro-screen" initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: "-3%" }} transition={{ duration: 0.5 }} role="status" aria-live="polite">
+      <div className="intro-frame"><span>ARRON TUAZON</span><span>PORTFOLIO / 2026</span></div>
+      <div className="intro-center">
+        <p className="intro-status">{status}</p>
+        <strong className="intro-percentage">{String(progress).padStart(3, "0")}%</strong>
+        <div className="intro-progress" aria-hidden="true"><span className="intro-progress__fill" style={{ width: `${progress}%` }} /></div>
+        <p className="intro-detail">{failed ? `${failed} asset${failed === 1 ? "" : "s"} unavailable - continuing safely` : `${uniqueAssets.length} portfolio assets queued`}</p>
+      </div>
+    </motion.div>
+  );
 }

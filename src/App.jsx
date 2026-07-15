@@ -8,7 +8,6 @@ import {
   Check,
   Copy,
   ExternalLink,
-  Mail,
   Menu,
   Send,
   X,
@@ -16,11 +15,15 @@ import {
 import ProfileAvatar from "./components/ProfileAvatar";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
 import MediaGrid from "./components/MediaGrid";
-import IntroScreen, { shouldShowIntro } from "./components/IntroScreen";
+import IntroScreen from "./components/IntroScreen";
+import RobotStage from "./components/RobotStage";
 import SocialLinks from "./components/SocialLinks";
-import { mediaCategories } from "./data/mediaManifest";
+import TechnologyStack from "./components/TechnologyStack";
+import { allMediaAssets, mediaCategories } from "./data/mediaManifest";
 import { projects } from "./data/projects";
+import { ROBOT_MODEL_URL } from "./config/robot";
 import { cn } from "./lib/utils";
+import profileImage from "./assets/profile-hover.jpg";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
 
@@ -33,50 +36,7 @@ const navItems = [
 ];
 
 const techLabels = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
-
-const skillGroups = [
-  {
-    title: "Development",
-    items: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Java",
-      "Spring Boot",
-      "PHP",
-      "Python",
-      "REST APIs",
-      "MySQL",
-      "Supabase",
-      "Git",
-      "GitHub",
-      "Vercel",
-    ],
-  },
-  {
-    title: "Creative and Editing",
-    items: [
-      "Graphic Design",
-      "Video Editing",
-      "Short-Form Video Editing",
-      "Motion Editing",
-      "Visual Storytelling",
-      "Social Media Content Creation",
-    ],
-  },
-  {
-    title: "AI Creative Skills",
-    items: [
-      "AI-Assisted Image Editing",
-      "AI-Assisted Video Editing",
-      "Generative AI Content Creation",
-      "AI Prompt Engineering",
-      "AI Creative Workflow",
-      "AI-Powered Visual Production",
-    ],
-  },
-];
+const loadingAssets = [...allMediaAssets, { type: "image", src: profileImage }];
 
 const stats = [
   { value: "04", label: "Development builds" },
@@ -113,7 +73,7 @@ function splitLetters(word) {
 }
 
 export default function App() {
-  const [showIntro, setShowIntro] = useState(() => shouldShowIntro());
+  const [showIntro, setShowIntro] = useState(true);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [emailCopied, setEmailCopied] = useState(false);
@@ -198,7 +158,9 @@ export default function App() {
 
   return (
     <div className="portfolio-shell">
-      {showIntro && <IntroScreen onComplete={() => setShowIntro(false)} />}
+      <AnimatePresence>
+        {showIntro && <IntroScreen assets={loadingAssets} modelUrl={ROBOT_MODEL_URL} onComplete={() => setShowIntro(false)} />}
+      </AnimatePresence>
 
       <header className={cn("site-header", `site-header--${sectionTheme}`)}>
         <button
@@ -313,7 +275,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <InteractiveRobot />
+            <RobotStage />
           </motion.div>
           <button type="button" className="scroll-indicator" onClick={() => scrollToSection("about")} aria-label="Scroll to about">
             <ArrowDown size={18} />
@@ -382,25 +344,7 @@ export default function App() {
         </EditorialSection>
 
         <EditorialSection id="skills" theme="light" eyebrow="Skills" title="Tools for building and producing.">
-          <div className="skill-grid">
-            {skillGroups.map((group) => (
-              <div className="skill-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <div>
-                  {group.items.map((item) => (
-                    <span key={item}>{item}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="marquee" aria-hidden="true">
-            <div>
-              {[...skillGroups.flatMap((group) => group.items), ...skillGroups[0].items].map((item, index) => (
-                <span key={`${item}-${index}`}>{item}</span>
-              ))}
-            </div>
-          </div>
+          <TechnologyStack />
         </EditorialSection>
 
         <EditorialSection id="work" theme="dark" eyebrow="Creative Work" title="Design, video, certificates, and archive.">
@@ -514,56 +458,5 @@ function EditorialSection({ id, theme, eyebrow, title, children }) {
         {children}
       </div>
     </motion.section>
-  );
-}
-
-function InteractiveRobot() {
-  const [transform, setTransform] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    if (reduceMotion || coarse) return undefined;
-
-    const onPointerMove = (event) => {
-      const x = (event.clientX / window.innerWidth - 0.5) * 2;
-      const y = (event.clientY / window.innerHeight - 0.5) * 2;
-      setTransform({
-        x: Math.max(-1, Math.min(1, x)),
-        y: Math.max(-1, Math.min(1, y)),
-      });
-    };
-
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onPointerMove);
-  }, []);
-
-  const headStyle = {
-    "--head-x": `${transform.x * 14}deg`,
-    "--head-y": `${transform.y * -9}deg`,
-    "--eye-x": `${transform.x * 8}px`,
-    "--eye-y": `${transform.y * 5}px`,
-    "--body-x": `${transform.x * 4}deg`,
-  };
-
-  return (
-    <div className="robot-stage" style={headStyle} aria-label="Interactive monochrome robot">
-      <div className="robot-shadow" aria-hidden="true" />
-      <div className="robot-body">
-        <div className="robot-neck" />
-        <div className="robot-head">
-          <div className="robot-face">
-            <span className="robot-eye robot-eye--left" />
-            <span className="robot-eye robot-eye--right" />
-          </div>
-        </div>
-        <div className="robot-torso">
-          <span />
-        </div>
-        <div className="robot-arm robot-arm--left"><i /></div>
-        <div className="robot-arm robot-arm--right"><i /></div>
-      </div>
-      <p className="webgl-fallback">Monochrome CSS robot fallback active</p>
-    </div>
   );
 }
