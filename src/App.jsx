@@ -62,7 +62,6 @@ import MediaGrid from "./components/MediaGrid";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
 import ProfileAvatar from "./components/ProfileAvatar";
 import HeroVisual from "./components/HeroVisual";
-import NeuralSystemsMap from "./components/NeuralSystemsMap";
 import ExploreWork from "./components/ExploreWork";
 import { mediaCategories } from "./data/mediaManifest";
 import { cn } from "./lib/utils";
@@ -511,77 +510,42 @@ function App() {
           transition={{ duration: 0.6 }}
           className="glass-panel p-5 sm:p-6"
         >
-          <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr] items-start">
-            {/* ── Column 1: Tech Stack & AI Tools (2x2 Grid of Cards) ── */}
-            <div>
-              <SectionHeader
-                eyebrow="Tech Stack & Tools"
-                title="Tech Stack & AI Tools"
-                description="Every original technology and AI creative assistant, organized into futuristic signal panels."
-              />
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                {techStackPanels.map((panel) => (
-                  <div key={panel.title} className="stack-card">
-                    <div className="flex items-center gap-3">
-                      <div className="icon-pill">
-                        <panel.icon size={18} />
-                      </div>
-                      <h3 className="text-base font-semibold text-white">
-                        {panel.title}
-                      </h3>
-                    </div>
-                    <div className="tech-logo-grid">
-                      {panel.items.map((item) => (
-                        <div
-                          key={item.name}
-                          className="tech-logo-item"
-                          aria-label={`${item.name} technology`}
-                          role="img"
-                        >
-                          <item.icon
-                            className="tech-logo-icon"
-                            style={{ color: item.color }}
-                            aria-hidden="true"
-                            title={item.name}
-                          />
-                          <span>{item.name}</span>
-                        </div>
-                      ))}
-                    </div>
+          <SectionHeader
+            eyebrow="Tech Stack & Tools"
+            title="Tech Stack & AI Tools"
+            description="Every original technology and AI creative assistant, organized into futuristic signal panels."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {techStackPanels.map((panel) => (
+              <div key={panel.title} className="stack-card">
+                <div className="flex items-center gap-3">
+                  <div className="icon-pill">
+                    <panel.icon size={18} />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Column 2: Neural Map ── */}
-            <div className="stack-feature-panel">
-              <div className="flex items-center gap-3">
-                <div className="icon-pill">
-                  <Orbit size={18} />
+                  <h3 className="text-base font-semibold text-white">
+                    {panel.title}
+                  </h3>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    Neural Systems Map
-                  </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                    Lightweight signal layer
-                  </p>
+                <div className="tech-logo-grid">
+                  {panel.items.map((item) => (
+                    <div
+                      key={item.name}
+                      className="tech-logo-item"
+                      aria-label={`${item.name} technology`}
+                      role="img"
+                    >
+                      <item.icon
+                        className="tech-logo-icon"
+                        style={{ color: item.color }}
+                        aria-hidden="true"
+                        title={item.name}
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="mt-6 stack-brain-scene">
-                <NeuralSystemsMap />
-              </div>
-              <div className="mt-6 space-y-3 text-sm text-white/68">
-                <p>
-                  A focused neural signal visual keeps the AI-first identity without
-                  requiring a continuous 3D render loop.
-                </p>
-                <p>
-                  This keeps the work professional, minimal, and premium instead of
-                  drifting into a loud gaming aesthetic.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </motion.section>
 
