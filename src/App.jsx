@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowDown,
@@ -15,10 +16,9 @@ import {
 import ProfileAvatar from "./components/ProfileAvatar";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
 import MediaGrid from "./components/MediaGrid";
-import IntroScreen from "./components/IntroScreen";
 import SocialLinks from "./components/SocialLinks";
 import TechnologyStack from "./components/TechnologyStack";
-import { allMediaAssets, mediaCategories } from "./data/mediaManifest";
+import { mediaCategories } from "./data/mediaManifest";
 import { projects } from "./data/projects";
 import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "./config/robot";
 import { cn } from "./lib/utils";
@@ -26,6 +26,7 @@ import profileImage from "./assets/profile-hover.jpg";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
 const RobotStage = lazy(() => import("./components/RobotStage"));
+const IntroScreen = dynamic(() => import("./components/IntroScreen"), { ssr: false });
 
 const navItems = [
   { label: "About", id: "about" },
@@ -36,7 +37,11 @@ const navItems = [
 ];
 
 const techLabels = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
-const loadingAssets = [...allMediaAssets, { type: "image", src: profileImage }, { type: "image", src: ROBOT_FALLBACK_URL }];
+const loadingAssets = [
+  { type: "image", src: profileImage },
+  { type: "image", src: ROBOT_FALLBACK_URL },
+  ...projects.flatMap((project) => [project.previewImage, project.thumbnail]).filter(Boolean).map((src) => ({ type: "image", src })),
+];
 const mediaFolderLabel = (category) => category.id === "certificates" ? "certificate" : category.folder.replaceAll("_", " ");
 
 const stats = [
@@ -90,6 +95,20 @@ export default function App() {
     if (["about", "skills", "contact"].includes(activeSection)) return "light";
     return "dark";
   }, [activeSection]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") return;
+    mediaCategories.forEach((category) => {
+      const label = `${category.title}: ${category.items.length} file${category.items.length === 1 ? "" : "s"}`;
+      if (!category.items.length) {
+        console.warn(`${label}. No files matched folder: src/assets/${category.folder}`);
+        return;
+      }
+      console.groupCollapsed(label);
+      category.items.forEach((item) => console.log(item.title, item.src));
+      console.groupEnd();
+    });
+  }, []);
 
   useEffect(() => {
     const loadChat = () => setShowChat(true);

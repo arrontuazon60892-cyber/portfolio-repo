@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
-const ASSET_TIMEOUT = 12000;
+const ASSET_TIMEOUT = 6000;
+const MAX_LOADER_TIME = 8000;
 
 function withTimeout(promise) {
   return Promise.race([
@@ -43,6 +44,7 @@ export default function IntroScreen({ assets = [], modelUrl, onComplete }) {
 
   useEffect(() => {
     let active = true;
+    let finished = false;
     const tasks = [
       ...uniqueAssets.map((asset) => () => asset.type === "video" ? loadVideoMetadata(asset.src) : loadImage(asset.src)),
       () => document.fonts?.ready || Promise.resolve(),
@@ -54,24 +56,31 @@ export default function IntroScreen({ assets = [], modelUrl, onComplete }) {
 
     let completed = 0;
     let errors = 0;
+    const complete = () => {
+      if (!active || finished) return;
+      finished = true;
+      setFailed(errors);
+      setProgress(100);
+      setReady(true);
+    };
+    const safetyTimer = window.setTimeout(complete, MAX_LOADER_TIME);
+
     Promise.allSettled(tasks.map((task) => Promise.resolve().then(task).catch((error) => {
       errors += 1;
       throw error;
     }).finally(() => {
       completed += 1;
-      if (active) setProgress(Math.round((completed / tasks.length) * 100));
-    }))).then(() => {
-      if (!active) return;
-      setFailed(errors);
-      setProgress(100);
-      setReady(true);
-    });
-    return () => { active = false; };
+      if (active && !finished) setProgress(Math.round((completed / tasks.length) * 100));
+    }))).then(complete);
+    return () => {
+      active = false;
+      window.clearTimeout(safetyTimer);
+    };
   }, [modelUrl, uniqueAssets]);
 
   useEffect(() => {
     if (!ready) return undefined;
-    const timer = window.setTimeout(() => onComplete?.(), 520);
+    const timer = window.setTimeout(() => onComplete?.(), 360);
     return () => window.clearTimeout(timer);
   }, [onComplete, ready]);
 

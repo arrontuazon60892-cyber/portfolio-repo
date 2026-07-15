@@ -63,18 +63,8 @@ function RobotModel({ modelUrl, pointerEnabled }) {
 }
 
 export default function RobotStage() {
-  const [modelAvailable, setModelAvailable] = useState(false);
   const [pointerEnabled] = useState(() => typeof window !== "undefined" && !window.matchMedia("(pointer: coarse)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-
-  useEffect(() => {
-    let active = true;
-    fetch(ROBOT_MODEL_URL, { method: "HEAD", cache: "no-store" })
-      .then((response) => { if (active) setModelAvailable(response.ok); })
-      .catch(() => { if (active) setModelAvailable(false); });
-    return () => { active = false; };
-  }, []);
-
-  if (!modelAvailable) return <RobotVisualFallback />;
+  if (!ROBOT_MODEL_URL) return <RobotVisualFallback />;
 
   return (
     <RobotErrorBoundary fallback={<RobotVisualFallback />}>

@@ -1,2 +1,2 @@
-export const ROBOT_MODEL_URL = "/models/robot.glb";
+export { ROBOT_MODEL_URL } from "./robot.generated";
 export const ROBOT_FALLBACK_URL = "/images/robot-fallback.webp";
