@@ -96,10 +96,10 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.75rem] border border-cyan-400/14 bg-[#08111f]/92 text-white shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-xl"
+            className="pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-[1.5rem] border border-white/12 bg-[#08111f]/85 text-white shadow-[0_8px_32px_rgba(0,0,0,0.24)] backdrop-blur-xl"
           >
             <div
-              className="relative overflow-hidden px-5 py-4 bg-[radial-gradient(circle_at_top_left,_rgba(77,201,255,0.18),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(123,97,255,0.14),_transparent_42%),linear-gradient(135deg,_rgba(255,255,255,0.05),_rgba(255,255,255,0))]"
+              className="relative overflow-hidden px-5 py-4 bg-[radial-gradient(circle_at_top_left,_rgba(77,201,255,0.12),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(123,97,255,0.08),_transparent_42%),linear-gradient(135deg,_rgba(255,255,255,0.03),_rgba(255,255,255,0))]"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -137,10 +137,10 @@ export default function ChatWidget() {
                 >
                   <div
                     className={cn(
-                      "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm",
+                      "max-w-[85%] rounded-[1.25rem] px-4 py-3 text-sm leading-relaxed shadow-sm",
                       message.role === "user"
                         ? "bg-[linear-gradient(135deg,rgba(104,114,255,0.96),rgba(77,201,255,0.92))] text-white"
-                        : "bg-white/6 text-white"
+                        : "bg-white/6 text-white border border-white/5 backdrop-blur-sm"
                     )}
                   >
                     {message.text}
@@ -151,7 +151,7 @@ export default function ChatWidget() {
               {isLoading && (
                 <div className="flex justify-start">
                   <div
-                    className="max-w-[85%] rounded-2xl bg-white/8 px-4 py-3 text-sm leading-relaxed text-white shadow-sm"
+                    className="max-w-[85%] rounded-[1.25rem] bg-white/8 border border-white/5 backdrop-blur-sm px-4 py-3 text-sm leading-relaxed text-white shadow-sm"
                   >
                     Thinking...
                   </div>
@@ -167,7 +167,7 @@ export default function ChatWidget() {
                     onClick={() => {
                       void sendMessage(reply);
                     }}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition-colors hover:border-cyan-400/24 hover:bg-white/9"
+                    className="rounded-full border border-white/12 bg-white/5 px-3 py-1.5 text-xs font-medium transition-all hover:border-white/24 hover:bg-white/10"
                   >
                     {reply}
                   </button>
@@ -179,7 +179,7 @@ export default function ChatWidget() {
                   event.preventDefault();
                   void sendMessage(input);
                 }}
-                className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2"
+                className="flex items-center gap-2 rounded-xl border border-white/12 bg-white/5 p-2 focus-within:border-white/24 focus-within:bg-white/8 transition-all"
               >
                 <input
                   value={input}
@@ -204,7 +204,7 @@ export default function ChatWidget() {
 
       <button
         onClick={() => setIsOpen((current) => !current)}
-        className="pointer-events-auto flex items-center gap-2 rounded-2xl border border-cyan-400/18 bg-[linear-gradient(135deg,rgba(10,18,34,0.94),rgba(13,24,46,0.94))] px-6 py-3 text-sm font-bold text-white shadow-[0_24px_60px_rgba(0,0,0,0.36)] transition-transform hover:scale-105"
+        className="pointer-events-auto flex items-center gap-2 rounded-[1.25rem] border border-white/12 bg-[#0a1222]/80 backdrop-blur-md px-6 py-3 text-sm font-bold text-white shadow-[0_8px_32px_rgba(0,0,0,0.24)] transition-all hover:scale-105"
       >
         <MessageSquare size={18} />
         {isOpen ? "Close chat" : "Chat with Arron"}

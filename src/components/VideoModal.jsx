@@ -115,7 +115,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, poster, title = 
                 >
                     {/* Backdrop */}
                     <div
-                        className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/50 backdrop-blur-md"
                         onClick={onClose}
                     />
 
@@ -126,12 +126,12 @@ export default function VideoModal({ isOpen, onClose, videoSrc, poster, title = 
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.95, opacity: 0 }}
                         transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                        className="relative w-full h-full max-w-6xl max-h-[90vh] flex flex-col pointer-events-auto bg-black rounded-3xl overflow-hidden"
+                        className="relative w-full h-full max-w-6xl max-h-[90vh] flex flex-col pointer-events-auto bg-[#09101f]/85 border border-white/12 rounded-3xl overflow-hidden backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.3)]"
                     >
                         {/* Close Button */}
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 z-20 p-2 rounded-full shadow-lg border hover:scale-110 transition-all duration-200 bg-white/90 text-slate-900 border-slate-200"
+                            className="absolute top-4 right-4 z-20 p-2 rounded-full shadow-md border hover:scale-105 transition-all duration-200 bg-[#0a1222]/80 text-white border-white/12 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
                             aria-label="Close modal"
                         >
                             <X className="w-5 h-5" />

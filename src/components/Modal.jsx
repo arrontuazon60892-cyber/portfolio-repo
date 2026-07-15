@@ -49,7 +49,7 @@ export default function Modal({ isOpen, onClose, children }) {
                 >
                     {/* Backdrop */}
                     <div
-                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/50 backdrop-blur-md"
                         onClick={onClose}
                     />
 
@@ -62,13 +62,13 @@ export default function Modal({ isOpen, onClose, children }) {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.95, opacity: 0 }}
                         transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                        className="relative w-full max-w-4xl overflow-hidden rounded-[2rem] border border-cyan-400/14 bg-[linear-gradient(180deg,rgba(9,16,31,0.96),rgba(7,12,24,0.96))] text-white pointer-events-auto shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
+                        className="relative w-full max-w-4xl overflow-hidden rounded-[1.5rem] border border-white/12 bg-[#09101f]/85 text-white pointer-events-auto shadow-[0_12px_40px_rgba(0,0,0,0.3)] backdrop-blur-2xl"
                     >
-                        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(77,201,255,0.8),transparent)]" />
+                        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent)]" />
                         <button
                             ref={closeRef}
                             onClick={onClose}
-                            className="absolute top-4 right-4 z-10 p-2 rounded-full shadow-lg border hover:scale-110 transition-all duration-200 bg-slate-900/90 text-white border-cyan-400/16"
+                            className="absolute top-4 right-4 z-10 p-2 rounded-full shadow-md border hover:scale-105 transition-all duration-200 bg-white/5 text-white border-white/12 hover:bg-white/10 hover:border-white/20"
                             aria-label="Close modal"
                         >
                             <X className="w-5 h-5" />

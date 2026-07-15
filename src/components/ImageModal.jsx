@@ -118,7 +118,7 @@ export default function ImageModal({ isOpen, onClose, onPrevious, onNext, imageS
                 >
                     {/* Backdrop */}
                     <div
-                        className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/50 backdrop-blur-md"
                         onClick={onClose}
                     />
 
@@ -138,7 +138,7 @@ export default function ImageModal({ isOpen, onClose, onPrevious, onNext, imageS
                         <button
                             ref={closeRef}
                             onClick={onClose}
-                            className="absolute top-4 right-4 z-20 p-2 rounded-full shadow-lg border hover:scale-110 transition-all duration-200 bg-white/90 text-slate-900 border-slate-200"
+                            className="absolute top-4 right-4 z-20 p-2 rounded-full shadow-md border hover:scale-105 transition-all duration-200 bg-[#0a1222]/80 text-white border-white/12 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
                             aria-label="Close modal"
                         >
                             <X className="w-5 h-5" />
@@ -149,7 +149,7 @@ export default function ImageModal({ isOpen, onClose, onPrevious, onNext, imageS
                             <button
                                 onClick={handleZoomOut}
                                 disabled={zoom <= 1}
-                                className="p-2 rounded-full shadow-lg border hover:scale-110 transition-all duration-200 bg-white/90 text-slate-900 border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="p-2 rounded-full shadow-md border hover:scale-105 transition-all duration-200 bg-[#0a1222]/80 text-white border-white/12 hover:bg-white/10 hover:border-white/20 backdrop-blur-md disabled:opacity-50 disabled:cursor-not-allowed"
                                 aria-label="Zoom out"
                             >
                                 <ZoomOut className="w-5 h-5" />
@@ -157,7 +157,7 @@ export default function ImageModal({ isOpen, onClose, onPrevious, onNext, imageS
                             <button
                                 onClick={handleZoomIn}
                                 disabled={zoom >= 5}
-                                className="p-2 rounded-full shadow-lg border hover:scale-110 transition-all duration-200 bg-white/90 text-slate-900 border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="p-2 rounded-full shadow-md border hover:scale-105 transition-all duration-200 bg-[#0a1222]/80 text-white border-white/12 hover:bg-white/10 hover:border-white/20 backdrop-blur-md disabled:opacity-50 disabled:cursor-not-allowed"
                                 aria-label="Zoom in"
                             >
                                 <ZoomIn className="w-5 h-5" />
@@ -165,7 +165,7 @@ export default function ImageModal({ isOpen, onClose, onPrevious, onNext, imageS
                             <button
                                 onClick={resetZoom}
                                 disabled={zoom === 1}
-                                className="px-3 py-2 rounded-full shadow-lg border hover:scale-110 transition-all duration-200 bg-white/90 text-slate-900 border-slate-200 text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-3 py-2 rounded-full shadow-md border hover:scale-105 transition-all duration-200 bg-[#0a1222]/80 text-white border-white/12 hover:bg-white/10 hover:border-white/20 backdrop-blur-md text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Reset
                             </button>
@@ -216,7 +216,7 @@ export default function ImageModal({ isOpen, onClose, onPrevious, onNext, imageS
 
                         {/* Zoom Level Indicator */}
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
-                            <span className="px-3 py-1 rounded-full bg-white/90 text-slate-900 text-xs font-bold border border-slate-200">
+                            <span className="px-3 py-1 rounded-full bg-[#0a1222]/80 text-white text-xs font-bold border border-white/12 backdrop-blur-md">
                                 {Math.round(zoom * 100)}%
                             </span>
                         </div>
