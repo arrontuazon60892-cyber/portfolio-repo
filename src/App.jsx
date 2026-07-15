@@ -59,6 +59,7 @@ import {
 } from "react-icons/si";
 import SocialLinks from "./components/SocialLinks";
 import MediaGrid from "./components/MediaGrid";
+import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
 import ProfileAvatar from "./components/ProfileAvatar";
 import HeroVisual from "./components/HeroVisual";
 import NeuralSystemsMap from "./components/NeuralSystemsMap";
@@ -630,7 +631,15 @@ function App() {
                 }
               }}
             >
-              <MediaGrid items={category.items} variant={category.variant} />
+              {category.id === "school-projects" || category.id === "certificates" ? (
+                <LoopingMediaCarousel
+                  items={category.items}
+                  direction={category.direction}
+                  variant={category.variant}
+                />
+              ) : (
+                <MediaGrid items={category.items} variant={category.variant} />
+              )}
             </ShowcaseSection>
           ))}
 
