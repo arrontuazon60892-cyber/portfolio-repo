@@ -610,11 +610,6 @@ function App() {
           </ShowcaseSection>
         ))}
 
-        <motion.section initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className="glass-panel p-5 sm:p-6">
-          <SectionHeader eyebrow="Network" title="Social Links" description="Direct channels for collaboration, updates, and creative work." />
-          <div className="mt-6"><SocialLinks /></div>
-        </motion.section>
-
         <motion.section
           id="contact"
           initial={{ opacity: 0, y: 32 }}
@@ -624,12 +619,17 @@ function App() {
           className="glass-panel p-5 sm:p-6"
         >
           <div className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr] items-start">
+            {/* ── Left column: Social Links + Direct Contact ── */}
             <div>
               <SectionHeader
-                eyebrow="Contact"
-                title="Contact"
-                description="The direct email route is preserved, with a more premium interaction layer around it."
+                eyebrow="Network · Contact"
+                title="Connect"
+                description="Direct channels for collaboration, updates, and creative work."
               />
+
+              <div className="mt-6">
+                <SocialLinks />
+              </div>
 
               <div className="mt-6 space-y-4">
                 <div className="contact-card">
@@ -679,6 +679,7 @@ function App() {
               </div>
             </div>
 
+            {/* ── Right column: Contact Form ── */}
             <div>
               <div className="mb-6 flex items-center gap-3">
                 <div className="icon-pill">
