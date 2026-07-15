@@ -58,7 +58,7 @@ import {
   SiVite,
 } from "react-icons/si";
 import SocialLinks from "./components/SocialLinks";
-import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
+import MediaGrid from "./components/MediaGrid";
 import ProfileAvatar from "./components/ProfileAvatar";
 import HeroVisual from "./components/HeroVisual";
 import NeuralSystemsMap from "./components/NeuralSystemsMap";
@@ -167,6 +167,7 @@ function App() {
   });
   const [contactSent, setContactSent] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState(null);
 
   useEffect(() => {
     const loadChat = () => setShowChat(true);
@@ -195,11 +196,19 @@ function App() {
   const scrollToSection = (id) => {
     setMobileNavOpen(false);
     setActiveSection(id);
+    const isCategory = mediaCategories.some((cat) => cat.id === id);
+    if (isCategory) {
+      setExpandedCategory(id);
+    } else {
+      setExpandedCategory(null);
+    }
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document.getElementById(id)?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "start",
-    });
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    }, 80);
   };
 
   const copyEmail = async () => {
@@ -592,23 +601,38 @@ function App() {
           viewport={{ once: true, amount: 0.12 }}
           transition={{ duration: 0.62 }}
         >
-          <ExploreWork />
+          <ExploreWork onPortalClick={(id) => {
+            setExpandedCategory(id);
+            setTimeout(() => {
+              document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
+          }} />
         </motion.div>
 
-        {mediaCategories.map((category) => (
-          <ShowcaseSection
-            key={category.folder}
-            id={category.id}
-            eyebrow={`${category.folder} · ${String(category.items.length).padStart(2, "0")} media files`}
-            title={category.title}
-          >
-            <LoopingMediaCarousel
-              items={category.items}
-              direction={category.direction}
-              variant={category.variant}
-            />
-          </ShowcaseSection>
-        ))}
+        {mediaCategories
+          .filter((category) => expandedCategory === null || expandedCategory === category.id)
+          .map((category) => (
+            <ShowcaseSection
+              key={category.folder}
+              id={category.id}
+              eyebrow={`${category.folder} · ${String(category.items.length).padStart(2, "0")} media files`}
+              title={category.title}
+              showSeeAll={true}
+              isExpanded={expandedCategory === category.id}
+              onSeeAllClick={() => {
+                if (expandedCategory === category.id) {
+                  setExpandedCategory(null);
+                } else {
+                  setExpandedCategory(category.id);
+                  setTimeout(() => {
+                    document.getElementById(category.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }, 100);
+                }
+              }}
+            >
+              <MediaGrid items={category.items} variant={category.variant} />
+            </ShowcaseSection>
+          ))}
 
         <motion.section
           id="contact"
@@ -793,7 +817,7 @@ function SectionHeader({ eyebrow, title, description }) {
   );
 }
 
-function ShowcaseSection({ id, eyebrow, title, children }) {
+function ShowcaseSection({ id, eyebrow, title, children, showSeeAll, isExpanded, onSeeAllClick }) {
   return (
     <motion.section
       id={id}
@@ -803,7 +827,19 @@ function ShowcaseSection({ id, eyebrow, title, children }) {
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       className="showcase-section"
     >
-      <SectionHeader eyebrow={eyebrow} title={title} />
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <SectionHeader eyebrow={eyebrow} title={title} />
+        {showSeeAll && (
+          <button
+            type="button"
+            onClick={onSeeAllClick}
+            className="cta-secondary self-start sm:self-auto"
+            data-cursor="hover"
+          >
+            {isExpanded ? "Back to All" : "See All"}
+          </button>
+        )}
+      </div>
       <div className="showcase-section__content">{children}</div>
     </motion.section>
   );

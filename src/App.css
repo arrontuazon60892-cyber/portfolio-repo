@@ -3324,3 +3324,27 @@ section[id] {
     transition: none;
   }
 }
+
+/* Media Grid Styles */
+.media-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .media-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .media-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.media-grid-container .media-loop-card {
+  width: 100%;
+}
+

@@ -11,13 +11,14 @@ const portalIcons = {
 };
 
 const portals = mediaCategories.map((category) => ({
+  id: category.id,
   href: `#${category.id}`,
   label: category.title,
   count: category.items.length,
   icon: portalIcons[category.id],
 }));
 
-export default function ExploreWork() {
+export default function ExploreWork({ onPortalClick }) {
   return (
     <section className="explore-work" aria-labelledby="explore-work-title">
       <div className="explore-work__heading">
@@ -25,8 +26,19 @@ export default function ExploreWork() {
         <h2 id="explore-work-title">Explore My Work</h2>
       </div>
       <div className="work-portals">
-        {portals.map(({ href, label, count, icon: Icon }, index) => (
-          <a href={href} className="work-portal" key={href} style={{ "--portal-delay": `${index * 80}ms` }}>
+        {portals.map(({ id, href, label, count, icon: Icon }, index) => (
+          <a
+            href={href}
+            className="work-portal"
+            key={href}
+            style={{ "--portal-delay": `${index * 80}ms` }}
+            onClick={(e) => {
+              if (onPortalClick) {
+                e.preventDefault();
+                onPortalClick(id);
+              }
+            }}
+          >
             <span className="work-portal__icon"><Icon size={20} /></span>
             <span className="work-portal__copy"><b>{label}</b></span>
             <span className="work-portal__count">{String(count).padStart(2, "0")}</span>
