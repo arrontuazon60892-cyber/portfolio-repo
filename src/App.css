@@ -949,22 +949,22 @@ button {
 .project-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: clamp(150px, 14vw, 220px);
+  grid-auto-rows: 220px;
   gap: 14px;
 }
 
 .project-card {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 220px;
   min-width: 0;
-  min-height: 0;
   overflow: hidden;
   border: 1px solid var(--line-dark);
   background: #111;
   padding: 0;
   color: inherit;
   cursor: pointer;
+  position: relative;
 }
 
 .project-card__media {
@@ -1691,7 +1691,7 @@ button {
 @media (min-width: 1025px) {
   .project-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-rows: clamp(150px, 14vw, 220px);
+    grid-auto-rows: 220px;
     gap: 14px;
   }
 }
@@ -1699,16 +1699,24 @@ button {
 @media (max-width: 1024px) {
   .project-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: clamp(160px, 22vw, 260px);
+    grid-auto-rows: 240px;
     gap: 12px;
+  }
+
+  .project-card {
+    height: 240px;
   }
 }
 
 @media (max-width: 700px) {
   .project-grid {
     grid-template-columns: 1fr;
-    grid-auto-rows: clamp(200px, 55vw, 340px);
+    grid-auto-rows: 280px;
     gap: 10px;
+  }
+
+  .project-card {
+    height: 280px;
   }
 }
 
