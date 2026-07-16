@@ -400,7 +400,7 @@ export default function App() {
                 </div>
                 {category.items.length === 0 ? (
                   <p className="media-category__empty">No supported media files are currently available in this folder.</p>
-                ) : category.id === "graphic-design" || category.id === "gallery" ? (
+                ) : category.id === "graphic-design" ? (
                   <MediaGrid items={category.items} variant={category.variant} />
                 ) : (
                   <LoopingMediaCarousel
