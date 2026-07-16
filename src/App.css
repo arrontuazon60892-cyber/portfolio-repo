@@ -935,53 +935,40 @@ button {
   font-size: 0.6rem;
 }
 
+
+
+/* Uniform 4-col media grid — no masonry, no spanning, no featured sizing */
 .media-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.media-grid .media-loop-card {
+  gap: 16px;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
-/* Uniform project grid — 4 cols desktop, 2 tablet, 1 mobile. Max 16 items (4 rows). */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 220px;
-  gap: 14px;
-}
-
-.project-card {
+.media-card {
+  position: relative;
   display: block;
   width: 100%;
-  height: 220px;
   min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--line-dark);
-  background: #111;
+  aspect-ratio: 4 / 3;
   padding: 0;
-  color: inherit;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #111;
   cursor: pointer;
-  position: relative;
 }
 
-.project-card__media {
-  position: relative;
+.media-card img,
+.media-card video {
+  display: block;
   width: 100%;
   height: 100%;
-}
-
-.project-card__media img {
+  max-width: 100%;
   object-fit: cover;
-  width: 100%;
-  height: 100%;
-  transition: transform 360ms ease, opacity 240ms ease;
-}
-
-.project-card:hover .project-card__media img {
-  transform: scale(1.035);
+  object-position: center;
 }
 
 .contact-layout {
@@ -1689,34 +1676,21 @@ button {
 }
 
 @media (min-width: 1025px) {
-  .project-grid {
+  .media-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-rows: 220px;
-    gap: 14px;
+    gap: 16px;
   }
 }
 
-@media (max-width: 1024px) {
-  .project-grid {
+@media (max-width: 900px) {
+  .media-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 240px;
-    gap: 12px;
-  }
-
-  .project-card {
-    height: 240px;
   }
 }
 
-@media (max-width: 700px) {
-  .project-grid {
+@media (max-width: 560px) {
+  .media-grid {
     grid-template-columns: 1fr;
-    grid-auto-rows: 280px;
-    gap: 10px;
-  }
-
-  .project-card {
-    height: 280px;
   }
 }
 
