@@ -13,8 +13,6 @@ const categories = [
   { folder: "ai_video", id: "ai-video", title: "AI Video Creations", variant: "video", direction: "right" },
   { folder: "certicate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right" },
   { folder: "certificate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right", optional: true },
-  { folder: "gallary", id: "gallery", title: "Gallery", variant: "gallery", direction: "left" },
-  { folder: "gallery", id: "gallery", title: "Gallery", variant: "gallery", direction: "left", optional: true },
 ];
 
 async function walk(directory) {
