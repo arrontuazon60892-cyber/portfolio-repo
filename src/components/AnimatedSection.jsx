@@ -46,7 +46,7 @@ export default function AnimatedSection({
         <motion.div
             initial={selectedAnimation.initial}
             whileInView={selectedAnimation.whileInView}
-            viewport={{ once }}
+            viewport={{ once, amount: 0.15 }}
             transition={{
                 duration,
                 delay,

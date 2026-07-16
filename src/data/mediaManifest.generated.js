@@ -32,46 +32,46 @@ import mediaAsset29 from "../assets/gallary/gallary3.webp";
 
 export const mediaCategories = [
   { id: "graphic-design", folder: "graphic_design", title: "Graphic Design", direction: "left", variant: "creative", items: [
-    { id: "graphic-design-404-reality-not-found-png", folder: "graphic_design", title: "404 REALITY NOT FOUND", type: "image", src: mediaAsset0, category: "Graphic Design" },
-    { id: "graphic-design-burger-png", folder: "graphic_design", title: "Burger", type: "image", src: mediaAsset1, category: "Graphic Design" },
-    { id: "graphic-design-coffee-png", folder: "graphic_design", title: "COFFEE", type: "image", src: mediaAsset2, category: "Graphic Design" },
-    { id: "graphic-design-colorful-coloring-book-cover-a4-document-png", folder: "graphic_design", title: "Colorful Coloring Book Cover A4 Document", type: "image", src: mediaAsset3, category: "Graphic Design" },
-    { id: "graphic-design-cosmetic-cosmetic-cosmetic-cosmetic-cosmetic-cosmetic-cosmetic-png", folder: "graphic_design", title: "COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC", type: "image", src: mediaAsset4, category: "Graphic Design" },
-    { id: "graphic-design-seolinah-png", folder: "graphic_design", title: "Seolinah", type: "image", src: mediaAsset5, category: "Graphic Design" },
-    { id: "graphic-design-shoes-png", folder: "graphic_design", title: "Shoes", type: "image", src: mediaAsset6, category: "Graphic Design" },
-    { id: "graphic-design-wiindbreaker-png", folder: "graphic_design", title: "Wiindbreaker", type: "image", src: mediaAsset7, category: "Graphic Design" }
+    { id: "graphic-design-404-reality-not-found-png-1", folder: "graphic_design", sourcePath: "src/assets/graphic_design/404 REALITY NOT FOUND.png", title: "404 REALITY NOT FOUND", type: "image", src: mediaAsset0, category: "Graphic Design" },
+    { id: "graphic-design-burger-png-2", folder: "graphic_design", sourcePath: "src/assets/graphic_design/burger.png", title: "Burger", type: "image", src: mediaAsset1, category: "Graphic Design" },
+    { id: "graphic-design-coffee-png-3", folder: "graphic_design", sourcePath: "src/assets/graphic_design/COFFEE.png", title: "COFFEE", type: "image", src: mediaAsset2, category: "Graphic Design" },
+    { id: "graphic-design-colorful-coloring-book-cover-a4-document-png-4", folder: "graphic_design", sourcePath: "src/assets/graphic_design/Colorful Coloring Book Cover A4 Document.png", title: "Colorful Coloring Book Cover A4 Document", type: "image", src: mediaAsset3, category: "Graphic Design" },
+    { id: "graphic-design-cosmetic-cosmetic-cosmetic-cosmetic-cosmetic-cosmetic-cosmetic-png-5", folder: "graphic_design", sourcePath: "src/assets/graphic_design/COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC.png", title: "COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC COSMETIC", type: "image", src: mediaAsset4, category: "Graphic Design" },
+    { id: "graphic-design-seolinah-png-6", folder: "graphic_design", sourcePath: "src/assets/graphic_design/seolinah.png", title: "Seolinah", type: "image", src: mediaAsset5, category: "Graphic Design" },
+    { id: "graphic-design-shoes-png-7", folder: "graphic_design", sourcePath: "src/assets/graphic_design/shoes.png", title: "Shoes", type: "image", src: mediaAsset6, category: "Graphic Design" },
+    { id: "graphic-design-wiindbreaker-png-8", folder: "graphic_design", sourcePath: "src/assets/graphic_design/wiindbreaker.png", title: "Wiindbreaker", type: "image", src: mediaAsset7, category: "Graphic Design" }
   ] },
   { id: "school-projects", folder: "projects_school", title: "School Projects", direction: "left", variant: "systems", items: [
-    { id: "school-projects-mrs-png", folder: "projects_school", title: "Mrs", type: "image", src: mediaAsset8, category: "School Projects" },
-    { id: "school-projects-mrs1-png", folder: "projects_school", title: "Mrs1", type: "image", src: mediaAsset9, category: "School Projects" },
-    { id: "school-projects-mrs2-png", folder: "projects_school", title: "Mrs2", type: "image", src: mediaAsset10, category: "School Projects" },
-    { id: "school-projects-mrs3-png", folder: "projects_school", title: "Mrs3", type: "image", src: mediaAsset11, category: "School Projects" },
-    { id: "school-projects-photobooth1-png", folder: "projects_school", title: "Photobooth1", type: "image", src: mediaAsset12, category: "School Projects" },
-    { id: "school-projects-photobooth2-png", folder: "projects_school", title: "Photobooth2", type: "image", src: mediaAsset13, category: "School Projects" },
-    { id: "school-projects-photoobooth-png", folder: "projects_school", title: "Photoobooth", type: "image", src: mediaAsset14, category: "School Projects" }
+    { id: "school-projects-mrs-png-9", folder: "projects_school", sourcePath: "src/assets/projects_school/mrs.png", title: "Mrs", type: "image", src: mediaAsset8, category: "School Projects" },
+    { id: "school-projects-mrs1-png-10", folder: "projects_school", sourcePath: "src/assets/projects_school/mrs1.png", title: "Mrs1", type: "image", src: mediaAsset9, category: "School Projects" },
+    { id: "school-projects-mrs2-png-11", folder: "projects_school", sourcePath: "src/assets/projects_school/mrs2.png", title: "Mrs2", type: "image", src: mediaAsset10, category: "School Projects" },
+    { id: "school-projects-mrs3-png-12", folder: "projects_school", sourcePath: "src/assets/projects_school/mrs3.png", title: "Mrs3", type: "image", src: mediaAsset11, category: "School Projects" },
+    { id: "school-projects-photobooth1-png-13", folder: "projects_school", sourcePath: "src/assets/projects_school/photobooth1.png", title: "Photobooth1", type: "image", src: mediaAsset12, category: "School Projects" },
+    { id: "school-projects-photobooth2-png-14", folder: "projects_school", sourcePath: "src/assets/projects_school/photobooth2.png", title: "Photobooth2", type: "image", src: mediaAsset13, category: "School Projects" },
+    { id: "school-projects-photoobooth-png-15", folder: "projects_school", sourcePath: "src/assets/projects_school/photoobooth.png", title: "Photoobooth", type: "image", src: mediaAsset14, category: "School Projects" }
   ] },
   { id: "commercial-videos", folder: "video_commercial", title: "Commercial Videos", direction: "right", variant: "commercial", items: [
-    { id: "commercial-videos-fresh-2-mp4", folder: "video_commercial", title: "FRESH (2)", type: "video", src: mediaAsset15, category: "Commercial Videos" },
-    { id: "commercial-videos-lemon-slideeeeeeee-mp4", folder: "video_commercial", title: "Lemon Slideeeeeeee", type: "video", src: mediaAsset16, category: "Commercial Videos" }
+    { id: "commercial-videos-fresh-2-mp4-16", folder: "video_commercial", sourcePath: "src/assets/video_commercial/FRESH (2).mp4", title: "FRESH (2)", type: "video", src: mediaAsset15, category: "Commercial Videos" },
+    { id: "commercial-videos-lemon-slideeeeeeee-mp4-17", folder: "video_commercial", sourcePath: "src/assets/video_commercial/lemon slideeeeeeee.mp4", title: "Lemon Slideeeeeeee", type: "video", src: mediaAsset16, category: "Commercial Videos" }
   ] },
   { id: "ai-video", folder: "ai_video", title: "AI Video Creations", direction: "right", variant: "video", items: [
-    { id: "ai-video-final-human-mp4", folder: "ai_video", title: "Final Human", type: "video", src: mediaAsset17, category: "AI Video Creations" },
-    { id: "ai-video-octopus-mp4", folder: "ai_video", title: "Octopus", type: "video", src: mediaAsset18, category: "AI Video Creations" },
-    { id: "ai-video-penguin-mp4", folder: "ai_video", title: "Penguin", type: "video", src: mediaAsset19, category: "AI Video Creations" }
+    { id: "ai-video-final-human-mp4-18", folder: "ai_video", sourcePath: "src/assets/ai_video/final-human.mp4", title: "Final Human", type: "video", src: mediaAsset17, category: "AI Video Creations" },
+    { id: "ai-video-octopus-mp4-19", folder: "ai_video", sourcePath: "src/assets/ai_video/octopus.mp4", title: "Octopus", type: "video", src: mediaAsset18, category: "AI Video Creations" },
+    { id: "ai-video-penguin-mp4-20", folder: "ai_video", sourcePath: "src/assets/ai_video/penguin.mp4", title: "Penguin", type: "video", src: mediaAsset19, category: "AI Video Creations" }
   ] },
   { id: "certificates", folder: "certicate", title: "Certificates", direction: "right", variant: "certificates", items: [
-    { id: "certificates-arduino-for-begginners-2025-complete-course-jpg", folder: "certicate", title: "Arduino For Begginners 2025 Complete Course", type: "image", src: mediaAsset20, category: "Certificates" },
-    { id: "certificates-arduino-masterclass-for-begginers-ai-robotics-chatgpt-jpg", folder: "certicate", title: "Arduino Masterclass For Begginers Ai, Robotics & ChatGPT", type: "image", src: mediaAsset21, category: "Certificates" },
-    { id: "certificates-basics-of-powerbi-pros-and-cons-jpg", folder: "certicate", title: "Basics Of PowerBI Pros And Cons", type: "image", src: mediaAsset22, category: "Certificates" },
-    { id: "certificates-chatbot-using-natural-language-processing-with-regex-jpg", folder: "certicate", title: "Chatbot Using Natural Language Processing With Regex", type: "image", src: mediaAsset23, category: "Certificates" },
-    { id: "certificates-the-road-to-it-consulting-opportunities-from-nothing-jpg", folder: "certicate", title: "The Road To IT Consulting Opportunities From Nothing", type: "image", src: mediaAsset24, category: "Certificates" },
-    { id: "certificates-transforming-industries-through-technology-closing-the-digital-divide-for-a-better-process-jpg", folder: "certicate", title: "Transforming Industries Through Technology Closing The Digital Divide For A Better Process", type: "image", src: mediaAsset25, category: "Certificates" }
+    { id: "certificates-arduino-for-begginners-2025-complete-course-jpg-21", folder: "certicate", sourcePath: "src/assets/certicate/Arduino For Begginners - 2025 Complete Course.jpg", title: "Arduino For Begginners 2025 Complete Course", type: "image", src: mediaAsset20, category: "Certificates" },
+    { id: "certificates-arduino-masterclass-for-begginers-ai-robotics-chatgpt-jpg-22", folder: "certicate", sourcePath: "src/assets/certicate/Arduino Masterclass For Begginers Ai, Robotics & ChatGPT.jpg", title: "Arduino Masterclass For Begginers Ai, Robotics & ChatGPT", type: "image", src: mediaAsset21, category: "Certificates" },
+    { id: "certificates-basics-of-powerbi-pros-and-cons-jpg-23", folder: "certicate", sourcePath: "src/assets/certicate/Basics of PowerBI Pros and Cons .jpg", title: "Basics Of PowerBI Pros And Cons", type: "image", src: mediaAsset22, category: "Certificates" },
+    { id: "certificates-chatbot-using-natural-language-processing-with-regex-jpg-24", folder: "certicate", sourcePath: "src/assets/certicate/Chatbot using Natural Language Processing with Regex.jpg", title: "Chatbot Using Natural Language Processing With Regex", type: "image", src: mediaAsset23, category: "Certificates" },
+    { id: "certificates-the-road-to-it-consulting-opportunities-from-nothing-jpg-25", folder: "certicate", sourcePath: "src/assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg", title: "The Road To IT Consulting Opportunities From Nothing", type: "image", src: mediaAsset24, category: "Certificates" },
+    { id: "certificates-transforming-industries-through-technology-closing-the-digital-divide-for-a-better-process-jpg-26", folder: "certicate", sourcePath: "src/assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg", title: "Transforming Industries Through Technology Closing The Digital Divide For A Better Process", type: "image", src: mediaAsset25, category: "Certificates" }
   ] },
   { id: "gallery", folder: "gallary", title: "Gallery", direction: "left", variant: "gallery", items: [
-    { id: "gallery-gallary-webp", folder: "gallary", title: "Gallary", type: "image", src: mediaAsset26, category: "Gallery" },
-    { id: "gallery-gallary1-webp", folder: "gallary", title: "Gallary1", type: "image", src: mediaAsset27, category: "Gallery" },
-    { id: "gallery-gallary2-webp", folder: "gallary", title: "Gallary2", type: "image", src: mediaAsset28, category: "Gallery" },
-    { id: "gallery-gallary3-webp", folder: "gallary", title: "Gallary3", type: "image", src: mediaAsset29, category: "Gallery" }
+    { id: "gallery-gallary-webp-27", folder: "gallary", sourcePath: "src/assets/gallary/gallary.webp", title: "Gallary", type: "image", src: mediaAsset26, category: "Gallery" },
+    { id: "gallery-gallary1-webp-28", folder: "gallary", sourcePath: "src/assets/gallary/gallary1.webp", title: "Gallary1", type: "image", src: mediaAsset27, category: "Gallery" },
+    { id: "gallery-gallary2-webp-29", folder: "gallary", sourcePath: "src/assets/gallary/gallary2.webp", title: "Gallary2", type: "image", src: mediaAsset28, category: "Gallery" },
+    { id: "gallery-gallary3-webp-30", folder: "gallary", sourcePath: "src/assets/gallary/gallary3.webp", title: "Gallary3", type: "image", src: mediaAsset29, category: "Gallery" }
   ] }
 ];
 

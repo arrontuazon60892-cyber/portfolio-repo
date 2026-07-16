@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Braces, Clapperboard, ImageIcon, Sparkles, TerminalSquare } from "lucide-react";
 import { FaJava } from "react-icons/fa";
 import {
@@ -59,13 +62,20 @@ export const creativeSkills = [
 function LogoList({ items, label }) {
   return (
     <div className="logo-grid" aria-label={label}>
-      {items.map(([name, Icon, mark]) => (
-        <div className="logo-item" key={name}>
+      {items.map(([name, Icon, mark], index) => (
+        <motion.div
+          className="logo-item"
+          key={name}
+          initial={{ opacity: 0, y: 14, scale: 0.96 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.4, delay: (index % 6) * 0.035 }}
+        >
           <span className="logo-item__mark" aria-hidden="true">
             {Icon ? <Icon /> : <span className={`brand-glyph brand-glyph--${String(mark).toLowerCase()}`}>{mark}</span>}
           </span>
           <span>{name}</span>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
@@ -74,22 +84,22 @@ function LogoList({ items, label }) {
 export default function TechnologyStack() {
   return (
     <div className="stack-sections">
-      <section className="stack-section" aria-labelledby="development-stack-title">
+      <motion.section className="stack-section" aria-labelledby="development-stack-title" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }}>
         <h3 id="development-stack-title">Development Stack</h3>
         <LogoList items={developmentTools} label="Development tools and technologies" />
-      </section>
-      <section className="stack-section" aria-labelledby="creative-tools-title">
+      </motion.section>
+      <motion.section className="stack-section" aria-labelledby="creative-tools-title" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }}>
         <h3 id="creative-tools-title">Creative Tools</h3>
         <LogoList items={creativeTools} label="Creative and AI tools" />
-      </section>
-      <section className="stack-section" aria-labelledby="creative-skills-title">
+      </motion.section>
+      <motion.section className="stack-section" aria-labelledby="creative-skills-title" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }}>
         <h3 id="creative-skills-title">AI Creative Skills</h3>
         <div className="creative-skill-list">
-          {creativeSkills.map(([name, Icon]) => (
-            <span key={name}><Icon aria-hidden="true" />{name}</span>
+          {creativeSkills.map(([name, Icon], index) => (
+            <motion.span key={name} initial={{ opacity: 0, y: 12, scale: 0.97 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.4, delay: index * 0.035 }}><Icon aria-hidden="true" />{name}</motion.span>
           ))}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

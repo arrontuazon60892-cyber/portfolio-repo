@@ -3,16 +3,18 @@ import path from "node:path";
 
 const root = process.cwd();
 const outputPath = path.join(root, "src/data/mediaManifest.generated.js");
-const supported = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".mp4", ".webm", ".mov"]);
-const videoExtensions = new Set([".mp4", ".webm", ".mov"]);
+const supported = new Set([".png", ".jpg", ".jpeg", ".jfif", ".webp", ".avif", ".gif", ".svg", ".mp4", ".m4v", ".webm", ".mov"]);
+const videoExtensions = new Set([".mp4", ".m4v", ".webm", ".mov"]);
 const categories = [
   { folder: "graphic_design", id: "graphic-design", title: "Graphic Design", variant: "creative", direction: "left" },
   { folder: "projects_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left" },
+  { folder: "project_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left", optional: true },
   { folder: "video_commercial", id: "commercial-videos", title: "Commercial Videos", variant: "commercial", direction: "right" },
   { folder: "ai_video", id: "ai-video", title: "AI Video Creations", variant: "video", direction: "right" },
   { folder: "certicate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right" },
   { folder: "certificate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right", optional: true },
   { folder: "gallary", id: "gallery", title: "Gallery", variant: "gallery", direction: "left" },
+  { folder: "gallery", id: "gallery", title: "Gallery", variant: "gallery", direction: "left", optional: true },
 ];
 
 async function walk(directory) {
@@ -61,8 +63,9 @@ for (const category of categories) {
     imports.push(`import ${identifier} from ${JSON.stringify(relativeImport.startsWith(".") ? relativeImport : `./${relativeImport}`)};`);
     existing.items.push({
       identifier,
-      id: `${category.id}-${slug(relativeAsset)}`,
+      id: `${category.id}-${slug(relativeAsset)}-${assetIndex}`,
       folder: category.folder,
+      sourcePath: `src/assets/${category.folder}/${relativeAsset}`,
       title: titleFromFile(filePath),
       type: videoExtensions.has(extension) ? "video" : "image",
       category: category.title,
@@ -73,7 +76,7 @@ for (const category of categories) {
 
 const categoryCode = [...grouped.values()].map((category) => {
   const items = category.items.map((item) =>
-    `    { id: ${JSON.stringify(item.id)}, folder: ${JSON.stringify(item.folder)}, title: ${JSON.stringify(item.title)}, type: ${JSON.stringify(item.type)}, src: ${item.identifier}, category: ${JSON.stringify(item.category)} }`
+    `    { id: ${JSON.stringify(item.id)}, folder: ${JSON.stringify(item.folder)}, sourcePath: ${JSON.stringify(item.sourcePath)}, title: ${JSON.stringify(item.title)}, type: ${JSON.stringify(item.type)}, src: ${item.identifier}, category: ${JSON.stringify(item.category)} }`
   ).join(",\n");
   return `  { id: ${JSON.stringify(category.id)}, folder: ${JSON.stringify(category.folder)}, title: ${JSON.stringify(category.title)}, direction: ${JSON.stringify(category.direction)}, variant: ${JSON.stringify(category.variant)}, items: [\n${items}\n  ] }`;
 }).join(",\n");

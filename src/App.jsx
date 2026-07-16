@@ -2,6 +2,7 @@
 
 import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowDown,
@@ -25,7 +26,14 @@ import { cn } from "./lib/utils";
 import profileImage from "./assets/profile-hover.jpg";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
-const RobotStage = lazy(() => import("./components/RobotStage"));
+const RobotStage = dynamic(() => import("./components/RobotStage"), {
+  ssr: false,
+  loading: () => (
+    <div className="robot-visual-fallback">
+      <img src={ROBOT_FALLBACK_URL} alt="Monochrome humanoid robot concept" />
+    </div>
+  ),
+});
 const IntroScreen = dynamic(() => import("./components/IntroScreen"), { ssr: false });
 
 const navItems = [
@@ -335,14 +343,19 @@ export default function App() {
               <motion.article
                 key={project.id}
                 className="project-row"
-                initial={false}
+                initial={{ opacity: 0, y: 22, scale: 0.985 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.28 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.55, delay: index * 0.05 }}
               >
                 <div className="project-preview">
                   {project.previewImage || project.thumbnail ? (
-                    <img src={project.previewImage || project.thumbnail} alt="" loading="lazy" decoding="async" />
+                    <Image
+                      src={project.previewImage || project.thumbnail}
+                      alt={`${project.title} preview`}
+                      fill
+                      sizes="(max-width: 700px) 92vw, (max-width: 1100px) 44vw, 360px"
+                    />
                   ) : (
                     <div className="project-preview__placeholder">{project.title}</div>
                   )}
@@ -469,9 +482,9 @@ function EditorialSection({ id, theme, eyebrow, title, children }) {
     <motion.section
       id={id}
       className={cn("editorial-section", `section-${theme}`)}
-      initial={false}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
+      viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="section-inner">
