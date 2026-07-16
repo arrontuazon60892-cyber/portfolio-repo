@@ -1755,8 +1755,7 @@ button {
   margin: 0;
 }
 
-.media-grid,
-.graphic-design-grid {
+.media-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 360px));
   grid-template-rows: none;
@@ -1765,8 +1764,6 @@ button {
   gap: 1rem;
 }
 
-.graphic-design-grid .media-loop-card,
-.graphic-design-grid .media-loop-card:nth-child(n),
 .media-grid .media-loop-card {
   grid-column: auto;
   grid-row: auto;

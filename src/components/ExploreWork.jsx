@@ -1,11 +1,10 @@
-import { Award, Clapperboard, GalleryHorizontal, GraduationCap, Palette, Radio } from "lucide-react";
+import { Award, Clapperboard, GraduationCap, Palette, Radio } from "lucide-react";
 import { mediaCategories } from "../data/mediaManifest";
 
 const portalIcons = {
   "graphic-design": Palette,
   "school-projects": GraduationCap,
   certificates: Award,
-  gallery: GalleryHorizontal,
   "ai-video": Clapperboard,
   "commercial-videos": Clapperboard,
 };

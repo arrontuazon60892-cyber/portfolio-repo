@@ -25,10 +25,6 @@ import mediaAsset22 from "../assets/certicate/Basics of PowerBI Pros and Cons .j
 import mediaAsset23 from "../assets/certicate/Chatbot using Natural Language Processing with Regex.jpg";
 import mediaAsset24 from "../assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg";
 import mediaAsset25 from "../assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg";
-import mediaAsset26 from "../assets/gallary/gallary.webp";
-import mediaAsset27 from "../assets/gallary/gallary1.webp";
-import mediaAsset28 from "../assets/gallary/gallary2.webp";
-import mediaAsset29 from "../assets/gallary/gallary3.webp";
 
 export const mediaCategories = [
   { id: "graphic-design", folder: "graphic_design", title: "Graphic Design", direction: "left", variant: "creative", items: [
@@ -66,12 +62,6 @@ export const mediaCategories = [
     { id: "certificates-chatbot-using-natural-language-processing-with-regex-jpg-24", folder: "certicate", sourcePath: "src/assets/certicate/Chatbot using Natural Language Processing with Regex.jpg", title: "Chatbot Using Natural Language Processing With Regex", type: "image", src: mediaAsset23, category: "Certificates" },
     { id: "certificates-the-road-to-it-consulting-opportunities-from-nothing-jpg-25", folder: "certicate", sourcePath: "src/assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg", title: "The Road To IT Consulting Opportunities From Nothing", type: "image", src: mediaAsset24, category: "Certificates" },
     { id: "certificates-transforming-industries-through-technology-closing-the-digital-divide-for-a-better-process-jpg-26", folder: "certicate", sourcePath: "src/assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg", title: "Transforming Industries Through Technology Closing The Digital Divide For A Better Process", type: "image", src: mediaAsset25, category: "Certificates" }
-  ] },
-  { id: "gallery", folder: "gallary", title: "Gallery", direction: "left", variant: "gallery", items: [
-    { id: "gallery-gallary-webp-27", folder: "gallary", sourcePath: "src/assets/gallary/gallary.webp", title: "Gallary", type: "image", src: mediaAsset26, category: "Gallery" },
-    { id: "gallery-gallary1-webp-28", folder: "gallary", sourcePath: "src/assets/gallary/gallary1.webp", title: "Gallary1", type: "image", src: mediaAsset27, category: "Gallery" },
-    { id: "gallery-gallary2-webp-29", folder: "gallary", sourcePath: "src/assets/gallary/gallary2.webp", title: "Gallary2", type: "image", src: mediaAsset28, category: "Gallery" },
-    { id: "gallery-gallary3-webp-30", folder: "gallary", sourcePath: "src/assets/gallary/gallary3.webp", title: "Gallary3", type: "image", src: mediaAsset29, category: "Gallery" }
   ] }
 ];
 
