@@ -945,34 +945,43 @@ button {
   width: 100%;
 }
 
-/* Base rule — overridden by breakpoint media queries below */
-.graphic-design-grid {
+/* Uniform project grid — 4 cols desktop, 2 tablet, 1 mobile. Max 16 items (4 rows). */
+.project-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: clamp(150px, 12vw, 210px);
+  grid-auto-rows: clamp(150px, 14vw, 220px);
   gap: 14px;
 }
 
-.graphic-design-grid .media-loop-card {
+.project-card {
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 0;
   min-height: 0;
-  aspect-ratio: auto;
   overflow: hidden;
-  position: relative;
+  border: 1px solid var(--line-dark);
+  background: #111;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
 }
 
-.graphic-design-grid .media-loop-card__media {
+.project-card__media {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.graphic-design-grid .media-loop-card__media img {
+.project-card__media img {
   object-fit: cover;
   width: 100%;
   height: 100%;
+  transition: transform 360ms ease, opacity 240ms ease;
+}
+
+.project-card:hover .project-card__media img {
+  transform: scale(1.035);
 }
 
 .contact-layout {
@@ -1680,69 +1689,25 @@ button {
 }
 
 @media (min-width: 1025px) {
-  .graphic-design-grid {
-    display: grid;
+  .project-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(4, clamp(150px, 12vw, 210px));
+    grid-auto-rows: clamp(150px, 14vw, 220px);
     gap: 14px;
   }
-
-  .graphic-design-grid .media-loop-card {
-    width: 100%;
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
-    aspect-ratio: auto;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .graphic-design-grid .media-loop-card:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
-  .graphic-design-grid .media-loop-card:nth-child(2) { grid-column: 3; grid-row: 1 / 3; }
-  .graphic-design-grid .media-loop-card:nth-child(3) { grid-column: 4; grid-row: 1; }
-  .graphic-design-grid .media-loop-card:nth-child(4) { grid-column: 4; grid-row: 2; }
-  .graphic-design-grid .media-loop-card:nth-child(5) { grid-column: 1; grid-row: 3 / 5; }
-  .graphic-design-grid .media-loop-card:nth-child(6) { grid-column: 2; grid-row: 3; }
-  .graphic-design-grid .media-loop-card:nth-child(7) { grid-column: 3 / 5; grid-row: 3; }
-  .graphic-design-grid .media-loop-card:nth-child(8) { grid-column: 2 / 5; grid-row: 4; }
-
-  .graphic-design-grid .media-loop-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .graphic-design-grid .media-loop-card:nth-child(4) img,
-  .graphic-design-grid .media-loop-card:nth-child(6) img { object-position: center 24%; }
-  .graphic-design-grid .media-loop-card:nth-child(7) img { object-position: center 34%; }
-  .graphic-design-grid .media-loop-card:nth-child(8) img { object-position: center 28%; }
 }
 
 @media (max-width: 1024px) {
-  .graphic-design-grid {
+  .project-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: none;
-    grid-auto-flow: row;
+    grid-auto-rows: clamp(160px, 22vw, 260px);
     gap: 12px;
-  }
-
-  .graphic-design-grid .media-loop-card {
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-    aspect-ratio: 4 / 5;
-  }
-
-  .graphic-design-grid .media-loop-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 }
 
 @media (max-width: 700px) {
-  .graphic-design-grid {
+  .project-grid {
     grid-template-columns: 1fr;
+    grid-auto-rows: clamp(200px, 55vw, 340px);
     gap: 10px;
   }
 }

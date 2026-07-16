@@ -26,25 +26,27 @@ export default function MediaGrid({ items, variant = "creative" }) {
       current === null ? 0 : (current + delta + items.length) % items.length
     );
 
+  const visibleItems = items.slice(0, 16);
+
   return (
     <div className={cn("media-grid-container", `media-grid--${variant}`)}>
-      <div className={cn(variant === "creative" ? "graphic-design-grid" : "media-grid")}>
-        {items.map((item, index) => {
+      <div className="project-grid">
+        {visibleItems.map((item, index) => {
           return (
             <motion.button
-              key={item.id}
+              key={item.id || item.src}
               type="button"
               aria-label={`Open ${item.title}`}
               className={cn(
-                "media-loop-card",
-                item.type === "video" && "media-loop-card--video"
+                "project-card",
+                item.type === "video" && "project-card--video"
               )}
               onClick={(event) => open(index, event.currentTarget)}
               initial={{ opacity: 0, y: 16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.45, delay: Math.min(index, 7) * 0.06, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="media-loop-card__media">
+              <div className="project-card__media">
                 {item.type === "video" ? (
                   <SafeVideoPreview item={item} enabled={!selected} />
                 ) : (

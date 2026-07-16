@@ -1,9 +1,9 @@
 import WorkPageShell from "../../src/components/WorkPageShell";
-import LoopingMediaCarousel from "../../src/components/LoopingMediaCarousel";
+import MediaGrid from "../../src/components/MediaGrid";
 import { graphicDesignMedia } from "../../src/data/mediaManifest";
 
 export const metadata = { title: "Graphic Design | Arron Tuazon" };
 
 export default function GraphicDesignPage() {
-  return <WorkPageShell eyebrow="CREATIVE VISUALS" title="Graphic Design" description="A continuous visual stream of editorial, campaign, publication, and motion work." count={graphicDesignMedia.length}><LoopingMediaCarousel items={graphicDesignMedia} direction="left" variant="creative" /></WorkPageShell>;
+  return <WorkPageShell eyebrow="CREATIVE VISUALS" title="Graphic Design" description="Editorial, campaign, publication, and motion work." count={graphicDesignMedia.length}><MediaGrid items={graphicDesignMedia} variant="creative" /></WorkPageShell>;
 }
