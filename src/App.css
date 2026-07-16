@@ -1675,24 +1675,6 @@ button {
   filter: none;
 }
 
-@media (min-width: 1025px) {
-  .media-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-  }
-}
-
-@media (max-width: 900px) {
-  .media-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 560px) {
-  .media-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* Content-sized sections and compact, consistent preview cards. */
 .editorial-section {
@@ -1730,24 +1712,6 @@ button {
 
 .project-content p {
   margin: 0;
-}
-
-.media-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 360px));
-  grid-template-rows: none;
-  grid-auto-flow: row;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.media-grid .media-loop-card {
-  grid-column: auto;
-  grid-row: auto;
-  width: 100%;
-  height: auto;
-  min-width: 0;
-  aspect-ratio: 4 / 3;
 }
 
 .media-loop-card,
