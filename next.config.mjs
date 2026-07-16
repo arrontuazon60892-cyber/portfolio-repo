@@ -13,7 +13,16 @@ const nextConfig = {
       test: /\.(png|jpe?g|gif|webp|avif|svg|mp4|webm|mov)$/i,
       type: "asset/resource",
       generator: {
-        filename: "static/media/[name].[contenthash:8][ext]",
+        // Sanitize filename: replace spaces/special chars with hyphens so
+        // the emitted URL never contains characters that need encoding.
+        filename(pathData) {
+          const raw = (pathData.filename || "").split(/[\\/]/).pop() || "asset";
+          const dot = raw.lastIndexOf(".");
+          const name = dot !== -1 ? raw.slice(0, dot) : raw;
+          const ext  = dot !== -1 ? raw.slice(dot) : "";
+          const safe = name.replace(/\s+/g, "-").replace(/[^\w-]/g, "-").replace(/-+/g, "-");
+          return `static/media/${safe}.[contenthash:8]${ext}`;
+        },
       },
     });
 
