@@ -16,15 +16,16 @@ import mediaAsset13 from "../assets/projects_school/photobooth2.png";
 import mediaAsset14 from "../assets/projects_school/photoobooth.png";
 import mediaAsset15 from "../assets/video_commercial/FRESH (2).mp4";
 import mediaAsset16 from "../assets/video_commercial/lemon slideeeeeeee.mp4";
-import mediaAsset17 from "../assets/ai_video/final-human.mp4";
-import mediaAsset18 from "../assets/ai_video/octopus.mp4";
-import mediaAsset19 from "../assets/ai_video/penguin.mp4";
-import mediaAsset20 from "../assets/certicate/Arduino For Begginners - 2025 Complete Course.jpg";
-import mediaAsset21 from "../assets/certicate/Arduino Masterclass For Begginers Ai, Robotics & ChatGPT.jpg";
-import mediaAsset22 from "../assets/certicate/Basics of PowerBI Pros and Cons .jpg";
-import mediaAsset23 from "../assets/certicate/Chatbot using Natural Language Processing with Regex.jpg";
-import mediaAsset24 from "../assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg";
-import mediaAsset25 from "../assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg";
+import mediaAsset17 from "../assets/ai_video/0717.mp4";
+import mediaAsset18 from "../assets/ai_video/final-human.mp4";
+import mediaAsset19 from "../assets/ai_video/octopus.mp4";
+import mediaAsset20 from "../assets/ai_video/penguin.mp4";
+import mediaAsset21 from "../assets/certicate/Arduino For Begginners - 2025 Complete Course.jpg";
+import mediaAsset22 from "../assets/certicate/Arduino Masterclass For Begginers Ai, Robotics & ChatGPT.jpg";
+import mediaAsset23 from "../assets/certicate/Basics of PowerBI Pros and Cons .jpg";
+import mediaAsset24 from "../assets/certicate/Chatbot using Natural Language Processing with Regex.jpg";
+import mediaAsset25 from "../assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg";
+import mediaAsset26 from "../assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg";
 
 export const mediaCategories = [
   { id: "graphic-design", folder: "GRAPHIC_DESIGN_V2", title: "Graphic Design", direction: "left", variant: "creative", items: [
@@ -51,17 +52,18 @@ export const mediaCategories = [
     { id: "commercial-videos-lemon-slideeeeeeee-mp4-17", folder: "video_commercial", sourcePath: "src/assets/video_commercial/lemon slideeeeeeee.mp4", title: "Lemon Slideeeeeeee", type: "video", src: mediaAsset16, category: "Commercial Videos" }
   ] },
   { id: "ai-video", folder: "ai_video", title: "AI Video Creations", direction: "right", variant: "video", items: [
-    { id: "ai-video-final-human-mp4-18", folder: "ai_video", sourcePath: "src/assets/ai_video/final-human.mp4", title: "Final Human", type: "video", src: mediaAsset17, category: "AI Video Creations" },
-    { id: "ai-video-octopus-mp4-19", folder: "ai_video", sourcePath: "src/assets/ai_video/octopus.mp4", title: "Octopus", type: "video", src: mediaAsset18, category: "AI Video Creations" },
-    { id: "ai-video-penguin-mp4-20", folder: "ai_video", sourcePath: "src/assets/ai_video/penguin.mp4", title: "Penguin", type: "video", src: mediaAsset19, category: "AI Video Creations" }
+    { id: "ai-video-0717-mp4-18", folder: "ai_video", sourcePath: "src/assets/ai_video/0717.mp4", title: "0717", type: "video", src: mediaAsset17, category: "AI Video Creations" },
+    { id: "ai-video-final-human-mp4-19", folder: "ai_video", sourcePath: "src/assets/ai_video/final-human.mp4", title: "Final Human", type: "video", src: mediaAsset18, category: "AI Video Creations" },
+    { id: "ai-video-octopus-mp4-20", folder: "ai_video", sourcePath: "src/assets/ai_video/octopus.mp4", title: "Octopus", type: "video", src: mediaAsset19, category: "AI Video Creations" },
+    { id: "ai-video-penguin-mp4-21", folder: "ai_video", sourcePath: "src/assets/ai_video/penguin.mp4", title: "Penguin", type: "video", src: mediaAsset20, category: "AI Video Creations" }
   ] },
   { id: "certificates", folder: "certicate", title: "Certificates", direction: "right", variant: "certificates", items: [
-    { id: "certificates-arduino-for-begginners-2025-complete-course-jpg-21", folder: "certicate", sourcePath: "src/assets/certicate/Arduino For Begginners - 2025 Complete Course.jpg", title: "Arduino For Begginners 2025 Complete Course", type: "image", src: mediaAsset20, category: "Certificates" },
-    { id: "certificates-arduino-masterclass-for-begginers-ai-robotics-chatgpt-jpg-22", folder: "certicate", sourcePath: "src/assets/certicate/Arduino Masterclass For Begginers Ai, Robotics & ChatGPT.jpg", title: "Arduino Masterclass For Begginers Ai, Robotics & ChatGPT", type: "image", src: mediaAsset21, category: "Certificates" },
-    { id: "certificates-basics-of-powerbi-pros-and-cons-jpg-23", folder: "certicate", sourcePath: "src/assets/certicate/Basics of PowerBI Pros and Cons .jpg", title: "Basics Of PowerBI Pros And Cons", type: "image", src: mediaAsset22, category: "Certificates" },
-    { id: "certificates-chatbot-using-natural-language-processing-with-regex-jpg-24", folder: "certicate", sourcePath: "src/assets/certicate/Chatbot using Natural Language Processing with Regex.jpg", title: "Chatbot Using Natural Language Processing With Regex", type: "image", src: mediaAsset23, category: "Certificates" },
-    { id: "certificates-the-road-to-it-consulting-opportunities-from-nothing-jpg-25", folder: "certicate", sourcePath: "src/assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg", title: "The Road To IT Consulting Opportunities From Nothing", type: "image", src: mediaAsset24, category: "Certificates" },
-    { id: "certificates-transforming-industries-through-technology-closing-the-digital-divide-for-a-better-process-jpg-26", folder: "certicate", sourcePath: "src/assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg", title: "Transforming Industries Through Technology Closing The Digital Divide For A Better Process", type: "image", src: mediaAsset25, category: "Certificates" }
+    { id: "certificates-arduino-for-begginners-2025-complete-course-jpg-22", folder: "certicate", sourcePath: "src/assets/certicate/Arduino For Begginners - 2025 Complete Course.jpg", title: "Arduino For Begginners 2025 Complete Course", type: "image", src: mediaAsset21, category: "Certificates" },
+    { id: "certificates-arduino-masterclass-for-begginers-ai-robotics-chatgpt-jpg-23", folder: "certicate", sourcePath: "src/assets/certicate/Arduino Masterclass For Begginers Ai, Robotics & ChatGPT.jpg", title: "Arduino Masterclass For Begginers Ai, Robotics & ChatGPT", type: "image", src: mediaAsset22, category: "Certificates" },
+    { id: "certificates-basics-of-powerbi-pros-and-cons-jpg-24", folder: "certicate", sourcePath: "src/assets/certicate/Basics of PowerBI Pros and Cons .jpg", title: "Basics Of PowerBI Pros And Cons", type: "image", src: mediaAsset23, category: "Certificates" },
+    { id: "certificates-chatbot-using-natural-language-processing-with-regex-jpg-25", folder: "certicate", sourcePath: "src/assets/certicate/Chatbot using Natural Language Processing with Regex.jpg", title: "Chatbot Using Natural Language Processing With Regex", type: "image", src: mediaAsset24, category: "Certificates" },
+    { id: "certificates-the-road-to-it-consulting-opportunities-from-nothing-jpg-26", folder: "certicate", sourcePath: "src/assets/certicate/The Road to IT Consulting Opportunities from Nothing.jpg", title: "The Road To IT Consulting Opportunities From Nothing", type: "image", src: mediaAsset25, category: "Certificates" },
+    { id: "certificates-transforming-industries-through-technology-closing-the-digital-divide-for-a-better-process-jpg-27", folder: "certicate", sourcePath: "src/assets/certicate/Transforming industries Through Technology Closing the Digital Divide for a Better Process.jpg", title: "Transforming Industries Through Technology Closing The Digital Divide For A Better Process", type: "image", src: mediaAsset26, category: "Certificates" }
   ] }
 ];
 

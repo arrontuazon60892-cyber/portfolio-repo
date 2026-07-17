@@ -1,4 +1,4 @@
-import { allMediaAssets, mediaCategories } from "./mediaManifest.generated";
+import { allMediaAssets, mediaCategories } from "./mediaManifest.generated.js";
 
 const itemsFor = (id) => mediaCategories.find((category) => category.id === id)?.items || [];
 
