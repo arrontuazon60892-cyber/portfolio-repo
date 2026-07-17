@@ -19,23 +19,29 @@ function FailedPreview() {
 
 export function SafeImage({ item }) {
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const source = item.cover || item.src;
 
   if (failed) return <FailedPreview />;
   if (!source) return <FailedPreview />;
 
   return (
-    <img
-      src={source}
-      alt={`${item.title} preview`}
-      loading="lazy"
-      decoding="async"
-      draggable="false"
-      onError={() => {
-        reportMediaError(item, "Image could not be decoded or loaded");
-        setFailed(true);
-      }}
-    />
+    <>
+      {!loaded && <span className="media-card__loader" aria-hidden="true" />}
+      <img
+        className={loaded ? "is-loaded" : undefined}
+        src={source}
+        alt={`${item.title} preview`}
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+        onLoad={() => setLoaded(true)}
+        onError={() => {
+          reportMediaError(item, "Image could not be decoded or loaded");
+          setFailed(true);
+        }}
+      />
+    </>
   );
 }
 
