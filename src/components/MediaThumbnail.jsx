@@ -20,10 +20,12 @@ function FailedPreview() {
 export function SafeImage({ item }) {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const source = item.cover || item.src;
+  // webpack asset/resource returns a URL string; guard against object/undefined
+  const raw = item.cover || item.src;
+  const source = raw && typeof raw === "object" ? raw.src || raw.default : raw;
 
   if (failed) return <FailedPreview />;
-  if (!source) return <FailedPreview />;
+  if (!source || typeof source !== "string") return <FailedPreview />;
 
   return (
     <>
@@ -48,16 +50,20 @@ export function SafeImage({ item }) {
 export function SafeVideoPreview({ item, enabled }) {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [hasFrame, setHasFrame] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [failed, setFailed] = useState(false);
+  const raw = item.src;
+  const source = raw && typeof raw === "object" ? raw.src || raw.default : raw;
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return undefined;
     const observer = new IntersectionObserver(([entry]) => {
       setPreviewVisible(entry.isIntersecting);
-      if (!entry.isIntersecting) videoRef.current?.pause();
+      if (entry.isIntersecting) setShouldLoad(true);
+      else videoRef.current?.pause();
     }, { threshold: 0.01 });
     observer.observe(root);
     return () => observer.disconnect();
@@ -65,7 +71,7 @@ export function SafeVideoPreview({ item, enabled }) {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !enabled || !previewVisible || failed) {
+    if (!video || !enabled || !previewVisible || !shouldLoad || failed) {
       video?.pause();
       return undefined;
     }
@@ -73,7 +79,7 @@ export function SafeVideoPreview({ item, enabled }) {
     video.defaultMuted = true;
     video.play().catch(() => {});
     return () => video.pause();
-  }, [enabled, failed, previewVisible]);
+  }, [enabled, failed, previewVisible, shouldLoad]);
 
   if (failed) return <FailedPreview />;
   return (
@@ -82,7 +88,7 @@ export function SafeVideoPreview({ item, enabled }) {
       <video
         ref={videoRef}
         className={hasFrame ? "is-ready" : undefined}
-        src={item.src}
+        src={shouldLoad ? source : undefined}
         poster={item.poster}
         preload="metadata"
         autoPlay

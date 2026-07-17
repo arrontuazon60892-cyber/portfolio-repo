@@ -2,7 +2,6 @@
 
 import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowDown,
@@ -350,11 +349,12 @@ export default function App() {
               >
                 <div className="project-preview">
                   {project.previewImage || project.thumbnail ? (
-                    <Image
+                    <img
                       src={project.previewImage || project.thumbnail}
                       alt={`${project.title} preview`}
-                      fill
-                      sizes="(max-width: 700px) 92vw, (max-width: 1100px) 44vw, 360px"
+                      loading="lazy"
+                      decoding="async"
+                      draggable="false"
                     />
                   ) : (
                     <div className="project-preview__placeholder">{project.title}</div>
