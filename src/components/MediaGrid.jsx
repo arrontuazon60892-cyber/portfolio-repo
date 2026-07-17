@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import MediaModal from "./MediaModal";
+import { SafeImage, SafeVideoPreview } from "./MediaThumbnail";
 
 export default function MediaGrid({ items, variant = "creative" }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -30,19 +31,9 @@ export default function MediaGrid({ items, variant = "creative" }) {
             onClick={() => open(index)}
           >
             {item.type === "video" ? (
-              <video
-                src={item.src}
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              />
+              <SafeVideoPreview item={item} enabled={!selected} />
             ) : (
-              <img
-                src={item.cover || item.src}
-                alt={item.alt || item.title || `Graphic design ${index + 1}`}
-                loading="lazy"
-              />
+              <SafeImage item={item} />
             )}
           </button>
         ))}
