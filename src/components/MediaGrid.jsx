@@ -33,7 +33,7 @@ export default function MediaGrid({ items, variant = "creative" }) {
               aria-label={`Open ${item.title || `item ${index + 1}`}`}
               onClick={() => open(index)}
             >
-              {item.type === "video" ? (
+              {(item.type === "video" || item.type === "external-video") ? (
                 <SafeVideoPreview item={item} enabled={!selected} />
               ) : (
                 <SafeImage item={item} />

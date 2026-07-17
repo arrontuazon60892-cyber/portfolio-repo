@@ -22,7 +22,6 @@ import { mediaCategories } from "./data/mediaManifest";
 import { projects } from "./data/projects";
 import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "./config/robot";
 import { cn } from "./lib/utils";
-import profileImage from "./assets/profile-hover.jpg";
 
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
 const RobotStage = dynamic(() => import("./components/RobotStage"), {

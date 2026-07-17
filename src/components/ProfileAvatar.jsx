@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import profileDark from "../assets/profile-hover.jpg";
 
 export default function ProfileAvatar() {
   return (

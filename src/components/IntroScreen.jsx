@@ -46,7 +46,7 @@ export default function IntroScreen({ assets = [], modelUrl, onComplete }) {
     let active = true;
     let finished = false;
     const tasks = [
-      ...uniqueAssets.map((asset) => () => asset.type === "video" ? loadVideoMetadata(asset.src) : loadImage(asset.src)),
+      ...uniqueAssets.map((asset) => () => asset.type === "video" ? loadVideoMetadata(asset.src) : asset.type === "external-video" ? Promise.resolve() : loadImage(asset.src)),
       () => document.fonts?.ready || Promise.resolve(),
       () => new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve))),
     ];

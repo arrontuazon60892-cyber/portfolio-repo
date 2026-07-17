@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 function ModalPreview({ item, source }) {
   const [failed, setFailed] = useState(false);
-  const isVideo = item.type === "video";
+  const isVideo = item.type === "video" || item.type === "external-video";
   const fail = (reason) => {
     if (process.env.NODE_ENV === "development") {
       console.error("[portfolio media] modal asset failed", {

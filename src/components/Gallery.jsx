@@ -39,7 +39,7 @@ export default function Gallery({ onOpenProject, onOpenImage, onOpenVideo, isMod
   const openProject = (project, trigger) => {
     triggerRef.current = trigger;
     if (project.type === "image") onOpenImage(project);
-    else if (project.type === "video") onOpenVideo(project);
+    else if (project.type === "video" || project.type === "external-video") onOpenVideo(project);
     else onOpenProject(project);
   };
 
@@ -99,7 +99,7 @@ function ProjectCard({ project, duplicate, onOpen }) {
       tabIndex={duplicate ? -1 : 0}
     >
       <div className="gallery-project-media">
-        {project.type === "video" ? (
+        {(project.type === "video" || project.type === "external-video") ? (
           <div className="gallery-video-poster" aria-hidden="true" />
         ) : project.thumbnail ? (
           <img src={project.thumbnail} alt="" loading="lazy" decoding="async" />
@@ -108,7 +108,7 @@ function ProjectCard({ project, duplicate, onOpen }) {
         )}
         <div className="gallery-project-overlay" />
         <span className="gallery-scanline" aria-hidden="true" />
-        {project.type !== "video" && <span className="gallery-type-icon" aria-hidden="true"><TypeIcon size={15} /></span>}
+        {project.type !== "video" && project.type !== "external-video" && <span className="gallery-type-icon" aria-hidden="true"><TypeIcon size={15} /></span>}
       </div>
     </button>
   );
