@@ -9,12 +9,22 @@ const nextConfig = {
   },
   turbopack: {},
   webpack(config) {
-    config.module.rules.push({
+    // Remove any existing rules that handle these image/video types so our
+    // rule (which sanitises filenames with spaces) is the only one that runs.
+    config.module.rules = config.module.rules.map((rule) => {
+      if (rule.oneOf) {
+        rule.oneOf = rule.oneOf.filter(
+          (r) => !(r.test && r.test.toString().match(/png|jpe?g|gif|webp|avif|svg|mp4|webm|mov/))
+        );
+      }
+      return rule;
+    });
+
+    // Prepend so this rule wins before any Next.js catch-all.
+    config.module.rules.unshift({
       test: /\.(png|jpe?g|gif|webp|avif|svg|mp4|webm|mov)$/i,
       type: "asset/resource",
       generator: {
-        // Sanitize filename: replace spaces/special chars with hyphens so
-        // the emitted URL never contains characters that need encoding.
         filename(pathData) {
           const raw = (pathData.filename || "").split(/[\\/]/).pop() || "asset";
           const dot = raw.lastIndexOf(".");
