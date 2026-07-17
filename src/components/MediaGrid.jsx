@@ -21,23 +21,27 @@ export default function MediaGrid({ items, variant = "creative" }) {
 
   return (
     <div className={`media-grid-section media-grid-section--${variant}`}>
-      <div className="media-grid">
-        {visibleItems.map((item, index) => (
-          <button
-            type="button"
-            className="media-card"
-            key={item.id || item.src || index}
-            aria-label={`Open ${item.title || `item ${index + 1}`}`}
-            onClick={() => open(index)}
-          >
-            {item.type === "video" ? (
-              <SafeVideoPreview item={item} enabled={!selected} />
-            ) : (
-              <SafeImage item={item} />
-            )}
-          </button>
-        ))}
-      </div>
+      {visibleItems.length === 0 ? (
+        <p className="media-grid-empty">No graphic design images found.</p>
+      ) : (
+        <div className="media-grid">
+          {visibleItems.map((item, index) => (
+            <button
+              type="button"
+              className="media-card"
+              key={item.id || item.src || index}
+              aria-label={`Open ${item.title || `item ${index + 1}`}`}
+              onClick={() => open(index)}
+            >
+              {item.type === "video" ? (
+                <SafeVideoPreview item={item} enabled={!selected} />
+              ) : (
+                <SafeImage item={item} />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
 
       <MediaModal
         isOpen={Boolean(selected)}

@@ -6,7 +6,7 @@ const outputPath = path.join(root, "src/data/mediaManifest.generated.js");
 const supported = new Set([".png", ".jpg", ".jpeg", ".jfif", ".webp", ".avif", ".gif", ".svg", ".mp4", ".m4v", ".webm", ".mov"]);
 const videoExtensions = new Set([".mp4", ".m4v", ".webm", ".mov"]);
 const categories = [
-  { folder: "graphic_design", id: "graphic-design", title: "Graphic Design", variant: "creative", direction: "left" },
+  { folder: "GRAPHIC_DESIGN_V2", id: "graphic-design", title: "Graphic Design", variant: "creative", direction: "left" },
   { folder: "projects_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left" },
   { folder: "project_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left", optional: true },
   { folder: "video_commercial", id: "commercial-videos", title: "Commercial Videos", variant: "commercial", direction: "right" },

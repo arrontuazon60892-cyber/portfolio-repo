@@ -994,6 +994,18 @@ button {
   animation: mediaCardLoading 1.1s linear infinite;
 }
 
+.media-grid-empty {
+  margin: 0;
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+  padding: 2rem 0;
+  color: var(--muted-dark);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 /* ── Work route shell (graphic-design, school-projects, etc.) ── */
 .work-route {
   min-height: 100vh;
