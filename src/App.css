@@ -971,6 +971,109 @@ button {
   object-position: center;
 }
 
+/* ── Work route shell (graphic-design, school-projects, etc.) ── */
+.work-route {
+  min-height: 100vh;
+  padding: 0 clamp(1.2rem, 6vw, 6rem) clamp(4rem, 10vw, 8rem);
+  background: var(--black, #020202);
+  color: var(--ink, #f7f7f2);
+}
+
+.work-route__grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.work-route__header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem 0 2.5rem;
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.work-route__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: inherit;
+  transition: color 200ms ease;
+}
+
+.work-route__back:hover { color: var(--ink, #f7f7f2); }
+
+.work-route__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.work-route__intro {
+  position: relative;
+  z-index: 1;
+  padding-bottom: clamp(2.5rem, 6vw, 5rem);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.work-route__intro span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1rem;
+}
+
+.work-route__intro h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.8rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.work-route__intro p {
+  margin: 0 0 1.5rem;
+  max-width: 48rem;
+  color: rgba(255,255,255,0.55);
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  line-height: 1.6;
+}
+
+.work-route__count {
+  display: inline-block;
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.3rem 0.75rem;
+}
+
+/* ── Media grid section wrapper ── */
+.media-grid-section {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
 .contact-layout {
   display: grid;
   grid-template-columns: 0.75fr 1fr;
