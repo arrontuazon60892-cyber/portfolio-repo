@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 function reportMediaError(item, reason) {
   if (process.env.NODE_ENV !== "development") return;
@@ -20,14 +19,18 @@ function FailedPreview() {
 
 export function SafeImage({ item }) {
   const [failed, setFailed] = useState(false);
+  const source = item.cover || item.src;
+
   if (failed) return <FailedPreview />;
+  if (!source) return <FailedPreview />;
+
   return (
-    <Image
-      src={item.cover || item.src}
+    <img
+      src={source}
       alt={`${item.title} preview`}
-      fill
-      unoptimized
-      sizes="(max-width: 700px) 92vw, (max-width: 1100px) 44vw, 360px"
+      loading="lazy"
+      decoding="async"
+      draggable="false"
       onError={() => {
         reportMediaError(item, "Image could not be decoded or loaded");
         setFailed(true);
@@ -71,7 +74,7 @@ export function SafeVideoPreview({ item, enabled }) {
   if (failed) return <FailedPreview />;
   return (
     <div ref={rootRef} className="media-loop-card__video">
-      {item.poster && <Image src={item.poster} alt="" fill unoptimized sizes="(max-width: 700px) 92vw, 360px" />}
+      {item.poster && <img src={item.poster} alt="" loading="lazy" decoding="async" draggable="false" />}
       <video
         ref={videoRef}
         className={hasFrame ? "is-ready" : undefined}
