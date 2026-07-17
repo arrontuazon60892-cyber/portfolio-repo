@@ -922,10 +922,6 @@ button {
   display: block;
 }
 
-.media-loop-card__video video:not(.is-ready) {
-  opacity: 0;
-}
-
 .media-loop__status {
   display: flex;
   justify-content: space-between;
@@ -972,7 +968,6 @@ button {
 }
 
 .media-card img {
-  opacity: 0;
   transition: opacity 180ms ease, transform 360ms ease;
 }
 

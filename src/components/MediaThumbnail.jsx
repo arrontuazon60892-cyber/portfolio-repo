@@ -48,7 +48,6 @@ export function SafeImage({ item }) {
 export function SafeVideoPreview({ item, enabled }) {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
-  const [shouldLoad, setShouldLoad] = useState(Boolean(item.poster));
   const [hasFrame, setHasFrame] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -58,8 +57,7 @@ export function SafeVideoPreview({ item, enabled }) {
     if (!root) return undefined;
     const observer = new IntersectionObserver(([entry]) => {
       setPreviewVisible(entry.isIntersecting);
-      if (entry.isIntersecting) setShouldLoad(true);
-      else videoRef.current?.pause();
+      if (!entry.isIntersecting) videoRef.current?.pause();
     }, { threshold: 0.01 });
     observer.observe(root);
     return () => observer.disconnect();
@@ -67,7 +65,7 @@ export function SafeVideoPreview({ item, enabled }) {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !enabled || !previewVisible || !shouldLoad || failed) {
+    if (!video || !enabled || !previewVisible || failed) {
       video?.pause();
       return undefined;
     }
@@ -75,16 +73,16 @@ export function SafeVideoPreview({ item, enabled }) {
     video.defaultMuted = true;
     video.play().catch(() => {});
     return () => video.pause();
-  }, [enabled, failed, previewVisible, shouldLoad]);
+  }, [enabled, failed, previewVisible]);
 
   if (failed) return <FailedPreview />;
   return (
     <div ref={rootRef} className="media-loop-card__video">
-      {item.poster && <img src={item.poster} alt="" loading="lazy" decoding="async" draggable="false" />}
+      {item.poster && !hasFrame && <img src={item.poster} alt="" loading="lazy" decoding="async" draggable="false" />}
       <video
         ref={videoRef}
         className={hasFrame ? "is-ready" : undefined}
-        src={shouldLoad ? item.src : undefined}
+        src={item.src}
         poster={item.poster}
         preload="metadata"
         autoPlay
