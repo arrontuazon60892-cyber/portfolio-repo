@@ -9,7 +9,8 @@ const categories = [
   { folder: "GRAPHIC_DESIGN_V2", id: "graphic-design", title: "Graphic Design", variant: "creative", direction: "left" },
   { folder: "projects_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left" },
   { folder: "project_school", id: "school-projects", title: "School Projects", variant: "systems", direction: "left", optional: true },
-  // video_commercial and ai_video folders removed - videos now use external TikTok URLs
+  { folder: "video_commercial", id: "commercial-videos", title: "Commercial Videos", variant: "commercial", direction: "right" },
+  { folder: "ai_video", id: "ai-video", title: "AI Video Creations", variant: "video", direction: "right" },
   { folder: "certicate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right" },
   { folder: "certificate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right", optional: true },
 ];
@@ -69,81 +70,6 @@ for (const category of categories) {
   }
   grouped.set(category.id, existing);
 }
-
-// Add external video categories with TikTok URLs
-grouped.set("commercial-videos", {
-  id: "commercial-videos",
-  folder: "video_commercial", 
-  title: "Commercial Videos",
-  direction: "right",
-  variant: "commercial",
-  items: [
-    {
-      id: "commercial-videos-fresh-2-mp4-16",
-      folder: "video_commercial",
-      sourcePath: "https://www.tiktok.com/@no0zee22/video/fresh-commercial", 
-      title: "FRESH (2)",
-      type: "external-video",
-      src: "https://www.tiktok.com/@no0zee22/video/fresh-commercial",
-      category: "Commercial Videos"
-    },
-    {
-      id: "commercial-videos-lemon-slideeeeeeee-mp4-17",
-      folder: "video_commercial", 
-      sourcePath: "https://www.tiktok.com/@no0zee22/video/lemon-slide",
-      title: "Lemon Slideeeeeeee", 
-      type: "external-video",
-      src: "https://www.tiktok.com/@no0zee22/video/lemon-slide",
-      category: "Commercial Videos"
-    }
-  ]
-});
-
-grouped.set("ai-video", {
-  id: "ai-video",
-  folder: "ai_video",
-  title: "AI Video Creations", 
-  direction: "right",
-  variant: "video",
-  items: [
-    {
-      id: "ai-video-0717-mp4-18",
-      folder: "ai_video",
-      sourcePath: "https://www.tiktok.com/@no0zee22",
-      title: "0717", 
-      type: "external-video",
-      src: "https://www.tiktok.com/@no0zee22",
-      category: "AI Video Creations"
-    },
-    {
-      id: "ai-video-final-human-mp4-19",
-      folder: "ai_video", 
-      sourcePath: "https://www.tiktok.com/@no0zee22",
-      title: "Final Human",
-      type: "external-video", 
-      src: "https://www.tiktok.com/@no0zee22",
-      category: "AI Video Creations"
-    },
-    {
-      id: "ai-video-octopus-mp4-20",
-      folder: "ai_video",
-      sourcePath: "https://www.tiktok.com/@no0zee22", 
-      title: "Octopus",
-      type: "external-video",
-      src: "https://www.tiktok.com/@no0zee22",
-      category: "AI Video Creations"
-    },
-    {
-      id: "ai-video-penguin-mp4-21",
-      folder: "ai_video",
-      sourcePath: "https://www.tiktok.com/@no0zee22",
-      title: "Penguin",
-      type: "external-video", 
-      src: "https://www.tiktok.com/@no0zee22",
-      category: "AI Video Creations"
-    }
-  ]
-});
 
 const categoryCode = [...grouped.values()].map((category) => {
   const items = category.items.map((item) => {

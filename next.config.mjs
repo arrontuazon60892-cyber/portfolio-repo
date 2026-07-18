@@ -10,13 +10,6 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   outputFileTracingRoot: process.cwd(),
-  // 🔥 FIX: Exclude src/assets from being traced into Vercel functions
-  // Assets are now served from public/assets/ as static files
-  outputFileTracingExcludes: {
-    "/*": [
-      "./src/assets/**/*",
-    ]
-  },
   // Keep Next.js default static image handling OFF so our custom rule owns it.
   images: {
     disableStaticImages: true,
