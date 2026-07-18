@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import ProfileAvatar from "./components/ProfileAvatar";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
+import MediaGrid from "./components/MediaGrid";
 import SocialLinks from "./components/SocialLinks";
 import TechnologyStack from "./components/TechnologyStack";
 import { mediaCategories } from "./data/mediaManifest";
@@ -44,14 +45,6 @@ const loadingAssets = [
   ...projects.flatMap((project) => [project.previewImage, project.thumbnail]).filter(Boolean).map((src) => ({ type: "image", src })),
 ];
 const mediaFolderLabel = (category) => category.id === "certificates" ? "certificate" : category.folder.replaceAll("_", " ");
-const mediaCategoryRoutes = {
-  "graphic-design": "/graphic-design",
-  "school-projects": "/school-projects",
-  "commercial-videos": "/commercial-videos",
-  "ai-video": "/ai-video",
-  certificates: "/certificates",
-};
-
 const stats = [
   { value: "04", label: "Development builds" },
   { value: "06", label: "Creative archives" },
@@ -92,6 +85,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [emailCopied, setEmailCopied] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   const [contactFields, setContactFields] = useState({
     name: "",
     email: "",
@@ -183,6 +177,10 @@ export default function App() {
     setContactFields({ name: "", email: "", message: "" });
     window.setTimeout(() => setContactSent(false), 2400);
   };
+
+  const expandedCategory = mediaCategories.find((category) => category.id === expandedCategoryId);
+  const openCategoryGallery = (category) => setExpandedCategoryId(category.id);
+  const closeCategoryGallery = () => setExpandedCategoryId(null);
 
   return (
     <div className="portfolio-shell">
@@ -398,9 +396,9 @@ export default function App() {
                     <span>{mediaFolderLabel(category)} / {String(category.items.length).padStart(2, "0")} files</span>
                     <h3>{category.title}</h3>
                   </div>
-                  <a className="media-category__see-all" href={mediaCategoryRoutes[category.id] || `#${category.id}`}>
+                  <button type="button" className="media-category__see-all" onClick={() => openCategoryGallery(category)}>
                     See all <ArrowRight size={15} />
-                  </a>
+                  </button>
                 </div>
                 {category.items.length === 0 ? (
                   <p className="media-category__empty">No supported media files are currently available in this folder.</p>
@@ -475,7 +473,61 @@ export default function App() {
           <ChatWidget />
         </Suspense>
       )}
+
+      {expandedCategory && (
+        <CategoryGalleryOverlay
+          category={expandedCategory}
+          onClose={closeCategoryGallery}
+        />
+      )}
     </div>
+  );
+}
+
+function CategoryGalleryOverlay({ category, onClose }) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      className="category-gallery"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="category-gallery-title"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <button type="button" className="category-gallery__backdrop" onClick={onClose} aria-label="Close category gallery" />
+      <motion.section
+        className="category-gallery__panel"
+        initial={{ opacity: 0, y: 18, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.985 }}
+        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <header className="category-gallery__header">
+          <div>
+            <span>{category.folder.replaceAll("_", " ")} / {String(category.items.length).padStart(2, "0")} files</span>
+            <h2 id="category-gallery-title">{category.title}</h2>
+          </div>
+          <button type="button" className="category-gallery__close" onClick={onClose}>
+            <X size={16} /> Back
+          </button>
+        </header>
+        <MediaGrid items={category.items} variant={category.variant || "creative"} />
+      </motion.section>
+    </motion.div>
   );
 }
 

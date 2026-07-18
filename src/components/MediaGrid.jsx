@@ -17,15 +17,13 @@ export default function MediaGrid({ items, variant = "creative" }) {
       current === null ? 0 : (current + delta + items.length) % items.length
     );
 
-  const visibleItems = items.slice(0, 16);
-
   return (
     <div className={`media-grid-section media-grid-section--${variant}`}>
-      {visibleItems.length === 0 ? (
+      {items.length === 0 ? (
         <p className="media-grid-empty">No graphic design images found.</p>
       ) : (
         <div className="media-grid">
-          {visibleItems.map((item, index) => (
+          {items.map((item, index) => (
             <button
               type="button"
               className="media-card"
