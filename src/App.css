@@ -821,10 +821,13 @@ button {
 .work-categories {
   display: grid;
   gap: clamp(3rem, 6vw, 5.5rem);
+  min-width: 0;
 }
 
 .media-category {
   scroll-margin-top: 5rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .media-category__heading {
@@ -876,11 +879,15 @@ button {
 
 .media-loop {
   position: relative;
-  width: min(100%, calc(100vw - clamp(10rem, 12vw, 16.25rem)));
+  width: 100%;
+  max-width: calc(100vw - clamp(10rem, 12vw, 16.25rem));
   margin-inline: auto;
+  min-width: 0;
 }
 
 .media-loop__viewport {
+  width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
@@ -1582,7 +1589,7 @@ button {
   }
 
   .media-loop {
-    width: min(100%, calc(100vw - clamp(3rem, 8vw, 5rem)));
+    max-width: calc(100vw - clamp(3rem, 8vw, 5rem));
   }
 
   .media-loop__control--previous {
@@ -1658,7 +1665,7 @@ button {
   }
 
   .media-loop {
-    width: min(100%, calc(100vw - clamp(2rem, 10vw, 2.5rem)));
+    max-width: calc(100vw - clamp(2rem, 10vw, 2.5rem));
   }
 
   .media-category__heading {

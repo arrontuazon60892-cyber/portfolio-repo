@@ -2,7 +2,7 @@
 
 import { Component, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, Environment, PerspectiveCamera, useGLTF } from "@react-three/drei";
+import { ContactShadows, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import * as THREE from "three";
 import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "../config/robot";
@@ -217,6 +217,7 @@ function RobotModel({ active, layout, modelUrl, pointerEnabled, reducedMotion })
 export default function RobotStage() {
   const stageRef = useRef(null);
   const [active, setActive] = useState(true);
+  const [stageReady, setStageReady] = useState(false);
   const coarsePointer = useMediaQuery("(pointer: coarse)");
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const mobile = useMediaQuery("(max-width: 700px)");
@@ -232,12 +233,25 @@ export default function RobotStage() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return undefined;
+    const update = () => {
+      const { width, height } = stage.getBoundingClientRect();
+      setStageReady(width > 0 && height > 0);
+    };
+    update();
+    const resizeObserver = new ResizeObserver(update);
+    resizeObserver.observe(stage);
+    return () => resizeObserver.disconnect();
+  }, []);
+
   if (!ROBOT_MODEL_URL) return <RobotVisualFallback />;
 
   return (
     <RobotErrorBoundary fallback={<RobotVisualFallback />}>
       <div ref={stageRef} className="robot-stage">
-        <Canvas
+        {stageReady ? <Canvas
           className="robot-canvas"
           dpr={mobile ? [0.75, 1] : [1, 1.5]}
           gl={{ antialias: !mobile, alpha: true, powerPreference: "high-performance" }}
@@ -247,6 +261,8 @@ export default function RobotStage() {
             gl.shadowMap.enabled = true;
             gl.shadowMap.type = THREE.PCFShadowMap;
             gl.setClearColor(0x000000, 0);
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.08;
           }}
         >
           <PerspectiveCamera makeDefault position={[0, 0, layout.cameraZ]} fov={layout.cameraFov} near={0.1} far={100} />
@@ -257,10 +273,9 @@ export default function RobotStage() {
           <pointLight position={[0, 2.8, 4]} color="#ffffff" intensity={1.2} distance={10} />
           <Suspense fallback={null}>
             <RobotModel active={active} layout={layout} modelUrl={ROBOT_MODEL_URL} pointerEnabled={!coarsePointer} reducedMotion={reducedMotion} />
-            <Environment preset="studio" background={false} environmentIntensity={0.72} />
             <ContactShadows position={[0, contactShadowY, 0]} opacity={0.48} scale={5.2} blur={2.6} far={3.5} resolution={mobile ? 256 : 512} />
           </Suspense>
-        </Canvas>
+        </Canvas> : <RobotVisualFallback />}
       </div>
     </RobotErrorBoundary>
   );

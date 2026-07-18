@@ -6,7 +6,9 @@ import { SafeImage, SafeVideoPreview } from "./MediaThumbnail";
 import { cn } from "../lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function LoopingMediaCarousel({ items, direction = "left", variant = "creative" }) {
+const PREVIEW_ITEM_LIMIT = 8;
+
+export default function LoopingMediaCarousel({ items, direction = "left", variant = "creative", previewLimit = PREVIEW_ITEM_LIMIT }) {
   const rootRef = useRef(null);
   const viewportRef = useRef(null);
   const triggerRef = useRef(null);
@@ -17,7 +19,8 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
   const [visible, setVisible] = useState(false);
   const [tabVisible, setTabVisible] = useState(true);
   const [scrollState, setScrollState] = useState({ left: false, right: false });
-  const selected = selectedIndex === null ? null : items[selectedIndex];
+  const previewItems = items.slice(0, previewLimit);
+  const selected = selectedIndex === null ? null : previewItems[selectedIndex];
   const paused = hovered || focused || dragging || !visible || !tabVisible || Boolean(selected);
 
   const updateScrollState = () => {
@@ -48,11 +51,17 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
 
   useEffect(() => {
     updateScrollState();
-  }, [items]);
+    if (process.env.NODE_ENV === "development" && items.length > 0 && previewItems.length === 0) {
+      console.warn("[portfolio media] category has files but no carousel preview items rendered", {
+        itemCount: items.length,
+        variant,
+      });
+    }
+  }, [items, previewItems.length, variant]);
 
   const open = (index, trigger) => { triggerRef.current = trigger; setSelectedIndex(index); };
   const close = () => { setSelectedIndex(null); window.setTimeout(() => triggerRef.current?.focus({ preventScroll: true }), 0); };
-  const move = (delta) => setSelectedIndex((current) => current === null ? 0 : (current + delta + items.length) % items.length);
+  const move = (delta) => setSelectedIndex((current) => current === null ? 0 : (current + delta + previewItems.length) % previewItems.length);
   const scroll = (delta) => {
     const viewport = viewportRef.current;
     if (!viewport) return;
@@ -80,7 +89,7 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
         onScroll={updateScrollState}
       >
         <div className="media-loop__track">
-          {items.map((item, index) => (
+          {previewItems.map((item, index) => (
             <button key={item.id} type="button" aria-label={`Open ${item.title}`} className={cn("media-loop-card", (item.type === "video" || item.type === "external-video") && "media-loop-card--video")} onClick={(event) => open(index, event.currentTarget)}>
               <div className="media-loop-card__media">
                 {(item.type === "video" || item.type === "external-video") ? (

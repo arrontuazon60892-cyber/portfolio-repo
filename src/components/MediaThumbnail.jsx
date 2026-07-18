@@ -21,10 +21,8 @@ export function SafeImage({ item, loading = "lazy" }) {
   const imageRef = useRef(null);
   const raw = item.cover || item.src;
   const source = raw && typeof raw === "object" ? raw.src || raw.default : raw;
-  const [imageState, setImageState] = useState({ source, status: "loading" });
-  const status = imageState.source === source ? imageState.status : "loading";
-  const failed = status === "failed";
-  const loaded = status === "loaded";
+  const [failedSource, setFailedSource] = useState(null);
+  const failed = failedSource === source;
 
   useEffect(() => {
     const image = imageRef.current;
@@ -35,10 +33,7 @@ export function SafeImage({ item, loading = "lazy" }) {
       let cancelled = false;
       queueMicrotask(() => {
         if (!cancelled) {
-          setImageState({
-            source,
-            status: image.naturalWidth > 0 ? "loaded" : "failed",
-          });
+          setFailedSource(image.naturalWidth > 0 ? null : source);
         }
       });
       return () => {
@@ -52,34 +47,27 @@ export function SafeImage({ item, loading = "lazy" }) {
 
   return (
     <>
-      {!loaded && <span className="media-card__loader" aria-hidden="true" />}
       <img
         key={source}
         ref={imageRef}
-        className={loaded ? "is-loaded" : undefined}
         src={source}
         alt={`${item.title} preview`}
         loading={loading}
         decoding="async"
         draggable="false"
-        onLoad={(event) => {
-          if (event.currentTarget.naturalWidth > 0) {
-            setImageState({ source, status: "loaded" });
-          }
-        }}
+        onLoad={() => setFailedSource(null)}
         onError={() => {
           reportMediaError(item, "Image could not be decoded or loaded");
-          setImageState({ source, status: "failed" });
+          setFailedSource(source);
         }}
       />
     </>
   );
 }
 
-export function SafeVideoPreview({ item, enabled }) {
+export function SafeVideoPreview({ item, enabled = true }) {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
   const [hasFrame, setHasFrame] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -91,8 +79,7 @@ export function SafeVideoPreview({ item, enabled }) {
     if (!root) return undefined;
     const observer = new IntersectionObserver(([entry]) => {
       setPreviewVisible(entry.isIntersecting);
-      if (entry.isIntersecting) setShouldLoad(true);
-      else videoRef.current?.pause();
+      if (!entry.isIntersecting) videoRef.current?.pause();
     }, { threshold: 0.01 });
     observer.observe(root);
     return () => observer.disconnect();
@@ -100,7 +87,7 @@ export function SafeVideoPreview({ item, enabled }) {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !enabled || !previewVisible || !shouldLoad || failed) {
+    if (!video || !enabled || !previewVisible || failed) {
       video?.pause();
       return undefined;
     }
@@ -108,16 +95,16 @@ export function SafeVideoPreview({ item, enabled }) {
     video.defaultMuted = true;
     video.play().catch(() => {});
     return () => video.pause();
-  }, [enabled, failed, previewVisible, shouldLoad]);
+  }, [enabled, failed, previewVisible]);
 
-  if (failed) return <FailedPreview />;
+  if (!source || typeof source !== "string" || failed) return <FailedPreview />;
   return (
     <div ref={rootRef} className="media-loop-card__video">
       {item.poster && !hasFrame && <img src={item.poster} alt="" loading="lazy" decoding="async" draggable="false" />}
       <video
         ref={videoRef}
         className={hasFrame ? "is-ready" : undefined}
-        src={shouldLoad ? source : undefined}
+        src={source}
         poster={item.poster}
         preload="metadata"
         autoPlay
