@@ -1,5 +1,5 @@
 import WorkPageShell from "../../src/components/WorkPageShell";
-import LoopingMediaCarousel from "../../src/components/LoopingMediaCarousel";
+import MediaGallery from "../../src/components/MediaGallery";
 import { commercialVideoMedia } from "../../src/data/mediaManifest";
 
 export const metadata = { title: "Commercial Videos | Arron Tuazon" };
@@ -12,10 +12,12 @@ export default function CommercialVideosPage() {
       description="Short-form campaign videos and product-focused motion work."
       count={commercialVideoMedia.length}
     >
-      <LoopingMediaCarousel
+      <MediaGallery
         items={commercialVideoMedia}
         direction="right"
         variant="commercial"
+        title="Commercial Videos"
+        showToggle
       />
     </WorkPageShell>
   );
