@@ -2053,52 +2053,61 @@ button {
   }
 }
 
-/* Graphic Design uses plain eager images so rendering never depends on JS load state. */
-.graphic-design-grid {
+/* Graphic Design uses plain eager images in a strict, uniform grid. */
+#graphic-design .graphic-design-grid {
   position: relative !important;
   z-index: 10 !important;
   display: grid !important;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
-  gap: clamp(8px, 1vw, 12px) !important;
+  grid-template-rows: none !important;
+  grid-auto-flow: row !important;
+  grid-auto-rows: auto !important;
+  gap: 1rem !important;
   width: 100% !important;
-  height: clamp(260px, calc(100svh - 12rem), 520px) !important;
-  min-height: 0 !important;
+  max-width: 1400px !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  align-items: stretch !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
-.graphic-design-card {
+#graphic-design .graphic-design-card {
   position: relative !important;
   display: block !important;
   width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
-  height: 100% !important;
+  height: auto !important;
   min-height: 0 !important;
-  aspect-ratio: auto !important;
+  aspect-ratio: 4 / 3 !important;
   padding: 0 !important;
   overflow: hidden !important;
-  border: 1px solid rgba(255, 255, 255, 0.24) !important;
-  background: #222 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: #111 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  box-sizing: border-box !important;
   opacity: 1 !important;
   visibility: visible !important;
   transform: none !important;
 }
 
-.graphic-design-card img {
+#graphic-design .graphic-design-card img {
   position: absolute !important;
   inset: 0 !important;
   display: block !important;
   width: 100% !important;
   height: 100% !important;
-  max-width: none !important;
+  max-width: 100% !important;
   object-fit: cover !important;
+  object-position: center !important;
   opacity: 1 !important;
   visibility: visible !important;
   transform: none !important;
 }
 
-.graphic-design-card span {
+#graphic-design .graphic-design-card span {
   position: absolute;
   z-index: 5;
   left: 8px;
@@ -2114,15 +2123,13 @@ button {
 }
 
 @media (max-width: 1024px) {
-  .graphic-design-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  #graphic-design .graphic-design-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 700px) {
-  .graphic-design-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
-    height: clamp(320px, calc(100svh - 8rem), 560px) !important;
+  #graphic-design .graphic-design-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }

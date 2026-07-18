@@ -5,5 +5,16 @@ import { graphicDesignMedia } from "../../src/data/mediaManifest";
 export const metadata = { title: "Graphic Design | Arron Tuazon" };
 
 export default function GraphicDesignPage() {
-  return <WorkPageShell eyebrow="CREATIVE VISUALS" title="Graphic Design" description="Editorial, campaign, publication, and motion work." count={graphicDesignMedia.length}><GraphicDesignGrid items={graphicDesignMedia} /></WorkPageShell>;
+  return (
+    <WorkPageShell
+      eyebrow="CREATIVE VISUALS"
+      title="Graphic Design"
+      description="Editorial, campaign, publication, and motion work."
+      count={graphicDesignMedia.length}
+    >
+      <section id="graphic-design">
+        <GraphicDesignGrid items={graphicDesignMedia} />
+      </section>
+    </WorkPageShell>
+  );
 }
