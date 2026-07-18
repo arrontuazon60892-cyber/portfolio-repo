@@ -958,6 +958,13 @@ button {
 }
 
 .media-card img,
+.media-card video,
+.media-asset-failed {
+  position: relative;
+  z-index: 2;
+}
+
+.media-card img,
 .media-card video {
   display: block;
   width: 100%;
@@ -968,12 +975,8 @@ button {
 }
 
 .media-card img {
-  opacity: 0;
-  transition: opacity 220ms ease, transform 360ms ease;
-}
-
-.media-card img.is-loaded {
   opacity: 1;
+  transition: opacity 220ms ease, transform 360ms ease;
 }
 
 .media-card:hover img {
@@ -982,6 +985,7 @@ button {
 
 .media-card__loader {
   position: absolute;
+  z-index: 1;
   inset: 0;
   background:
     linear-gradient(110deg, transparent 0 38%, rgba(255,255,255,0.08) 48%, transparent 58%),

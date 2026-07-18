@@ -18,29 +18,58 @@ function FailedPreview() {
 }
 
 export function SafeImage({ item }) {
-  const [failed, setFailed] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  // webpack asset/resource returns a URL string; guard against object/undefined
+  const imageRef = useRef(null);
   const raw = item.cover || item.src;
   const source = raw && typeof raw === "object" ? raw.src || raw.default : raw;
+  const [imageState, setImageState] = useState({ source, status: "loading" });
+  const status = imageState.source === source ? imageState.status : "loading";
+  const failed = status === "failed";
+  const loaded = status === "loaded";
 
-  if (failed) return <FailedPreview />;
+  useEffect(() => {
+    const image = imageRef.current;
+    if (!image || !source) return;
+
+    // A cached image can finish before React attaches its onLoad handler.
+    if (image.complete) {
+      let cancelled = false;
+      queueMicrotask(() => {
+        if (!cancelled) {
+          setImageState({
+            source,
+            status: image.naturalWidth > 0 ? "loaded" : "failed",
+          });
+        }
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+  }, [source]);
+
   if (!source || typeof source !== "string") return <FailedPreview />;
+  if (failed) return <FailedPreview />;
 
   return (
     <>
       {!loaded && <span className="media-card__loader" aria-hidden="true" />}
       <img
+        key={source}
+        ref={imageRef}
         className={loaded ? "is-loaded" : undefined}
         src={source}
         alt={`${item.title} preview`}
         loading="lazy"
         decoding="async"
         draggable="false"
-        onLoad={() => setLoaded(true)}
+        onLoad={(event) => {
+          if (event.currentTarget.naturalWidth > 0) {
+            setImageState({ source, status: "loaded" });
+          }
+        }}
         onError={() => {
           reportMediaError(item, "Image could not be decoded or loaded");
-          setFailed(true);
+          setImageState({ source, status: "failed" });
         }}
       />
     </>
