@@ -1,11 +1,23 @@
 "use client";
 
 import { Component, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Bounds, ContactShadows, Environment, Html, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { ContactShadows, Environment, Html, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import * as THREE from "three";
 import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "../config/robot";
+
+const NORMALIZED_ROBOT_HEIGHT = 4.2;
+
+const ROBOT_LAYOUTS = {
+  desktop: { cameraFov: 32, cameraZ: 8.3, modelScale: 1, modelY: 0.02 },
+  tablet: { cameraFov: 35, cameraZ: 8.1, modelScale: 0.96, modelY: 0 },
+  mobile: { cameraFov: 38, cameraZ: 7.9, modelScale: 0.98, modelY: -0.02 },
+};
+
+function hasFiniteComponents(value) {
+  return Object.values(value).every((component) => typeof component !== "number" || Number.isFinite(component));
+}
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(() => typeof window !== "undefined" && window.matchMedia(query).matches);
@@ -82,7 +94,7 @@ class RobotErrorBoundary extends Component {
   render() { return this.state.failed ? this.props.fallback : this.props.children; }
 }
 
-function RobotModel({ active, modelUrl, pointerEnabled, reducedMotion }) {
+function RobotModel({ active, layout, modelUrl, pointerEnabled, reducedMotion }) {
   const { scene } = useGLTF(modelUrl);
   const model = useMemo(() => clone(scene), [scene]);
   const rootRef = useRef(null);
@@ -90,11 +102,38 @@ function RobotModel({ active, modelUrl, pointerEnabled, reducedMotion }) {
   const faceRef = useRef(null);
   const headBaseRef = useRef({ x: 0, y: 0 });
   const faceBaseRef = useRef({ x: 0, y: 0 });
-  const { size } = useThree();
+  const normalization = useMemo(() => {
+    model.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(model);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    const validBounds = !box.isEmpty()
+      && hasFiniteComponents(size)
+      && hasFiniteComponents(center)
+      && size.y > 0.0001;
+
+    if (!validBounds) throw new Error("Robot GLB has invalid or non-finite bounds.");
+
+    return {
+      offset: center.multiplyScalar(-1),
+      scale: NORMALIZED_ROBOT_HEIGHT / size.y,
+    };
+  }, [model]);
 
   useEffect(() => {
     model.traverse((object) => {
+      if (!hasFiniteComponents(object.position) || !hasFiniteComponents(object.quaternion) || !hasFiniteComponents(object.scale)) {
+        throw new Error(`Robot node ${object.name || object.uuid} has a non-finite transform.`);
+      }
+      if (Math.max(Math.abs(object.scale.x), Math.abs(object.scale.y), Math.abs(object.scale.z)) > 10000) {
+        throw new Error(`Robot node ${object.name || object.uuid} has an extreme scale.`);
+      }
       if (object.isMesh) {
+        Object.values(object.geometry.attributes).forEach((attribute) => {
+          if (Array.from(attribute.array).some((value) => !Number.isFinite(value))) {
+            throw new Error(`Robot mesh ${object.name || object.uuid} contains invalid geometry values.`);
+          }
+        });
         object.castShadow = true;
         object.receiveShadow = true;
         const enhanceMaterial = (sourceMaterial) => {
@@ -144,9 +183,13 @@ function RobotModel({ active, modelUrl, pointerEnabled, reducedMotion }) {
     const elapsed = state.clock.elapsedTime;
     if (rootRef.current) {
       const motion = reducedMotion ? 0 : 1;
-      rootRef.current.position.y = Math.sin(elapsed * 0.9) * 0.022 * motion;
+      rootRef.current.position.y = layout.modelY + Math.sin(elapsed * 0.9) * 0.022 * motion;
       rootRef.current.rotation.y = Math.sin(elapsed * 0.32) * 0.025 * motion;
-      rootRef.current.scale.y = 1 + Math.sin(elapsed * 1.15) * 0.0025 * motion;
+      rootRef.current.scale.set(
+        layout.modelScale,
+        layout.modelScale * (1 + Math.sin(elapsed * 1.15) * 0.0025 * motion),
+        layout.modelScale
+      );
     }
     const targetX = pointerEnabled && !reducedMotion ? -state.pointer.y * 0.14 : 0;
     const targetY = pointerEnabled && !reducedMotion ? state.pointer.x * 0.3 : 0;
@@ -160,8 +203,15 @@ function RobotModel({ active, modelUrl, pointerEnabled, reducedMotion }) {
     }
   });
 
-  const framingMargin = size.width <= 700 ? 1.42 : size.width <= 1024 ? 1.28 : 1.12;
-  return <Bounds fit clip observe margin={framingMargin}><group ref={rootRef}><primitive object={model} /></group></Bounds>;
+  return (
+    <group ref={rootRef} position={[0, layout.modelY, 0]} scale={layout.modelScale}>
+      <group scale={normalization.scale}>
+        <group position={normalization.offset}>
+          <primitive object={model} />
+        </group>
+      </group>
+    </group>
+  );
 }
 
 export default function RobotStage() {
@@ -170,6 +220,9 @@ export default function RobotStage() {
   const coarsePointer = useMediaQuery("(pointer: coarse)");
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const mobile = useMediaQuery("(max-width: 700px)");
+  const tablet = useMediaQuery("(max-width: 1024px)");
+  const layout = mobile ? ROBOT_LAYOUTS.mobile : tablet ? ROBOT_LAYOUTS.tablet : ROBOT_LAYOUTS.desktop;
+  const contactShadowY = layout.modelY - (NORMALIZED_ROBOT_HEIGHT * layout.modelScale) / 2;
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -187,21 +240,25 @@ export default function RobotStage() {
         <Canvas
           className="robot-canvas"
           dpr={mobile ? [0.75, 1] : [1, 1.5]}
-          camera={{ position: [0, 2.4, 6.8], fov: 32, near: 0.1, far: 100 }}
           gl={{ antialias: !mobile, alpha: true, powerPreference: "high-performance" }}
           frameloop={active && !reducedMotion ? "always" : "demand"}
           fallback={<RobotVisualFallback />}
-          shadows
+          onCreated={({ gl }) => {
+            gl.shadowMap.enabled = true;
+            gl.shadowMap.type = THREE.PCFShadowMap;
+            gl.setClearColor(0x000000, 0);
+          }}
         >
+          <PerspectiveCamera makeDefault position={[0, 0, layout.cameraZ]} fov={layout.cameraFov} near={0.1} far={100} />
           <ambientLight intensity={0.32} />
           <hemisphereLight args={["#e6f5ff", "#071018", 0.72]} />
           <directionalLight position={[4, 7, 5]} intensity={3.4} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
           <spotLight position={[-4, 5, -3]} color="#83dcff" intensity={3} angle={0.48} penumbra={0.9} />
           <pointLight position={[0, 2.8, 4]} color="#ffffff" intensity={1.2} distance={10} />
           <Suspense fallback={<Html center><RobotVisualFallback compact /></Html>}>
-            <RobotModel active={active} modelUrl={ROBOT_MODEL_URL} pointerEnabled={!coarsePointer} reducedMotion={reducedMotion} />
+            <RobotModel active={active} layout={layout} modelUrl={ROBOT_MODEL_URL} pointerEnabled={!coarsePointer} reducedMotion={reducedMotion} />
             <Environment preset="studio" background={false} environmentIntensity={0.72} />
-            <ContactShadows position={[0, -0.03, 0]} opacity={0.48} scale={5.2} blur={2.6} far={3.5} resolution={mobile ? 256 : 512} />
+            <ContactShadows position={[0, contactShadowY, 0]} opacity={0.48} scale={5.2} blur={2.6} far={3.5} resolution={mobile ? 256 : 512} />
           </Suspense>
         </Canvas>
       </div>
