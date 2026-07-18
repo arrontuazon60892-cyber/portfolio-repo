@@ -1,5 +1,5 @@
 import WorkPageShell from "../../src/components/WorkPageShell";
-import GraphicDesignGrid from "../../src/components/GraphicDesignGrid";
+import LoopingMediaCarousel from "../../src/components/LoopingMediaCarousel";
 import { graphicDesignMedia } from "../../src/data/mediaManifest";
 
 export const metadata = { title: "Graphic Design | Arron Tuazon" };
@@ -12,9 +12,11 @@ export default function GraphicDesignPage() {
       description="Editorial, campaign, publication, and motion work."
       count={graphicDesignMedia.length}
     >
-      <section id="graphic-design">
-        <GraphicDesignGrid items={graphicDesignMedia} />
-      </section>
+      <LoopingMediaCarousel
+        items={graphicDesignMedia}
+        direction="left"
+        variant="creative"
+      />
     </WorkPageShell>
   );
 }

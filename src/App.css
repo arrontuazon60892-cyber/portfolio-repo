@@ -2013,8 +2013,7 @@ button {
     padding-block: clamp(3.5rem, 12vw, 5rem);
   }
 
-  .media-grid,
-  .graphic-design-grid {
+  .media-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -2050,86 +2049,5 @@ button {
   .creative-skill-list > span {
     opacity: 1 !important;
     transform: none !important;
-  }
-}
-
-/* Graphic Design uses plain eager images in a strict, uniform grid. */
-#graphic-design .graphic-design-grid {
-  position: relative !important;
-  z-index: 10 !important;
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  grid-template-rows: none !important;
-  grid-auto-flow: row !important;
-  grid-auto-rows: auto !important;
-  gap: 1rem !important;
-  width: 100% !important;
-  max-width: 1400px !important;
-  height: auto !important;
-  margin: 0 auto !important;
-  align-items: stretch !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-#graphic-design .graphic-design-card {
-  position: relative !important;
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: 4 / 3 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  background: #111 !important;
-  grid-column: auto !important;
-  grid-row: auto !important;
-  box-sizing: border-box !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: none !important;
-}
-
-#graphic-design .graphic-design-card img {
-  position: absolute !important;
-  inset: 0 !important;
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: none !important;
-}
-
-#graphic-design .graphic-design-card span {
-  position: absolute;
-  z-index: 5;
-  left: 8px;
-  bottom: 8px;
-  max-width: calc(100% - 16px);
-  overflow: hidden;
-  padding: 4px 7px;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-@media (max-width: 1024px) {
-  #graphic-design .graphic-design-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 700px) {
-  #graphic-design .graphic-design-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
   }
 }

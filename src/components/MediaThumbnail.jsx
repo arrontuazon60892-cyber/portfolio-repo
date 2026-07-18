@@ -17,7 +17,7 @@ function FailedPreview() {
   return <div className="media-asset-failed" role="img" aria-label="Media preview unavailable"><span>Preview unavailable</span></div>;
 }
 
-export function SafeImage({ item }) {
+export function SafeImage({ item, loading = "lazy" }) {
   const imageRef = useRef(null);
   const raw = item.cover || item.src;
   const source = raw && typeof raw === "object" ? raw.src || raw.default : raw;
@@ -59,7 +59,7 @@ export function SafeImage({ item }) {
         className={loaded ? "is-loaded" : undefined}
         src={source}
         alt={`${item.title} preview`}
-        loading="lazy"
+        loading={loading}
         decoding="async"
         draggable="false"
         onLoad={(event) => {

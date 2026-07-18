@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import MediaModal from "./MediaModal";
 import { SafeImage, SafeVideoPreview } from "./MediaThumbnail";
 import { cn } from "../lib/utils";
@@ -45,15 +44,15 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
             <div className="media-loop__set" key={cycle} aria-hidden={cycle ? "true" : undefined}>
               {items.map((item, index) => {
                 return (
-                  <motion.button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} aria-label={cycle ? undefined : `Open ${item.title}`} className={cn("media-loop-card", (item.type === "video" || item.type === "external-video") && "media-loop-card--video")} onClick={(event) => open(index, event.currentTarget)} initial={cycle ? false : { opacity: 0, y: 18, scale: 0.98 }} whileInView={cycle ? undefined : { opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.45, delay: Math.min(index, 5) * 0.04 }}>
+                  <button key={`${cycle}-${item.id}`} type="button" tabIndex={cycle ? -1 : 0} aria-label={cycle ? undefined : `Open ${item.title}`} className={cn("media-loop-card", (item.type === "video" || item.type === "external-video") && "media-loop-card--video")} onClick={(event) => open(index, event.currentTarget)}>
                     <div className="media-loop-card__media">
                       {(item.type === "video" || item.type === "external-video") ? (
                         <SafeVideoPreview item={item} enabled={!selected && visible && tabVisible} />
                       ) : (
-                        <SafeImage item={item} />
+                        <SafeImage item={item} loading={variant === "creative" ? "eager" : "lazy"} />
                       )}
                     </div>
-                  </motion.button>
+                  </button>
                 );
               })}
             </div>

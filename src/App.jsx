@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import ProfileAvatar from "./components/ProfileAvatar";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
-import GraphicDesignGrid from "./components/GraphicDesignGrid";
 import SocialLinks from "./components/SocialLinks";
 import TechnologyStack from "./components/TechnologyStack";
 import { mediaCategories } from "./data/mediaManifest";
@@ -399,13 +398,11 @@ export default function App() {
                 </div>
                 {category.items.length === 0 ? (
                   <p className="media-category__empty">No supported media files are currently available in this folder.</p>
-                ) : category.id === "graphic-design" ? (
-                  <GraphicDesignGrid items={category.items} />
                 ) : (
                   <LoopingMediaCarousel
                     items={category.items}
-                    direction={category.direction}
-                    variant={category.variant}
+                    direction={category.direction || "left"}
+                    variant={category.id === "graphic-design" ? "creative" : category.variant}
                   />
                 )}
               </section>
