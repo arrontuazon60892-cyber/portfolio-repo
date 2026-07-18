@@ -44,6 +44,13 @@ const loadingAssets = [
   ...projects.flatMap((project) => [project.previewImage, project.thumbnail]).filter(Boolean).map((src) => ({ type: "image", src })),
 ];
 const mediaFolderLabel = (category) => category.id === "certificates" ? "certificate" : category.folder.replaceAll("_", " ");
+const mediaCategoryRoutes = {
+  "graphic-design": "/graphic-design",
+  "school-projects": "/school-projects",
+  "commercial-videos": "/commercial-videos",
+  "ai-video": "/ai-video",
+  certificates: "/certificates",
+};
 
 const stats = [
   { value: "04", label: "Development builds" },
@@ -387,8 +394,13 @@ export default function App() {
             {mediaCategories.map((category) => (
               <section key={category.id} id={category.id} className="media-category">
                 <div className="media-category__heading">
-                  <span>{mediaFolderLabel(category)} / {String(category.items.length).padStart(2, "0")} files</span>
-                  <h3>{category.title}</h3>
+                  <div>
+                    <span>{mediaFolderLabel(category)} / {String(category.items.length).padStart(2, "0")} files</span>
+                    <h3>{category.title}</h3>
+                  </div>
+                  <a className="media-category__see-all" href={mediaCategoryRoutes[category.id] || `#${category.id}`}>
+                    See all <ArrowRight size={15} />
+                  </a>
                 </div>
                 {category.items.length === 0 ? (
                   <p className="media-category__empty">No supported media files are currently available in this folder.</p>
