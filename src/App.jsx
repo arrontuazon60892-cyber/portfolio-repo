@@ -25,11 +25,7 @@ import { cn } from "./lib/utils";
 const ChatWidget = lazy(() => import("./components/ChatWidget"));
 const RobotStage = dynamic(() => import("./components/RobotStage"), {
   ssr: false,
-  loading: () => (
-    <div className="robot-visual-fallback">
-      <img src={ROBOT_FALLBACK_URL} alt="Monochrome humanoid robot concept" />
-    </div>
-  ),
+  loading: () => <div className="robot-stage robot-stage--loading" aria-hidden="true" />,
 });
 const IntroScreen = dynamic(() => import("./components/IntroScreen"), { ssr: false });
 
@@ -44,7 +40,7 @@ const navItems = [
 const techLabels = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
 const loadingAssets = [
   { type: "image", src: "/assets/profile-hover.jpg" },
-  { type: "image", src: ROBOT_FALLBACK_URL },
+  ...(ROBOT_MODEL_URL ? [] : [{ type: "image", src: ROBOT_FALLBACK_URL }]),
   ...projects.flatMap((project) => [project.previewImage, project.thumbnail]).filter(Boolean).map((src) => ({ type: "image", src })),
 ];
 const mediaFolderLabel = (category) => category.id === "certificates" ? "certificate" : category.folder.replaceAll("_", " ");
@@ -300,9 +296,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Suspense fallback={<div className="robot-visual-fallback"><img src={ROBOT_FALLBACK_URL} alt="Monochrome humanoid robot concept" /></div>}>
-              <RobotStage />
-            </Suspense>
+            <RobotStage />
           </motion.div>
           <button type="button" className="scroll-indicator" onClick={() => scrollToSection("about")} aria-label="Scroll to about">
             <ArrowDown size={18} />

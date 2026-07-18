@@ -2,7 +2,7 @@
 
 import { Component, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, Environment, Html, PerspectiveCamera, useGLTF } from "@react-three/drei";
+import { ContactShadows, Environment, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import * as THREE from "three";
 import { ROBOT_FALLBACK_URL, ROBOT_MODEL_URL } from "../config/robot";
@@ -255,7 +255,7 @@ export default function RobotStage() {
           <directionalLight position={[4, 7, 5]} intensity={3.4} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
           <spotLight position={[-4, 5, -3]} color="#83dcff" intensity={3} angle={0.48} penumbra={0.9} />
           <pointLight position={[0, 2.8, 4]} color="#ffffff" intensity={1.2} distance={10} />
-          <Suspense fallback={<Html center><RobotVisualFallback compact /></Html>}>
+          <Suspense fallback={null}>
             <RobotModel active={active} layout={layout} modelUrl={ROBOT_MODEL_URL} pointerEnabled={!coarsePointer} reducedMotion={reducedMotion} />
             <Environment preset="studio" background={false} environmentIntensity={0.72} />
             <ContactShadows position={[0, contactShadowY, 0]} opacity={0.48} scale={5.2} blur={2.6} far={3.5} resolution={mobile ? 256 : 512} />
@@ -265,3 +265,5 @@ export default function RobotStage() {
     </RobotErrorBoundary>
   );
 }
+
+if (ROBOT_MODEL_URL) useGLTF.preload(ROBOT_MODEL_URL);
