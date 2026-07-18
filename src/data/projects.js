@@ -1,6 +1,9 @@
 import { Layers3, MonitorSmartphone, Sparkles, Workflow } from "lucide-react";
-import printflowPreview from "../assets/projects_school/mrs.png";
-import photoboothPreview from "../assets/projects_school/photoobooth.png";
+// 🔥 FIXED: Removed asset imports, using public URLs instead
+const printflowPreview = "/assets/projects_school/mrs.png";
+const photoboothPreview = "/assets/projects_school/photoobooth.png";
+
+
 
 export const projectFilters = [
   { id: "all", label: "All Systems" },
