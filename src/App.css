@@ -2052,3 +2052,72 @@ button {
     transform: none !important;
   }
 }
+
+/* Graphic Design uses plain eager images so rendering never depends on JS load state. */
+.graphic-design-grid {
+  position: relative !important;
+  z-index: 10 !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  width: 100% !important;
+  min-height: 300px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.graphic-design-card {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 220px !important;
+  aspect-ratio: 4 / 3 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  background: #222 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.graphic-design-card img {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.graphic-design-card span {
+  position: absolute;
+  z-index: 5;
+  left: 8px;
+  bottom: 8px;
+  max-width: calc(100% - 16px);
+  overflow: hidden;
+  padding: 4px 7px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .graphic-design-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .graphic-design-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import ProfileAvatar from "./components/ProfileAvatar";
 import LoopingMediaCarousel from "./components/LoopingMediaCarousel";
-import MediaGrid from "./components/MediaGrid";
+import GraphicDesignGrid from "./components/GraphicDesignGrid";
 import SocialLinks from "./components/SocialLinks";
 import TechnologyStack from "./components/TechnologyStack";
 import { mediaCategories } from "./data/mediaManifest";
@@ -381,7 +381,7 @@ export default function App() {
           <TechnologyStack />
         </EditorialSection>
 
-        <EditorialSection id="work" theme="dark" eyebrow="Creative Work" title="Design, video, certificates, and archive.">
+        <EditorialSection id="work" theme="dark" eyebrow="Creative Work" title="Design, video, certificates, and archive." animated={false}>
           <div className="work-directory">
             {mediaCategories.map((category) => (
               <a key={category.id} href={`#${category.id}`}>
@@ -400,7 +400,7 @@ export default function App() {
                 {category.items.length === 0 ? (
                   <p className="media-category__empty">No supported media files are currently available in this folder.</p>
                 ) : category.id === "graphic-design" ? (
-                  <MediaGrid items={category.items} variant={category.variant} />
+                  <GraphicDesignGrid items={category.items} />
                 ) : (
                   <LoopingMediaCarousel
                     items={category.items}
@@ -476,14 +476,15 @@ export default function App() {
   );
 }
 
-function EditorialSection({ id, theme, eyebrow, title, children }) {
+function EditorialSection({ id, theme, eyebrow, title, children, animated = true }) {
   return (
     <motion.section
       id={id}
       className={cn("editorial-section", `section-${theme}`)}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
+      initial={animated ? { opacity: 0, y: 18 } : false}
+      animate={animated ? undefined : { opacity: 1, y: 0 }}
+      whileInView={animated ? { opacity: 1, y: 0 } : undefined}
+      viewport={animated ? { once: true, amount: 0.15 } : undefined}
       transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="section-inner">
