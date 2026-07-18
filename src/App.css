@@ -2059,9 +2059,11 @@ button {
   z-index: 10 !important;
   display: grid !important;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 16px !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(8px, 1vw, 12px) !important;
   width: 100% !important;
-  min-height: 300px !important;
+  height: clamp(260px, calc(100svh - 12rem), 520px) !important;
+  min-height: 0 !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -2071,8 +2073,9 @@ button {
   display: block !important;
   width: 100% !important;
   min-width: 0 !important;
-  min-height: 220px !important;
-  aspect-ratio: 4 / 3 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
   padding: 0 !important;
   overflow: hidden !important;
   border: 1px solid rgba(255, 255, 255, 0.24) !important;
@@ -2112,12 +2115,14 @@ button {
 
 @media (max-width: 1024px) {
   .graphic-design-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 700px) {
   .graphic-design-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+    height: clamp(320px, calc(100svh - 8rem), 560px) !important;
   }
 }
