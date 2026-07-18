@@ -9,7 +9,7 @@ export default function ProfileAvatar() {
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.55 }}
     >
-      <img src={profileDark} alt="Arron Tuazon portrait" draggable="false" loading="eager" decoding="async" />
+      <img src="/assets/profile-hover.jpg" alt="Arron Tuazon portrait" draggable="false" loading="eager" decoding="async" />
     </motion.figure>
   );
 }

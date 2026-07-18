@@ -44,7 +44,7 @@ const navItems = [
 
 const techLabels = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
 const loadingAssets = [
-  { type: "image", src: profileImage },
+  { type: "image", src: "/assets/profile-hover.jpg" },
   { type: "image", src: ROBOT_FALLBACK_URL },
   ...projects.flatMap((project) => [project.previewImage, project.thumbnail]).filter(Boolean).map((src) => ({ type: "image", src })),
 ];

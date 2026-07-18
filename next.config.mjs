@@ -1,9 +1,22 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
   outputFileTracingRoot: process.cwd(),
+  // 🔥 FIX: Exclude src/assets from being traced into Vercel functions
+  // Assets are now served from public/assets/ as static files
+  outputFileTracingExcludes: {
+    "/*": [
+      "./src/assets/**/*",
+    ]
+  },
   // Keep Next.js default static image handling OFF so our custom rule owns it.
   images: {
     disableStaticImages: true,
@@ -57,4 +70,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
