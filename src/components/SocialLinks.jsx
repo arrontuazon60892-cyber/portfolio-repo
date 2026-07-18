@@ -1,20 +1,8 @@
 import React from "react";
-import { Facebook, Instagram, Music2 } from "lucide-react";
+import { Music2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const socialLinks = [
-  {
-    name: "Facebook",
-    icon: <Facebook className="h-5 w-5" />,
-    url: "https://www.facebook.com/arron.tuazon.7",
-    color: "hover:text-blue-300 hover:bg-blue-500/10",
-  },
-  {
-    name: "Instagram",
-    icon: <Instagram className="h-5 w-5" />,
-    url: "https://www.instagram.com/aronnntzn",
-    color: "hover:text-pink-300 hover:bg-pink-500/10",
-  },
   {
     name: "TikTok",
     icon: <Music2 className="h-5 w-5" />,

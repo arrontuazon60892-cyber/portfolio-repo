@@ -105,7 +105,6 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
     window.addEventListener("resize", measure);
     const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
     if (root) resizeObserver?.observe(root);
-    measure();
     return () => {
       observer?.disconnect();
       resizeObserver?.disconnect();
@@ -147,7 +146,6 @@ export default function LoopingMediaCarousel({ items, direction = "left", varian
   }, [direction, loopEnabled, normalizeLoopPosition, paused, reducedMotion]);
 
   useEffect(() => {
-    updateScrollState();
     if (process.env.NODE_ENV === "development" && items.length > 0 && previewItems.length === 0) {
       console.warn("[portfolio media] category has files but no carousel preview items rendered", {
         itemCount: items.length,
