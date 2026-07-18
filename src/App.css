@@ -906,7 +906,7 @@ button {
   gap: clamp(1rem, 1.35vw, 1.5rem);
   width: max-content;
   min-width: 100%;
-  padding-block: 0.2rem;
+  padding: 0.2rem 0.25rem;
 }
 
 .media-loop-card {
