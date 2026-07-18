@@ -2051,3 +2051,58 @@ button {
     transform: none !important;
   }
 }
+
+/* Responsive 3D hero robot: full-body framing with no page overflow. */
+.hero-section,
+.hero-copyblock,
+.hero-robot-wrap,
+.robot-stage {
+  min-width: 0;
+}
+
+.hero-robot-wrap {
+  width: 100%;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.robot-stage {
+  width: 100%;
+  max-width: 100%;
+  min-height: clamp(32rem, 48vw, 43rem);
+  overflow: hidden;
+}
+
+@media (min-width: 701px) and (max-width: 1024px) {
+  .hero-section {
+    grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.75fr);
+    gap: clamp(1rem, 3vw, 2.5rem);
+    padding-inline: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .hero-robot-wrap,
+  .robot-stage {
+    min-height: clamp(28rem, 54vw, 35rem);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-section {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+    overflow: clip;
+  }
+
+  .hero-copyblock,
+  .hero-robot-wrap,
+  .robot-stage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-robot-wrap,
+  .robot-stage {
+    min-height: clamp(25rem, 112vw, 34rem);
+  }
+}
