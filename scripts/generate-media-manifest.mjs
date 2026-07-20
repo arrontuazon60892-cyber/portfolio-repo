@@ -14,6 +14,12 @@ const categories = [
   { folder: "certicate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right" },
   { folder: "certificate", id: "certificates", title: "Certificates", variant: "certificates", direction: "right", optional: true },
 ];
+const titleOverrides = new Map([
+  ["gymshirt1.png", "Gym Shirt Design 01"],
+  ["gymshirt2.png", "Gym Shirt Design 02"],
+  ["gymshirt3.png", "Gym Shirt Design 03"],
+  ["Oversized Gym Shirt.png", "Oversized Gym Shirt"],
+]);
 
 async function walk(directory) {
   let entries;
@@ -30,6 +36,9 @@ async function walk(directory) {
 }
 
 function titleFromFile(filePath) {
+  const fileName = path.basename(filePath);
+  if (titleOverrides.has(fileName)) return titleOverrides.get(fileName);
+
   return path.basename(filePath, path.extname(filePath))
     .replace(/[_-]+/g, " ")
     .replace(/\s+/g, " ")

@@ -92,6 +92,34 @@ export const graphicDesigns = [
     categoryLabel: "Fashion Promotion",
     src: "/assets/GRAPHIC_DESIGN_V2/wiindbreaker.png",
   },
+  {
+    id: "gym-shirt-design-01",
+    title: "Gym Shirt Design 01",
+    category: "Product",
+    categoryLabel: "Apparel Design",
+    src: "/assets/GRAPHIC_DESIGN_V2/gymshirt1.png",
+  },
+  {
+    id: "gym-shirt-design-02",
+    title: "Gym Shirt Design 02",
+    category: "Product",
+    categoryLabel: "Apparel Design",
+    src: "/assets/GRAPHIC_DESIGN_V2/gymshirt2.png",
+  },
+  {
+    id: "gym-shirt-design-03",
+    title: "Gym Shirt Design 03",
+    category: "Product",
+    categoryLabel: "Apparel Design",
+    src: "/assets/GRAPHIC_DESIGN_V2/gymshirt3.png",
+  },
+  {
+    id: "oversized-gym-shirt",
+    title: "Oversized Gym Shirt",
+    category: "Product",
+    categoryLabel: "Apparel Design",
+    src: "/assets/GRAPHIC_DESIGN_V2/Oversized Gym Shirt.png",
+  },
 ];
 
 export const designFilters = ["All", "Food", "Product", "Branding", "Social Media"];
