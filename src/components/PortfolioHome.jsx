@@ -401,7 +401,37 @@ function GraphicDesignSection({ onOpen }) {
   );
 }
 
-export function VideoCard({ item, onOpen }) {
+function TikTokVideoCard({ item }) {
+  return (
+    <article className="v2-video-card">
+      <a
+        className="v2-video-card__link"
+        href={contactDetails.tiktok}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`View ${item.title} on TikTok`}
+      >
+        <div className="v2-video-card__preview">
+          <Image
+            src={item.src}
+            alt={`${item.title} thumbnail`}
+            fill
+            loading="lazy"
+            sizes="(max-width: 760px) 70vw, (max-width: 1240px) 33vw, 17vw"
+          />
+          <span className="v2-tiktok-cta"><SiTiktok aria-hidden="true" /> View on TikTok</span>
+        </div>
+        <div className="v2-video-card__copy">
+          <span>{item.category}</span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </div>
+      </a>
+    </article>
+  );
+}
+
+function PlayableVideoCard({ item, onOpen }) {
   const [duration, setDuration] = useState(null);
   const [visible, setVisible] = useState(false);
   const rootRef = useRef(null);
@@ -451,6 +481,25 @@ export function VideoCard({ item, onOpen }) {
   );
 }
 
+export function VideoCard({ item, onOpen }) {
+  if (item.mediaType === "image" && item.platform === "tiktok") {
+    return <TikTokVideoCard item={item} />;
+  }
+
+  return <PlayableVideoCard item={item} onOpen={onOpen} />;
+}
+
+export function TikTokPrompt() {
+  return (
+    <p className="v2-tiktok-prompt">
+      <a href={contactDetails.tiktok} target="_blank" rel="noopener noreferrer">
+        <SiTiktok aria-hidden="true" />
+        Want to see more? Explore my other AI-generated videos on TikTok.
+      </a>
+    </p>
+  );
+}
+
 function VideoSection({ onOpen }) {
   return (
     <section id="ai-videos" className="v2-section v2-video-section">
@@ -459,6 +508,7 @@ function VideoSection({ onOpen }) {
         <div className="v2-video-grid">
           {videos.map((item) => <VideoCard key={item.id} item={item} onOpen={onOpen} />)}
         </div>
+        <TikTokPrompt />
         <div className="v2-section-action"><Link className="v2-button v2-button--outline" href="/ai-videos"><Video size={17} /> View All Videos <ArrowRight size={17} /></Link></div>
       </div>
     </section>

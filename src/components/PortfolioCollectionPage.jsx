@@ -3,9 +3,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useMemo, useState } from "react";
 import { designFilters } from "../data/portfolioContent";
-import { GraphicDesignCard, MediaModal, ProjectCard, VideoCard } from "./PortfolioHome";
+import { GraphicDesignCard, MediaModal, ProjectCard, TikTokPrompt, VideoCard } from "./PortfolioHome";
 
-export default function PortfolioCollectionPage({ kind, items }) {
+export default function PortfolioCollectionPage({ kind, items, showTikTokPrompt = false }) {
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
   const visibleItems = useMemo(() => {
@@ -42,9 +42,12 @@ export default function PortfolioCollectionPage({ kind, items }) {
       ) : null}
 
       {kind === "video" ? (
-        <div className="v2-video-grid v2-video-grid--full">
-          {visibleItems.map((item) => <VideoCard key={item.id} item={item} onOpen={setSelected} />)}
-        </div>
+        <>
+          <div className="v2-video-grid v2-video-grid--full">
+            {visibleItems.map((item) => <VideoCard key={item.id} item={item} onOpen={setSelected} />)}
+          </div>
+          {showTikTokPrompt && <TikTokPrompt />}
+        </>
       ) : null}
 
       {kind === "projects" ? (

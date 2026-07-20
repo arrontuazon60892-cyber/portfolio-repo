@@ -126,6 +126,15 @@ export const videos = [
     src: "/assets/ai_video/penguin.mp4",
   },
   {
+    id: "ai-running",
+    title: "AI-Generated Running Video",
+    description: "A high-energy AI-generated running concept created for short-form video.",
+    category: "AI Video Preview",
+    src: "/assets/ai_video/running.png",
+    mediaType: "image",
+    platform: "tiktok",
+  },
+  {
     id: "fresh-commercial",
     title: "Fresh",
     description: "A short-form product-focused commercial edit.",

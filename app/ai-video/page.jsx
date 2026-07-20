@@ -10,7 +10,7 @@ export const metadata = {
 export default function AiVideoPage() {
   return (
     <WorkPageShell eyebrow="Motion & Story" title="AI Videos &" accent="Short Commercials" description="Cinematic AI-generated stories, character films, and short-form commercial content." count={videos.length} activeSection="ai-videos">
-      <PortfolioCollectionPage kind="video" items={videos} />
+      <PortfolioCollectionPage kind="video" items={videos} showTikTokPrompt />
     </WorkPageShell>
   );
 }
