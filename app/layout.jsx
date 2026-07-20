@@ -1,9 +1,10 @@
 import "../src/index.css";
 import "../src/App.css";
 import "../src/portfolio-v2.css";
+import ThemeLoader from "../src/components/ThemeLoader";
 
 export const metadata = {
-  title: "Arron Tuazon | IT Specialist, AI Video Creator & Graphic Designer",
+  title: "Arron Tuazon | AI Videos, Short Commercials & Graphic Design",
   description:
     "Graphic design, AI video creation, and development work by Arron Tuazon.",
   metadataBase: new URL("https://arrontuazon.vercel.app"),
@@ -25,7 +26,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <noscript><style>{`.v2-loader{display:none!important}`}</style></noscript>
+        <ThemeLoader />
+        {children}
+      </body>
     </html>
   );
 }

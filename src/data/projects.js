@@ -1,5 +1,3 @@
-import { Layers3, MonitorSmartphone, Sparkles, Workflow } from "lucide-react";
-
 export const projectFilters = [
   { id: "all", label: "All Systems" },
   { id: "web-development", label: "Web Applications" },
@@ -21,7 +19,6 @@ export const projects = [
     thumbnail: "/assets/projects_school/mrs.png",
     previewImage: "/assets/projects_school/mrs.png",
     status: "BUILD STABLE",
-    icon: Layers3,
   },
   {
     id: "attendance-management-system",
@@ -36,24 +33,6 @@ export const projects = [
     thumbnail: "/assets/projects_school/attendance (1).png",
     previewImage: "/assets/projects_school/attendance (1).png",
     status: "ACADEMIC BUILD",
-    icon: MonitorSmartphone,
-  },
-  {
-    id: "portfolio",
-    key: "portfolio",
-    title: "Portfolio Website",
-    category: "Web Application",
-    categorySlug: "web-development",
-    type: "web",
-    description: "A responsive portfolio for graphic design, AI video creation, and development work.",
-    tools: ["Next.js", "React", "Tailwind CSS"],
-    tags: ["Next.js", "React", "Tailwind CSS"],
-    thumbnail: null,
-    previewImage: null,
-    liveUrl: "https://arrontuazon.vercel.app",
-    sourceUrl: "https://github.com/arrontuazon60892-cyber/portfolio-repo",
-    status: "LIVE PORTFOLIO",
-    icon: MonitorSmartphone,
   },
   {
     id: "attendex",
@@ -68,7 +47,6 @@ export const projects = [
     thumbnail: "/assets/projects_school/attendex (1).png",
     previewImage: "/assets/projects_school/attendex (1).png",
     status: "SYSTEM ONLINE",
-    icon: Workflow,
   },
   {
     id: "photobooth-ac",
@@ -83,7 +61,6 @@ export const projects = [
     thumbnail: "/assets/projects_school/photoobooth.png",
     previewImage: "/assets/projects_school/photoobooth.png",
     status: "DEPLOYMENT READY",
-    icon: Sparkles,
   },
 ];
 

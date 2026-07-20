@@ -1,24 +1,13 @@
 import WorkPageShell from "../../src/components/WorkPageShell";
-import MediaGallery from "../../src/components/MediaGallery";
-import { graphicDesignMedia } from "../../src/data/mediaManifest";
+import PortfolioCollectionPage from "../../src/components/PortfolioCollectionPage";
+import { graphicDesigns } from "../../src/data/portfolioContent";
 
 export const metadata = { title: "Graphic Design | Arron Tuazon" };
 
 export default function GraphicDesignPage() {
   return (
-    <WorkPageShell
-      eyebrow="CREATIVE VISUALS"
-      title="Graphic Design"
-      description="Editorial, campaign, publication, and motion work."
-      count={graphicDesignMedia.length}
-    >
-      <MediaGallery
-        items={graphicDesignMedia}
-        direction="left"
-        variant="creative"
-        title="Graphic Design"
-        showToggle
-      />
+    <WorkPageShell eyebrow="Featured Work" title="All" accent="Graphic Designs" description="A complete collection of product, food, editorial, and promotional creative work." count={graphicDesigns.length} activeSection="graphic-design">
+      <PortfolioCollectionPage kind="design" items={graphicDesigns} />
     </WorkPageShell>
   );
 }

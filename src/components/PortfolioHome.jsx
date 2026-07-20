@@ -12,9 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Code2,
-  Download,
   ExternalLink,
-  Github,
   Mail,
   Menu,
   MessageSquare,
@@ -29,13 +27,17 @@ import { FaJava } from "react-icons/fa";
 import {
   SiAnthropic,
   SiCss,
+  SiCursor,
+  SiClaudecode,
+  SiElevenlabs,
   SiFirebase,
+  SiFigma,
   SiGit,
   SiGithub,
   SiGoogle,
   SiHtml5,
   SiJavascript,
-  SiMeta,
+  SiMetaai,
   SiMysql,
   SiNextdotjs,
   SiPhp,
@@ -65,7 +67,7 @@ const ChatWidget = dynamic(() => import("./ChatWidget"), { ssr: false });
 const navItems = [
   ["Home", "home"],
   ["Graphic Design", "graphic-design"],
-  ["AI Videos", "ai-videos"],
+  ["AI + Commercials", "ai-videos"],
   ["Development", "development"],
   ["About", "about"],
   ["Contact", "contact"],
@@ -87,16 +89,32 @@ const iconMap = {
   mysql: SiMysql,
   supabase: SiSupabase,
   firebase: SiFirebase,
+  figma: SiFigma,
+  photoshop: () => <span className="v2-glyph v2-glyph--ps">Ps</span>,
+  illustrator: () => <span className="v2-glyph v2-glyph--ai">Ai</span>,
+  premiere: () => <span className="v2-glyph v2-glyph--pr">Pr</span>,
+  aftereffects: () => <span className="v2-glyph v2-glyph--ae">Ae</span>,
   canva: () => <span className="v2-glyph">CA</span>,
   google: SiGoogle,
   openai: () => <span className="v2-glyph">AI</span>,
   anthropic: SiAnthropic,
-  meta: SiMeta,
+  meta: SiMetaai,
   git: SiGit,
   github: SiGithub,
   vercel: SiVercel,
   capcut: () => <span className="v2-glyph">CC</span>,
   runway: () => <span className="v2-glyph">R</span>,
+  midjourney: () => <span className="v2-glyph">MJ</span>,
+  sora: () => <span className="v2-glyph">SO</span>,
+  dalle: () => <span className="v2-glyph">D·E</span>,
+  pixverse: () => <span className="v2-glyph">PV</span>,
+  kling: () => <span className="v2-glyph">K</span>,
+  luma: () => <span className="v2-glyph">LU</span>,
+  elevenlabs: SiElevenlabs,
+  antigravity: () => <span className="v2-glyph">A/G</span>,
+  devin: () => <span className="v2-glyph">D</span>,
+  cursor: SiCursor,
+  claudecode: SiClaudecode,
   codex: () => <Code2 aria-hidden="true" />,
 };
 
@@ -107,9 +125,14 @@ const capabilityIcons = {
   sparkles: Sparkles,
 };
 
-function scrollToSection(id) {
+export function scrollToSection(id) {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.getElementById(id)?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+    return;
+  }
+  window.location.assign(`/#${id}`);
 }
 
 function formatDuration(seconds) {
@@ -119,7 +142,7 @@ function formatDuration(seconds) {
   return `${minutes}:${String(remainder).padStart(2, "0")}`;
 }
 
-function Reveal({ children, className = "", delay = 0 }) {
+export function Reveal({ children, className = "", delay = 0 }) {
   const reducedMotion = useReducedMotion();
   return (
     <motion.div
@@ -134,17 +157,17 @@ function Reveal({ children, className = "", delay = 0 }) {
   );
 }
 
-function SectionHeading({ eyebrow, title, accent, description }) {
+export function SectionHeading({ eyebrow, title, accent, description }) {
   return (
     <Reveal className="v2-section-heading">
       <span className="v2-eyebrow"><Sparkles size={13} /> {eyebrow}</span>
-      <h2>{title} {accent && <span>{accent}</span>}</h2>
+      <h2>{title} {accent && <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.65 }}>{accent}</motion.span>}</h2>
       {description && <p>{description}</p>}
     </Reveal>
   );
 }
 
-function Navbar({ activeSection }) {
+export function Navbar({ activeSection }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -157,11 +180,16 @@ function Navbar({ activeSection }) {
 
   useEffect(() => {
     if (!open) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const onKeyDown = (event) => {
       if (event.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
   const navigate = (id) => {
@@ -189,15 +217,6 @@ function Navbar({ activeSection }) {
           ))}
         </nav>
         <div className="v2-nav__actions">
-          {contactDetails.resume ? (
-            <a className="v2-button v2-button--quiet v2-button--small" href={contactDetails.resume} download>
-              Resume <Download size={15} />
-            </a>
-          ) : (
-            <span className="v2-button v2-button--quiet v2-button--small is-disabled" aria-disabled="true" title="Resume file not available">
-              Resume <Download size={15} />
-            </span>
-          )}
           <button className="v2-button v2-button--primary v2-button--small v2-nav__contact" type="button" onClick={() => navigate("contact")}>
             Contact <MessageSquare size={15} />
           </button>
@@ -235,7 +254,21 @@ function Navbar({ activeSection }) {
   );
 }
 
-function HeroSection() {
+const heroCopyVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
+};
+
+const heroLineVariants = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+};
+
+function HeroSection({ onOpen }) {
+  const reducedMotion = useReducedMotion();
+  const showcaseItems = [graphicDesigns[0], graphicDesigns[1], graphicDesigns[8]];
+  const [showcaseOrder, setShowcaseOrder] = useState(showcaseItems.map((item) => item.id));
+  const [showcasePaused, setShowcasePaused] = useState(false);
   const heroTools = [
     ["Next.js", SiNextdotjs],
     ["React", SiReact],
@@ -245,62 +278,100 @@ function HeroSection() {
     ["GitHub", SiGithub],
   ];
 
+  useEffect(() => {
+    if (showcasePaused || reducedMotion) return undefined;
+    const timer = window.setInterval(() => {
+      setShowcaseOrder((current) => [...current.slice(1), current[0]]);
+    }, 4200);
+    return () => window.clearInterval(timer);
+  }, [reducedMotion, showcasePaused]);
+
+  const stackPositions = [
+    { x: "-12%", y: "8%", rotate: -2, scale: 1, zIndex: 4, opacity: 1 },
+    { x: "42%", y: "-8%", rotate: 5, scale: 0.79, zIndex: 3, opacity: 0.9 },
+    { x: "46%", y: "43%", rotate: 7, scale: 0.74, zIndex: 2, opacity: 0.78 },
+  ];
+
   return (
     <section id="home" className="v2-hero">
       <div className="v2-orb v2-orb--one" aria-hidden="true" />
       <div className="v2-orb v2-orb--two" aria-hidden="true" />
       <div className="v2-container v2-hero__grid">
-        <motion.div
-          className="v2-hero__copy"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <p className="v2-hello">Hi, I’m <span>Arron Tuazon</span></p>
-          <h1>IT Specialist<br />AI Video Creator<br /><span>&amp; Graphic Designer</span></h1>
-          <p className="v2-hero__description">
+        <motion.div className="v2-hero__copy" variants={heroCopyVariants} initial={reducedMotion ? false : "hidden"} animate="show">
+          <motion.p className="v2-hello" variants={heroLineVariants}>Hi, I’m <span>Arron Tuazon</span></motion.p>
+          <motion.h1 variants={heroCopyVariants}>
+            <motion.span className="v2-hero-line" variants={heroLineVariants}>IT Specialist</motion.span>
+            <motion.span className="v2-hero-line" variants={heroLineVariants}>AI Video Creator</motion.span>
+            <motion.span className="v2-hero-line v2-hero-line--accent" variants={heroLineVariants}>&amp; Graphic Designer</motion.span>
+          </motion.h1>
+          <motion.p className="v2-hero__description" variants={heroLineVariants}>
             I combine technology and creativity to build modern digital experiences,
             cinematic AI-powered videos, and visually engaging graphic designs.
-          </p>
-          <div className="v2-hero__actions">
+          </motion.p>
+          <motion.div className="v2-hero__actions" variants={heroLineVariants}>
             <button className="v2-button v2-button--primary" type="button" onClick={() => scrollToSection("graphic-design")}>
               View My Work <ArrowRight size={18} />
             </button>
             <button className="v2-button v2-button--quiet" type="button" onClick={() => scrollToSection("contact")}>
               Contact Me <MessageSquare size={18} />
             </button>
-          </div>
-          <div className="v2-hero-tools">
+          </motion.div>
+          <motion.div className="v2-hero-tools" variants={heroLineVariants}>
             <p>Tools I Use</p>
             <div>
               {heroTools.map(([name, Icon]) => (
                 <span key={name} title={name} aria-label={name}><Icon aria-hidden="true" /></span>
               ))}
             </div>
-          </div>
+          </motion.div>
         </motion.div>
         <motion.div
           className="v2-hero-art"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          aria-label="Collage of selected graphic design work"
+          aria-label="Rotating showcase of selected graphic design work"
+          onMouseEnter={() => setShowcasePaused(true)}
+          onMouseLeave={() => setShowcasePaused(false)}
         >
           <div className="v2-hero-art__grid" aria-hidden="true" />
-          <div className="v2-hero-art__label"><Sparkles size={14} /> Creative archive / selected work</div>
-          <div className="v2-art-card v2-art-card--main">
-            <Image src="/assets/GRAPHIC_DESIGN_V2/404 REALITY NOT FOUND.png" alt="404 Reality Not Found design" fill priority sizes="(max-width: 800px) 65vw, 28vw" />
-          </div>
-          <div className="v2-art-card v2-art-card--top">
-            <Image src="/assets/GRAPHIC_DESIGN_V2/perfume.png" alt="Floral Mist perfume design" fill priority sizes="(max-width: 800px) 34vw, 15vw" />
-          </div>
-          <div className="v2-art-card v2-art-card--bottom">
-            <Image src="/assets/GRAPHIC_DESIGN_V2/graphic_design (3).png" alt="Crunch Burger design" fill priority sizes="(max-width: 800px) 34vw, 15vw" />
-          </div>
+          <div className="v2-hero-art__label"><Sparkles size={14} /> Rotating creative showcase</div>
+          {showcaseItems.map((item) => {
+            const position = showcaseOrder.indexOf(item.id);
+            return (
+              <motion.button
+                type="button"
+                key={item.id}
+                className="v2-rotating-card"
+                animate={stackPositions[position]}
+                transition={{ type: "spring", stiffness: 105, damping: 20, mass: 0.85 }}
+                onClick={() => onOpen(item)}
+                aria-label={`Open ${item.title} design`}
+              >
+                <Image src={item.src} alt={item.title} fill priority sizes="(max-width: 800px) 58vw, 25vw" />
+                {position === 0 && <span>{item.title}<ExternalLink size={14} /></span>}
+              </motion.button>
+            );
+          })}
           <span className="v2-art-glow" aria-hidden="true" />
         </motion.div>
       </div>
     </section>
+  );
+}
+
+export function GraphicDesignCard({ item, onOpen }) {
+  return (
+    <motion.article className="v2-design-card" layout initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}>
+      <button type="button" className="v2-design-card__image" onClick={() => onOpen(item)} aria-label={`Open ${item.title} design preview`}>
+        <Image src={item.src} alt={item.title} fill loading="lazy" sizes="(max-width: 720px) 50vw, (max-width: 1080px) 50vw, 33vw" />
+        <span><ExternalLink size={18} /></span>
+      </button>
+      <div className="v2-design-card__meta">
+        <div><h3>{item.title}</h3><p>{item.categoryLabel || item.category}</p></div>
+        <button type="button" onClick={() => onOpen(item)} aria-label={`Expand ${item.title}`}><ArrowRight size={17} /></button>
+      </div>
+    </motion.article>
   );
 }
 
@@ -321,18 +392,7 @@ function GraphicDesignSection({ onOpen }) {
         </div>
         <motion.div className="v2-design-grid" layout>
           <AnimatePresence mode="popLayout">
-            {filtered.map((item) => (
-              <motion.article key={item.id} className="v2-design-card" layout initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}>
-                <button type="button" className="v2-design-card__image" onClick={() => onOpen(item)} aria-label={`Open ${item.title} design preview`}>
-                  <Image src={item.src} alt={item.title} fill loading="lazy" sizes="(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 33vw" />
-                  <span><ExternalLink size={18} /></span>
-                </button>
-                <div className="v2-design-card__meta">
-                  <div><h3>{item.title}</h3><p>{item.categoryLabel}</p></div>
-                  <button type="button" onClick={() => onOpen(item)} aria-label={`Expand ${item.title}`}><ArrowRight size={17} /></button>
-                </div>
-              </motion.article>
-            ))}
+            {filtered.map((item) => <GraphicDesignCard key={item.id} item={item} onOpen={onOpen} />)}
           </AnimatePresence>
         </motion.div>
         <div className="v2-section-action"><Link className="v2-button v2-button--outline" href="/graphic-design"><Palette size={17} /> View All Graphic Designs <ArrowRight size={17} /></Link></div>
@@ -341,16 +401,35 @@ function GraphicDesignSection({ onOpen }) {
   );
 }
 
-function VideoCard({ item, onOpen }) {
+export function VideoCard({ item, onOpen }) {
   const [duration, setDuration] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const rootRef = useRef(null);
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || typeof IntersectionObserver === "undefined") {
+      const timer = window.setTimeout(() => setVisible(true), 0);
+      return () => window.clearTimeout(timer);
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "180px" });
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <article className="v2-video-card">
+    <article ref={rootRef} className="v2-video-card">
       <button type="button" className="v2-video-card__preview" onClick={() => onOpen(item)} aria-label={`Play ${item.title}`}>
         <video
           ref={videoRef}
-          src={item.src}
-          preload="metadata"
+          src={visible ? item.src : undefined}
+          preload={visible ? "metadata" : "none"}
           muted
           playsInline
           tabIndex={-1}
@@ -376,30 +455,29 @@ function VideoSection({ onOpen }) {
   return (
     <section id="ai-videos" className="v2-section v2-video-section">
       <div className="v2-container v2-video-frame">
-        <SectionHeading eyebrow="Motion & Story" title="AI Video" accent="Showcase" description="Cinematic AI-generated videos and creative storytelling." />
+        <SectionHeading eyebrow="Motion & Story" title="AI Videos &" accent="Short Commercials" description="Cinematic AI-generated stories, character films, and short-form commercial content." />
         <div className="v2-video-grid">
           {videos.map((item) => <VideoCard key={item.id} item={item} onOpen={onOpen} />)}
         </div>
-        <div className="v2-section-action"><Link className="v2-button v2-button--outline" href="/ai-video"><Video size={17} /> View All AI Videos <ArrowRight size={17} /></Link></div>
+        <div className="v2-section-action"><Link className="v2-button v2-button--outline" href="/ai-videos"><Video size={17} /> View All Videos <ArrowRight size={17} /></Link></div>
       </div>
     </section>
   );
 }
 
-function ProjectActions({ project }) {
+export function ProjectCard({ project, index }) {
   return (
-    <div className="v2-project-card__actions">
-      {project.liveUrl ? (
-        <a href={project.liveUrl} target="_blank" rel="noreferrer">Live Demo <ExternalLink size={14} /></a>
-      ) : (
-        <span aria-disabled="true">Live Demo <ExternalLink size={14} /></span>
-      )}
-      {project.sourceUrl ? (
-        <a href={project.sourceUrl} target="_blank" rel="noreferrer">GitHub <Github size={14} /></a>
-      ) : (
-        <span aria-disabled="true">GitHub <Github size={14} /></span>
-      )}
-    </div>
+    <Reveal className="v2-project-card" delay={(index % 3) * 0.04}>
+      <div className="v2-project-card__visual">
+        <span className="v2-project-index">{String(index + 1).padStart(2, "0")}</span>
+        <Image src={project.previewImage || project.thumbnail} alt={`${project.title} interface`} fill loading="lazy" sizes="(max-width: 720px) 50vw, (max-width: 1100px) 50vw, 25vw" />
+      </div>
+      <div className="v2-project-card__copy">
+        <h3>{project.title}</h3>
+        <p>{project.description}</p>
+        <div className="v2-badges">{project.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
+      </div>
+    </Reveal>
   );
 }
 
@@ -409,26 +487,7 @@ function DevelopmentSection() {
       <div className="v2-container">
         <SectionHeading eyebrow="Builds 04" title="Development" accent="Projects" description="Selected web, mobile, and academic systems built around practical workflows." />
         <div className="v2-project-grid">
-          {developmentProjects.map((project, index) => (
-            <Reveal className="v2-project-card" key={project.id} delay={(index % 3) * 0.04}>
-              <div className="v2-project-card__visual">
-                <span className="v2-project-index">{String(index + 1).padStart(2, "0")}</span>
-                {project.previewImage || project.thumbnail ? (
-                  <Image src={project.previewImage || project.thumbnail} alt={`${project.title} interface`} fill loading="lazy" sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 20vw" />
-                ) : (
-                  <div className="v2-portfolio-preview" role="img" aria-label="Portfolio website interface preview">
-                    <span>&lt; AT /&gt;</span><strong>Creative<br />Technologist</strong><i />
-                  </div>
-                )}
-              </div>
-              <div className="v2-project-card__copy">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <div className="v2-badges">{project.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
-                <ProjectActions project={project} />
-              </div>
-            </Reveal>
-          ))}
+          {developmentProjects.map((project, index) => <ProjectCard key={project.id} project={project} index={index} />)}
         </div>
         <div className="v2-section-action"><Link className="v2-button v2-button--quiet" href="/projects">View All Projects <ArrowRight size={17} /></Link></div>
       </div>
@@ -529,11 +588,6 @@ function ContactSection() {
             <button className="v2-button v2-button--primary" type="button" onClick={handleMessage}>
               {sent ? <Check size={17} /> : <Send size={17} />} {sent ? "Email Ready" : "Send Me a Message"}
             </button>
-            {contactDetails.resume ? (
-              <a className="v2-button v2-button--quiet" href={contactDetails.resume} download><Download size={17} /> Download Resume</a>
-            ) : (
-              <span className="v2-button v2-button--quiet is-disabled" aria-disabled="true" title="Resume file not available"><Download size={17} /> Download Resume</span>
-            )}
           </div>
         </div>
         <div className="v2-contact-details">
@@ -550,7 +604,7 @@ function ContactSection() {
   );
 }
 
-function MediaModal({ item, onClose, onPrevious, onNext }) {
+export function MediaModal({ item, onClose, onPrevious, onNext }) {
   const closeRef = useRef(null);
   const dialogRef = useRef(null);
   const returnFocusRef = useRef(null);
@@ -610,7 +664,7 @@ function MediaModal({ item, onClose, onPrevious, onNext }) {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <footer className="v2-footer">
       <div className="v2-container v2-footer__inner">
@@ -657,7 +711,7 @@ export default function PortfolioHome() {
     <div className="v2-site">
       <Navbar activeSection={activeSection} />
       <main>
-        <HeroSection />
+        <HeroSection onOpen={openDesign} />
         <GraphicDesignSection onOpen={openDesign} />
         <VideoSection onOpen={openVideo} />
         <DevelopmentSection />

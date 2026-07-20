@@ -1,9 +1,13 @@
 import WorkPageShell from "../../src/components/WorkPageShell";
-import MediaGallery from "../../src/components/MediaGallery";
-import { schoolProjectSlides, mediaCounts } from "../../src/data/mediaManifest";
+import PortfolioCollectionPage from "../../src/components/PortfolioCollectionPage";
+import { schoolProjectSlides } from "../../src/data/mediaManifest";
 
-export const metadata = { title: "School Projects | Arron Tuazon" };
+export const metadata = { title: "Academic Projects | Arron Tuazon" };
 
 export default function SchoolProjectsPage() {
-  return <WorkPageShell eyebrow="ACADEMIC SYSTEMS" title="School Projects" description="Technical builds and interface studies created through academic development work." count={mediaCounts.schoolProjectAssets}><MediaGallery items={schoolProjectSlides} direction="right" variant="systems" title="School Projects" showToggle /></WorkPageShell>;
+  return (
+    <WorkPageShell eyebrow="Academic Work" title="Academic" accent="Project Archive" description="Screens and interface studies from systems developed through academic work." count={schoolProjectSlides.length} activeSection="development">
+      <PortfolioCollectionPage kind="images" items={schoolProjectSlides} />
+    </WorkPageShell>
+  );
 }

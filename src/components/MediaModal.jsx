@@ -148,12 +148,6 @@ export default function MediaModal({ isOpen, item, onClose, onPrevious, onNext }
                   {tools.map((tool) => <small key={tool}>{tool}</small>)}
                 </div>
               )}
-              {(item.liveUrl || item.sourceUrl) && (
-                <div className="media-modal__links">
-                  {item.liveUrl && <a href={item.liveUrl} target="_blank" rel="noreferrer">Live demo</a>}
-                  {item.sourceUrl && <a href={item.sourceUrl} target="_blank" rel="noreferrer">Source</a>}
-                </div>
-              )}
             </aside>
           </motion.div>
           <button ref={closeRef} type="button" className="media-modal__close" onClick={onClose} aria-label="Close preview">
