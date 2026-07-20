@@ -51,6 +51,7 @@ export function SafeImage({ item, loading = "lazy" }) {
         key={source}
         ref={imageRef}
         src={source}
+        className="is-loaded"
         alt={`${item.title} preview`}
         loading={loading}
         decoding="async"

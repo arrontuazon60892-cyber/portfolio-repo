@@ -910,6 +910,10 @@ button {
   padding: 0.2rem 0.25rem;
 }
 
+.media-loop__set {
+  display: contents;
+}
+
 .media-loop-card {
   position: relative;
   display: block;

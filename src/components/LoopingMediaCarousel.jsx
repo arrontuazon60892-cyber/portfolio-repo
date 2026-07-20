@@ -72,7 +72,9 @@ export default function LoopingMediaCarousel({
       : new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { rootMargin: "100px" });
     if (root) observer?.observe(root);
 
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const motionQuery = typeof window.matchMedia === "function"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)")
+      : { matches: false, addEventListener() {}, removeEventListener() {} };
     const onMotionChange = () => setReducedMotion(motionQuery.matches);
     const onVisibility = () => setTabVisible(!document.hidden);
     const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
@@ -196,22 +198,27 @@ export default function LoopingMediaCarousel({
         onScroll={updateScrollState}
       >
         <div className="media-loop__track">
-          {previewItems.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              aria-label={`Open ${item.title}`}
-              className={cn("media-loop-card", (item.type === "video" || item.type === "external-video") && "media-loop-card--video")}
-              onClick={(event) => open(index, event.currentTarget)}
-            >
-              <div className="media-loop-card__media">
-                {(item.type === "video" || item.type === "external-video") ? (
-                  <SafeVideoPreview item={item} enabled={!selected && visible && tabVisible} />
-                ) : (
-                  <SafeImage item={item} loading={variant === "creative" ? "eager" : "lazy"} />
-                )}
-              </div>
-            </button>
+          {[0, 1].map((setIndex) => (
+            <div className="media-loop__set" key={setIndex} aria-hidden={setIndex === 1 ? "true" : undefined}>
+              {previewItems.map((item, index) => (
+                <button
+                  key={`${setIndex}-${item.id}`}
+                  type="button"
+                  tabIndex={setIndex === 1 ? -1 : undefined}
+                  aria-label={setIndex === 0 ? `Open ${item.title}` : undefined}
+                  className={cn("media-loop-card", (item.type === "video" || item.type === "external-video") && "media-loop-card--video")}
+                  onClick={setIndex === 0 ? (event) => open(index, event.currentTarget) : undefined}
+                >
+                  <div className="media-loop-card__media">
+                    {(item.type === "video" || item.type === "external-video") ? (
+                      <SafeVideoPreview item={item} enabled={setIndex === 0 && !selected && visible && tabVisible} />
+                    ) : (
+                      <SafeImage item={item} loading={variant === "creative" ? "eager" : "lazy"} />
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
           ))}
         </div>
       </div>
