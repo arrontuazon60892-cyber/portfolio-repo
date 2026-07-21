@@ -38,7 +38,7 @@ describe("AI video TikTok project", () => {
     const link = screen.getByRole("link", {
       name: "View The Deadly Glass Rain of HD 189733 b on TikTok",
     });
-    expect(link).toHaveAttribute("href", "https://www.tiktok.com/@YOUR_USERNAME/video/YOUR_VIDEO_ID");
+    expect(link).toHaveAttribute("href", contactDetails.tiktok);
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByRole("img", { name: "The Deadly Glass Rain of HD 189733 b thumbnail" })).toHaveAttribute(

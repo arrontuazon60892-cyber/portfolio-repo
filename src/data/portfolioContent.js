@@ -170,7 +170,7 @@ export const videos = [
     src: "/assets/ai_video/PLANET.png",
     mediaType: "image",
     platform: "tiktok",
-    tiktokUrl: "https://www.tiktok.com/@YOUR_USERNAME/video/YOUR_VIDEO_ID",
+    tiktokUrl: "https://www.tiktok.com/@no0zee22?is_from_webapp=1&sender_device=pc",
   },
   {
     id: "fresh-commercial",
