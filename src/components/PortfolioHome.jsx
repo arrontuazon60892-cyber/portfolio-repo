@@ -406,7 +406,7 @@ function TikTokVideoCard({ item }) {
     <article className="v2-video-card">
       <a
         className="v2-video-card__link"
-        href={contactDetails.tiktok}
+        href={item.tiktokUrl || contactDetails.tiktok}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`View ${item.title} on TikTok`}

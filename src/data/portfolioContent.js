@@ -163,6 +163,16 @@ export const videos = [
     platform: "tiktok",
   },
   {
+    id: "hd-189733-b",
+    title: "The Deadly Glass Rain of HD 189733 b",
+    description: "A cinematic AI-generated video exploring the violent glass rain and extreme storms of the distant exoplanet HD 189733 b.",
+    category: "AI Video Preview",
+    src: "/assets/ai_video/PLANET.png",
+    mediaType: "image",
+    platform: "tiktok",
+    tiktokUrl: "https://www.tiktok.com/@YOUR_USERNAME/video/YOUR_VIDEO_ID",
+  },
+  {
     id: "fresh-commercial",
     title: "Fresh",
     description: "A short-form product-focused commercial edit.",
