@@ -418,6 +418,7 @@ function TikTokVideoCard({ item }) {
             fill
             loading="lazy"
             sizes="(max-width: 760px) 70vw, (max-width: 1240px) 33vw, 17vw"
+            className={item.imageFit === "contain" ? "v2-video-card__thumbnail--contain" : undefined}
           />
           <span className="v2-tiktok-cta"><SiTiktok aria-hidden="true" /> View on TikTok</span>
         </div>

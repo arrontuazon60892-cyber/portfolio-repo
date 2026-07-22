@@ -173,6 +173,17 @@ export const videos = [
     tiktokUrl: "https://www.tiktok.com/@no0zee22?is_from_webapp=1&sender_device=pc",
   },
   {
+    id: "moon-giant-impact",
+    title: "The Collision That May Have Created the Moon",
+    description: "A cinematic AI-generated space story about the giant impact theory and the possible formation of the Moon.",
+    category: "AI Video Creation",
+    src: "/assets/ai_video/earth.png",
+    mediaType: "image",
+    platform: "tiktok",
+    orientation: "vertical-9:16",
+    imageFit: "contain",
+  },
+  {
     id: "fresh-commercial",
     title: "Fresh",
     description: "A short-form product-focused commercial edit.",
