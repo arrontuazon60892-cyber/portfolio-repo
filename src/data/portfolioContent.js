@@ -244,11 +244,6 @@ export const toolGroups = [
   {
     title: "Creative Tools",
     tools: [
-      ["Adobe Photoshop", "photoshop"],
-      ["Adobe Illustrator", "illustrator"],
-      ["Adobe Premiere Pro", "premiere"],
-      ["Adobe After Effects", "aftereffects"],
-      ["Figma", "figma"],
       ["Canva", "canva"],
       ["CapCut", "capcut"],
     ],
@@ -257,7 +252,6 @@ export const toolGroups = [
     title: "AI Tools",
     tools: [
       ["ChatGPT", "openai"],
-      ["Midjourney", "midjourney"],
       ["Runway", "runway"],
       ["Sora", "sora"],
       ["DALL-E", "dalle"],
