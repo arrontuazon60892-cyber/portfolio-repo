@@ -202,7 +202,7 @@ export const videos = [
 export { developmentProjects };
 
 export const academicProjects = developmentProjects
-  .filter((project) => ["attendance", "attendex", "photobooth"].includes(project.id))
+  .filter((project) => ["attendance", "attendex", "photobooth"].includes(project.key) || ["attendance", "attendex", "photobooth"].includes(project.id))
   .map((project) => ({
     ...project,
     image: project.previewImage || project.thumbnail,

@@ -1,6 +1,10 @@
+import { Geist } from "next/font/google";
 import "../src/index.css";
 import "../src/App.css";
 import "../src/portfolio-v2.css";
+import "../src/portfolio-light.css";
+import OfflineStatus from "../src/components/OfflineStatus";
+import ServiceWorkerRegister from "../src/components/ServiceWorkerRegister";
 import ThemeLoader from "../src/components/ThemeLoader";
 
 export const metadata = {
@@ -20,15 +24,19 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#050713",
+  themeColor: "#141414",
 };
+
+const geist = Geist({ subsets: ["latin"], display: "swap" });
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={geist.className}>
         <noscript><style>{`.v2-loader{display:none!important}`}</style></noscript>
         <ThemeLoader />
+        <ServiceWorkerRegister />
+        <OfflineStatus />
         {children}
       </body>
     </html>

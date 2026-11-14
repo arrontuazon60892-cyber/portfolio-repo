@@ -14,6 +14,17 @@ const nextConfig = {
   images: {
     disableStaticImages: true,
   },
+  async headers() {
+    return [
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Service-Worker-Allowed", value: "/" },
+        ],
+      },
+    ];
+  },
   webpack(config) {
     // Walk every rule (including nested oneOf arrays) and neutralise any
     // existing handler for the asset types we want to own.  We guard every
