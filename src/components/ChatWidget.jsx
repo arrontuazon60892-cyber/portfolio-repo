@@ -3,9 +3,11 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { cn } from "../lib/utils";
+import { useOnlineStatus } from "../hooks/useOnlineStatus";
 import { getInitialMessages, getQuickReplies } from "../lib/arronChat";
 
 export default function ChatWidget() {
+  const online = useOnlineStatus();
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -18,6 +20,10 @@ export default function ChatWidget() {
   }, []);
 
   useEffect(() => {
+    if (!online) setIsOpen(false);
+  }, [online]);
+
+  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
@@ -26,7 +32,7 @@ export default function ChatWidget() {
   const sendMessage = async (text) => {
     const trimmed = text.trim();
 
-    if (!trimmed || isLoading) {
+    if (!trimmed || isLoading || !online) {
       return;
     }
 
@@ -96,15 +102,15 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-md border border-neutral-200 bg-white text-neutral-900 shadow-none"
+            className="pointer-events-auto mb-4 w-[min(92vw,24rem)] overflow-hidden rounded-xl border border-white/10 bg-[#1c1c1c] text-[#ededed] shadow-none"
           >
             <div
-              className="relative overflow-hidden border-b border-neutral-200 px-5 py-4"
+              className="relative overflow-hidden border-b border-white/10 px-5 py-4"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="mb-1 flex items-center gap-2">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-900">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-[#141414] text-white">
                       <Sparkles size={16} />
                     </span>
                     <div>
@@ -118,7 +124,7 @@ export default function ChatWidget() {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full p-2 transition-colors hover:bg-neutral-100"
+                  className="rounded-full p-2 transition-colors hover:bg-white/10"
                   aria-label="Close chat"
                 >
                   <X size={16} />
@@ -139,8 +145,8 @@ export default function ChatWidget() {
                     className={cn(
                       "max-w-[85%] rounded-[1.25rem] px-4 py-3 text-sm leading-relaxed shadow-sm",
                       message.role === "user"
-                        ? "bg-neutral-900 text-white"
-                        : "border border-neutral-200 bg-neutral-50 text-neutral-900"
+                        ? "bg-white text-[#141414]"
+                        : "border border-white/10 bg-[#141414] text-[#ededed]"
                     )}
                   >
                     {message.text}
@@ -151,7 +157,7 @@ export default function ChatWidget() {
               {isLoading && (
                 <div className="flex justify-start">
                   <div
-                    className="max-w-[85%] rounded-[1.25rem] border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm leading-relaxed text-neutral-900 shadow-sm"
+                    className="max-w-[85%] rounded-[1.25rem] border border-white/10 bg-[#141414] px-4 py-3 text-sm leading-relaxed text-[#ededed] shadow-sm"
                   >
                     Thinking...
                   </div>
@@ -167,7 +173,7 @@ export default function ChatWidget() {
                     onClick={() => {
                       void sendMessage(reply);
                     }}
-                    className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium transition-all hover:border-neutral-400"
+                    className="rounded-full border border-white/15 bg-transparent px-3 py-1.5 text-xs font-medium text-[#ededed] transition-all hover:bg-white/10"
                   >
                     {reply}
                   </button>
@@ -179,7 +185,7 @@ export default function ChatWidget() {
                   event.preventDefault();
                   void sendMessage(input);
                 }}
-                className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-white p-2 transition-all focus-within:border-neutral-400"
+                className="flex items-center gap-2 rounded-xl border border-white/15 bg-[#141414] p-2 transition-all focus-within:border-white/40"
               >
                 <input
                   value={input}
@@ -191,7 +197,7 @@ export default function ChatWidget() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-900 text-white"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#141414]"
                   aria-label="Send message"
                 >
                   <Send size={16} />
@@ -202,13 +208,26 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      <button
-        onClick={() => setIsOpen((current) => !current)}
-        className="pointer-events-auto flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900"
-      >
-        <MessageSquare size={18} />
-        {isOpen ? "Close chat" : "Chat with Arron"}
-      </button>
+      <div className="pointer-events-auto flex flex-col items-end gap-2">
+        {!online && <p className="chat-offline-note">Chat is available when you're online.</p>}
+        <button
+          type="button"
+          onClick={() => {
+            if (!online) return;
+            setIsOpen((current) => !current);
+          }}
+          disabled={!online}
+          aria-disabled={!online}
+          title={online ? undefined : "Chat is available when you're online."}
+          className={cn(
+            "flex items-center gap-2 rounded-full border border-white/15 bg-[#1c1c1c] px-5 py-3 text-sm font-medium text-white",
+            !online && "cursor-not-allowed opacity-45",
+          )}
+        >
+          <MessageSquare size={18} />
+          {isOpen ? "Close chat" : "Chat with Arron"}
+        </button>
+      </div>
     </div>,
     document.body
   );
