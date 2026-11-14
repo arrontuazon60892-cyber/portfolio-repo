@@ -1,0 +1,144 @@
+# Implementation Plan
+
+- [x] 1. Write bug condition exploration test
+  - **Property 1: Bug Condition** - Server Function Asset Bundling
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate webpack bundles assets into server functions
+  - **Scoped PBT Approach**: Focus on specific import statements that trigger bundling
+  - Create property-based test that verifies server function bundle sizes remain under 250MB
+  - Test implementation should check:
+    - mediaManifest.generated.js does NOT contain import statements that bundle assets
+    - projects.js does NOT contain direct asset imports that bundle images
+    - App.jsx and ProfileAvatar.jsx do NOT contain asset imports that bundle into functions
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (bundle size exceeds 250MB - confirms bug exists)
+  - Document specific counterexamples (which files cause bundling, approximate sizes)
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
+
+- [x] 2. Write preservation property tests (BEFORE implementing fix)
+  - **Property 2: Preservation** - Gallery and Media Functionality
+  - **IMPORTANT**: Follow observation-first methodology
+  - Observe behavior on UNFIXED code for all gallery functionality:
+    - Gallery grid displays all Graphic Design V2 images correctly
+    - AI Video carousel plays all 4 videos correctly
+    - Certificate display shows all 6 certificate images correctly
+    - School Projects display shows all project screenshots correctly
+    - Commercial Videos play both videos correctly
+    - Lightbox functionality works correctly for images and videos
+    - Profile image displays correctly in multiple components
+  - Write property-based tests capturing observed behavior patterns for:
+    - Media asset URL resolution across all categories
+    - Image loading and display functionality
+    - Video playback functionality
+    - Lightbox opening and navigation behavior
+    - Profile avatar rendering consistency
+  - Property-based testing generates many test cases for stronger preservation guarantees
+  - Run tests on UNFIXED code
+  - **EXPECTED OUTCOME**: Tests PASS (this confirms baseline behavior to preserve)
+  - Mark task complete when tests are written, run, and passing on unfixed code
+  - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
+
+- [ ] 3. Fix for Vercel function size limit exceeded by bundled assets
+
+  - [~] 3.1 Migrate assets to public directory
+    - Create public/assets/ directory structure mirroring src/assets/
+    - Move src/assets/GRAPHIC_DESIGN_V2/ → public/assets/GRAPHIC_DESIGN_V2/
+    - Move src/assets/projects_school/ → public/assets/projects_school/
+    - Move src/assets/certicate/ → public/assets/certicate/
+    - Move src/assets/ai_video/ → public/assets/ai_video/
+    - Move src/assets/video_commercial/ → public/assets/video_commercial/
+    - Move src/assets/gallary/ → public/assets/gallary/
+    - Move src/assets/profile-hover.jpg → public/assets/profile-hover.jpg
+    - Verify all original files are moved (not copied)
+    - _Bug_Condition: isBugCondition(input) where input.moduleType IN ['image', 'video'] AND input.importPath.startsWith('src/assets/')_
+    - _Expected_Behavior: Assets served from public/ directory as static files without webpack bundling_
+    - _Preservation: All gallery, video, certificate, and profile display functionality_
+    - _Requirements: 2.2, 2.3_
+
+  - [~] 3.2 Update media manifest generation script
+    - Modify scripts/generate-media-manifest.mjs to scan public/assets/ instead of src/assets/
+    - Change output format from import statements to public URL strings
+    - Update directory path: path.join(root, "src/assets", category.folder) → path.join(root, "public/assets", category.folder)
+    - Modify relativeImport generation to produce public URLs: `/assets/${category.folder}/${relativeAsset}`
+    - Remove import statement generation completely
+    - Update item object to use direct src URLs instead of identifier references
+    - Replace: `src: ${item.identifier}` with `src: "/assets/${category.folder}/${relativeAsset}"`
+    - Regenerate src/data/mediaManifest.generated.js with new script
+    - Verify generated file contains NO import statements
+    - _Bug_Condition: Webpack import statements that bundle media assets_
+    - _Expected_Behavior: Public URL references for all media assets_
+    - _Preservation: All media categories and file organization_
+    - _Requirements: 2.4_
+
+  - [~] 3.3 Update project asset references
+    - Remove import statements from src/data/projects.js:
+      - Remove `import printflowPreview from "../assets/projects_school/mrs.png"`
+      - Remove `import photoboothPreview from "../assets/projects_school/photoobooth.png"`
+    - Replace with public URLs:
+      - `thumbnail: "/assets/projects_school/mrs.png"`
+      - `thumbnail: "/assets/projects_school/photoobooth.png"`
+      - `previewImage: "/assets/projects_school/mrs.png"`
+      - `previewImage: "/assets/projects_school/photoobooth.png"`
+    - Verify all project references use public URLs
+    - _Bug_Condition: Direct asset imports in projects.js_
+    - _Expected_Behavior: Public URL references for project images_
+    - _Preservation: Project preview and thumbnail display functionality_
+    - _Requirements: 2.5_
+
+  - [~] 3.4 Update App.jsx asset references
+    - Remove profile image import: `import profileImage from "./assets/profile-hover.jpg"`
+    - Update loadingAssets array to use public URL: `{ type: "image", src: "/assets/profile-hover.jpg" }`
+    - Replace any other references to profileImage with "/assets/profile-hover.jpg"
+    - Verify App.jsx contains NO asset imports
+    - _Bug_Condition: Asset imports in main App component_
+    - _Expected_Behavior: Public URL references for all assets_
+    - _Preservation: Profile image display and loading functionality_
+    - _Requirements: 2.6_
+
+  - [~] 3.5 Update ProfileAvatar.jsx asset references
+    - Remove profile image import: `import profileDark from "../assets/profile-hover.jpg"`
+    - Update img src to use public URL: `src="/assets/profile-hover.jpg"`
+    - Verify ProfileAvatar.jsx contains NO asset imports
+    - _Bug_Condition: Asset imports in ProfileAvatar component_
+    - _Expected_Behavior: Public URL reference for profile image_
+    - _Preservation: Profile avatar display functionality_
+    - _Requirements: 2.6_
+
+  - [~] 3.6 Verify bug condition exploration test now passes
+    - **Property 1: Expected Behavior** - Function Size Under Limit
+    - **IMPORTANT**: Re-run the SAME test from task 1 - do NOT write a new test
+    - The test from task 1 encodes the expected behavior (function size under 250MB)
+    - When this test passes, it confirms server functions no longer bundle media assets
+    - Run bug condition exploration test from step 1
+    - **EXPECTED OUTCOME**: Test PASSES (confirms functions are under 250MB limit)
+    - Verify specific measurements:
+      - certificates page function < 250MB
+      - graphic-design page function < 250MB
+      - school-projects page function < 250MB
+    - Document bundle size reductions achieved
+    - _Requirements: 2.1, 2.2_
+
+  - [~] 3.7 Verify preservation tests still pass
+    - **Property 2: Preservation** - Gallery and Media Functionality
+    - **IMPORTANT**: Re-run the SAME tests from task 2 - do NOT write new tests
+    - Run preservation property tests from step 2
+    - **EXPECTED OUTCOME**: Tests PASS (confirms no regressions)
+    - Verify all functionality preserved:
+      - Gallery grid displays all images correctly with public URLs
+      - Video playback works correctly with public URLs
+      - Certificate viewing functions identically
+      - Project images display correctly
+      - Profile avatar renders correctly
+      - Lightbox functionality works with public asset URLs
+    - Confirm all tests still pass after fix (no regressions)
+
+- [~] 4. Checkpoint - Ensure all tests pass and deployment succeeds
+  - Run complete test suite to ensure all functionality preserved
+  - Build application locally to verify no build errors
+  - Test Vercel deployment to confirm all 3 functions deploy under 250MB limit
+  - Verify static asset serving works correctly from public/assets/
+  - Confirm no regression in gallery, video, certificate, or profile functionality
+  - Ask the user if any questions arise about functionality or deployment
