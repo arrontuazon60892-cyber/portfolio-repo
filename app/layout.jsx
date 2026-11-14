@@ -1,6 +1,7 @@
 import "../src/index.css";
 import "../src/App.css";
 import "../src/portfolio-v2.css";
+import "../src/portfolio-light.css";
 import ThemeLoader from "../src/components/ThemeLoader";
 
 export const metadata = {
@@ -20,7 +21,7 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#050713",
+  themeColor: "#fafafa",
 };
 
 export default function RootLayout({ children }) {
